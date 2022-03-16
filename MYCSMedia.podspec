@@ -27,6 +27,7 @@ Pod::Spec.new do |s|
   s.dependency 'MJRefresh'
   s.dependency 'YYText'
   s.dependency 'YYModel'
+  s.dependency 'WebViewJavascriptBridge'
   s.static_framework = true
   
   

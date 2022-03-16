@@ -12,6 +12,7 @@
 #import "StatusModel.h"
 #import "SZDefines.h"
 #import "SZUserTracker.h"
+#import "UIDevice+MJCategory.h"
 
 @interface SZContentTracker ()
 @property(strong,nonatomic)NSMutableDictionary * startTimeDic;
@@ -351,7 +352,7 @@
 
 +(NSString*)currentDeviceUniqueId
 {
-    return [[SZManager sharedManager].delegate onGetUserDevice];
+    return [UIDevice getIDFA];
 }
 
 +(NSString*)currentAppVersion
@@ -381,7 +382,7 @@
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:[SZContentTracker currentDeviceUniqueId] forKey:@"device_id"];
     [param setValue:[SZContentTracker currentDeviceUniqueId] forKey:@"user_unique_id"];
-    [param setValue:[SZGlobalInfo sharedManager].userId forKey:@"user_id"];
+    [param setValue:[SZGlobalInfo sharedManager].SZRMUserId forKey:@"user_id"];
     
     return param;
 }

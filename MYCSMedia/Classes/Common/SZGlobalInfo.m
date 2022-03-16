@@ -13,6 +13,7 @@
 #import "SZManager.h"
 #import "SZUserTracker.h"
 #import "SZData.h"
+#import "YYModel.h"
 
 @interface SZGlobalInfo ()
 @property(strong,nonatomic)LoginCallback loginResult;
@@ -45,19 +46,20 @@
     
     globalobjc.loginResult = result;
     
-    NSString * newTGT = [[SZManager sharedManager].delegate onGetTGT];
-    NSString * localTGT = [SZGlobalInfo sharedManager].localTGT;
+    SZUserInfo * newUserInfo = [[SZManager sharedManager].delegate onGetUserInfo];
+    NSString * newUserId = newUserInfo.userid;
+    NSString * localUserId = [SZGlobalInfo sharedManager].localAppUserId;
     
-    //如果我的长沙已登录
-    if (newTGT.length)
+    //如果app已登录
+    if (newUserId.length)
     {
         //本地有
-        if (localTGT.length)
+        if (localUserId.length)
         {
             //两个TGT相同
-            if ([newTGT isEqualToString:localTGT])
+            if ([newUserId isEqualToString:localUserId])
             {
-                [SZGlobalInfo sharedManager].loginDesc = @"MJToken_我的长沙已登录_数智已登";
+                [SZGlobalInfo sharedManager].loginDesc = @"MJToken_APP已登录_融媒已登";
                 if (result)
                 {
                     result(YES);
@@ -67,64 +69,88 @@
             //TGT不同，则表示切换了用户
             else
             {
-                [SZGlobalInfo sharedManager].loginDesc = @"MJToken_我的长沙切换了用户_重登数智融媒";
+                [SZGlobalInfo sharedManager].loginDesc = @"MJToken_APP切换了用户_重登融媒";
                 [SZGlobalInfo mjclearLoginInfo];
-                [globalobjc requestToken:newTGT];
+                [globalobjc requestToken:newUserInfo];
             }
         }
         
         //本地无TGT
         else
         {
-            [SZGlobalInfo sharedManager].loginDesc = @"MJToken_我的长沙已登录_登录数智融媒";
-            [globalobjc requestToken:newTGT];
+            [SZGlobalInfo sharedManager].loginDesc = @"MJToken_APP已登录_登录融媒";
+            [globalobjc requestToken:newUserInfo];
         }
     }
     else
     {
         //清理本地token和TGT
-        [SZGlobalInfo sharedManager].loginDesc = @"MJToken_我的长沙未登录_清空数智";
+        [SZGlobalInfo sharedManager].loginDesc = @"MJToken_APP未登录_清空融媒登录信息";
         [SZGlobalInfo mjclearLoginInfo];
         
         if (result)
         {
             result(NO);
         }
-        
-        
     }
 }
 
-//换token成功
-+(void)loginSuccess:(TokenExchangeModel*)loginModel TGT:(NSString*)tgt
+
+
+
+//读取登录数据
+-(void)mjloadLocalData
 {
-    SZGlobalInfo * instance = [SZGlobalInfo sharedManager];
-    instance.SZRMToken = loginModel.token;
-    instance.localTGT = tgt;
-    instance.gdyToken = loginModel.gdyToken;
-    instance.userId = loginModel.userInfo.id;
-    
-    [[NSUserDefaults standardUserDefaults]setValue:instance.SZRMToken forKey:@"SZRM_TOKEN"];
-    [[NSUserDefaults standardUserDefaults]setValue:instance.localTGT forKey:@"SZRM_TGT"];
-    [[NSUserDefaults standardUserDefaults]setValue:instance.gdyToken forKey:@"SZRM_GDY_TOKEN"];
-    [[NSUserDefaults standardUserDefaults]setValue:instance.userId forKey:@"SZRM_USER_ID"];
-    
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"SZRMTokenExchangeDone" object:nil];
+    self.localAppUserId = [[NSUserDefaults standardUserDefaults]valueForKey:@"LOCAL_APP_USER_ID"];
+    self.SZRMToken = [[NSUserDefaults standardUserDefaults]valueForKey:@"SZRM_TOKEN"];
+    self.GDYToken = [[NSUserDefaults standardUserDefaults]valueForKey:@"SZRM_GDY_TOKEN"];
+    self.SZRMUserId = [[NSUserDefaults standardUserDefaults]valueForKey:@"SZRM_USER_ID"];
+    self.SZRMUserInfo = [[NSUserDefaults standardUserDefaults]valueForKey:@"SZRM_USER_INFO"];
 }
 
 
-#pragma mark - Request
--(void)requestToken:(NSString*)tgt
+
+//清除登录数据
++(void)mjclearLoginInfo
 {
-    TokenExchangeModel * model = [TokenExchangeModel model];
-    model.isJSON = YES;
+    SZGlobalInfo * instance = [SZGlobalInfo sharedManager];
+    instance.SZRMToken = nil;
+    instance.localAppUserId = nil;
+    instance.GDYToken = nil;
+    instance.SZRMUserId = nil;
+    instance.SZRMUserInfo = nil;
+    
+    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"LOCAL_APP_USER_ID"];
+    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"SZRM_TOKEN"];
+    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"SZRM_GDY_TOKEN"];
+    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"SZRM_USER_ID"];
+    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"SZRM_USER_INFO"];
+}
+
+
+
+
+
+
+#pragma mark - Request
+-(void)requestToken:(SZUserInfo*)user
+{
+    TokenExchangeModel * requestModel = [TokenExchangeModel model];
+    requestModel.isJSON = YES;
     
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
-    [param setValue:tgt forKey:@"token"];
+    
+    [param setValue:[SZManager sharedManager].appid forKey:@"appId"];
+    [param setValue:user.userid forKey:@"userId"];
+    [param setValue:user.mobile forKey:@"mobile"];
+    [param setValue:user.avatarUrl forKey:@"headProfile"];
+    [param setValue:user.nickname forKey:@"nickName"];
+    
+    
     
     __weak typeof (self) weakSelf = self;
-    [model PostRequestInView:MJ_KEY_WINDOW WithUrl:APPEND_SUBURL(BASE_URL, API_URL_TOKEN_EXCHANGE) Params:param Success:^(id responseObject) {
-            [weakSelf requestTokenDone:model TGT:tgt];
+    [requestModel PostRequestInView:MJ_KEY_WINDOW WithUrl:APPEND_SUBURL(BASE_URL, API_URL_3rd_LOGIN) Params:param Success:^(id responseObject) {
+            [weakSelf requestTokenDone:requestModel appUserId:user.userid];
         if (weakSelf.loginResult)
         {
             weakSelf.loginResult(YES);
@@ -143,9 +169,27 @@
         }];
 }
 
--(void)requestTokenDone:(TokenExchangeModel*)model TGT:(NSString*)tgt
+-(void)requestTokenDone:(TokenExchangeModel*)model appUserId:(NSString*)appuserid
 {
-    [SZGlobalInfo loginSuccess:model TGT:tgt];
+    //存对象
+    self.SZRMToken = model.token;
+    self.SZRMUserId = model.userInfo.id;
+    self.GDYToken = model.gdyToken;
+    self.localAppUserId = appuserid;
+    self.SZRMUserInfo = [model yy_modelToJSONString];
+    
+    
+    
+    //存本地
+    [[NSUserDefaults standardUserDefaults]setValue:self.SZRMToken forKey:@"SZRM_TOKEN"];
+    [[NSUserDefaults standardUserDefaults]setValue:self.GDYToken forKey:@"SZRM_GDY_TOKEN"];
+    [[NSUserDefaults standardUserDefaults]setValue:self.SZRMUserId forKey:@"SZRM_USER_ID"];
+    [[NSUserDefaults standardUserDefaults]setValue:self.localAppUserId forKey:@"LOCAL_APP_USER_ID"];
+    [[NSUserDefaults standardUserDefaults]setValue:self.SZRMUserInfo forKey:@"SZRM_USER_INFO"];
+    
+    
+    //发广播
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"SZRMTokenExchangeDone" object:nil];
 }
 
 
@@ -181,29 +225,8 @@
 
 
 
-//清除登录数据
-+(void)mjclearLoginInfo
-{
-    SZGlobalInfo * instance = [SZGlobalInfo sharedManager];
-    instance.SZRMToken = nil;
-    instance.localTGT = nil;
-    instance.gdyToken = nil;
-    instance.userId = nil;
-    
-    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"SZRM_TGT"];
-    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"SZRM_TOKEN"];
-    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"SZRM_GDY_TOKEN"];
-    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"SZRM_USER_ID"];
-}
 
-//读取登录数据
--(void)mjloadLocalData
-{
-    self.localTGT = [[NSUserDefaults standardUserDefaults]valueForKey:@"SZRM_TGT"];
-    self.SZRMToken = [[NSUserDefaults standardUserDefaults]valueForKey:@"SZRM_TOKEN"];
-    self.gdyToken = [[NSUserDefaults standardUserDefaults]valueForKey:@"SZRM_GDY_TOKEN"];
-    self.userId = [[NSUserDefaults standardUserDefaults]valueForKey:@"SZRM_USER_ID"];
-}
+
 
 //分享
 +(void)mjshareToPlatform:(SZ_SHARE_PLATFORM)platform content:(ContentModel*)contentM source:(NSString*)source

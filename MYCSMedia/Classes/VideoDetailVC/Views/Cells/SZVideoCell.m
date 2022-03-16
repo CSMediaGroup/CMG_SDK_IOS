@@ -158,8 +158,6 @@
         avatar.layer.masksToBounds=YES;
         [self addSubview:avatar];
         avatar.backgroundColor=[UIColor whiteColor];
-        UITapGestureRecognizer * tap0 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(authorDetailBtnAction)];
-        [avatar addGestureRecognizer:tap0];
         [avatar mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(authorBG.mas_left);
             make.centerY.mas_equalTo(authorBG);
@@ -172,8 +170,6 @@
         authorName.font = FONT(16);
         authorName.textColor=HW_WHITE;
         authorName.userInteractionEnabled = YES;
-        UITapGestureRecognizer * tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(authorDetailBtnAction)];
-        [authorName addGestureRecognizer:tap1];
         [self addSubview:authorName];
         [authorName mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(avatar.mas_right).offset(5);
@@ -201,7 +197,6 @@
         followBtn.mj_bgColor_sel=[UIColor colorWithRed:1 green:1 blue:1 alpha:0.2];
         followBtn.mj_font = FONT(12);
         followBtn.layer.cornerRadius = 11;
-        [followBtn addTarget:self action:@selector(followBtnAction) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:followBtn];
         [followBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(levelIcon.mas_right).offset(7);
@@ -244,7 +239,7 @@
     {
         isUGC = NO;
     }
-    
+    //合辑名称
     albumName = albumnName;
     
     //视频宽高比
@@ -483,7 +478,7 @@
     if (isUGC)
     {
         //如果当前登录用户是自己
-        if ([[SZGlobalInfo sharedManager].userId isEqualToString:dataModel.createBy])
+        if ([[SZGlobalInfo sharedManager].SZRMUserId isEqualToString:dataModel.createBy])
         {
             levelIcon.hidden = NO;
             followBtn.hidden=YES;
@@ -559,7 +554,7 @@
 
 
 
-//视频相关新闻
+//视频相关新闻(滚动通知条)
 -(void)updateVideoRelate
 {
     NSString * contentId = [SZData sharedSZData].currentContentId;
@@ -599,7 +594,7 @@
 }
 
 
-
+//视频所在合辑
 -(void)updateVideoRelateAlbum
 {
     NSString * contentId = [SZData sharedSZData].currentContentId;
@@ -811,69 +806,15 @@
 }
 
 
-#pragma mark - Request
--(void)requestVideoCollection
-{
-    VideoCollectModel * model = [VideoCollectModel model];
-    __weak typeof (self) weakSelf = self;
-    [model GETRequestInView:self.window WithUrl:APPEND_COMPONENT(BASE_URL, API_URL_VIDEO_COLLECTION, dataModel.pid) Params:nil Success:^(id responseObject) {
-        [weakSelf requestDone:model];
-        } Error:^(id responseObject) {
-        } Fail:^(NSError *error) {
-        }];
-}
-
--(void)requestDone:(VideoCollectModel*)model
-{
-    collectModel = model;
-    
-    [self showSelectionView];
-}
-
-
 #pragma mark - Btn Action
+//播放按钮
 -(void)videoBtnAction
 {
     [self playingVideo];
 }
 
--(void)followBtnAction
-{
-    
-    //未登录则跳转登录
-    if (![SZGlobalInfo sharedManager].SZRMToken.length)
-    {
-        [SZGlobalInfo mjshowLoginAlert];
-        return;
-    }
-    
-    if (followBtn.MJSelectState)
-    {
-        [[SZData sharedSZData]requestUnFollowUser:dataModel.createBy];
-    }
-    else
-    {
-        [[SZData sharedSZData]requestFollowUser:dataModel.createBy];
-    }
-}
 
--(void)authorDetailBtnAction
-{
-    //行为埋点
-    NSMutableDictionary * param=[NSMutableDictionary dictionary];
-    [param setValue:@"视频播放" forKey:@"module_source"];
-    [param setValue:[NSNumber numberWithBool:dataModel.whetherFollow] forKey:@"is_notice"];
-    [param setValue:dataModel.createBy forKey:@"user_id"];
-    [SZUserTracker trackingButtonEventName:@"click_user" param:param];
-    
-    
-    //拼接URL，打开webview
-    NSString * url = APPEND_SUBURL(BASE_H5_URL, @"act/xksh/#/others");
-    url = [url appenURLParam:@"id" value:dataModel.createBy];
-    [[SZManager sharedManager].delegate onOpenWebview:url param:nil];
-}
-
-
+//简介
 -(void)descClickAction
 {
     //行为埋点
@@ -891,8 +832,15 @@
     }
 }
 
+//合辑名称
 -(void)albumClickAction:(NSString*)albumTitle
 {
+    //如果已经在合辑列表了，则不能再点下级页面了
+    if (albumName.length)
+    {
+        return;
+    }
+    
     for (int i = 0; i<belongAlbumArr.count; i++)
     {
         ContentModel * album = belongAlbumArr[i];
@@ -912,48 +860,16 @@
             [nav pushViewController:vc animated:YES];
         }
     }
-
 }
 
+//全屏播放按钮
 -(void)fullScreenBtnAction
 {
     NSNumber * num = [NSNumber numberWithBool:YES];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"MJRemoteEnterFullScreen" object:num];
 }
 
-#pragma mark - Other
--(void)showSelectionView
-{
-    //show
-    __weak typeof (self) weakSelf = self;
-    
-    NSInteger idx = -1;
-    for (int i = 0; i<collectModel.dataArr.count; i++)
-    {
-        ContentModel * model = collectModel.dataArr[i];
-        if ([model.id isEqualToString: dataModel.id])
-        {
-            idx = i;
-        }
-    }
-    
-    [MJHUD_Selection showEpisodeSelectionView:self.superview currenIdx:idx episode:collectModel.dataArr.count clickAction:^(id objc) {
-        NSNumber * idex = objc;
-        [weakSelf reloadDataWithIndex:[idex integerValue]];
-        
-    }];
-}
-
--(void)reloadDataWithIndex:(NSInteger)idx
-{
-//    ContentModel * newContentModel = collectModel.dataArr[idx];
-//    [self setCellData:newContentModel enableFollow:NO];
-//    [self.delegate didSelectVideo:newContentModel];
-//    [self playingVideo];
-}
-
-
-#pragma mark - GYScroll Delegate
+#pragma mark - GYScroll Delegate  滚动通知栏
 -(NSInteger)numberOfRowsForRollingNoticeView:(GYRollingNoticeView *)rollingView
 {
     return relateModel.dataArr.count;

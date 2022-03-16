@@ -55,7 +55,7 @@
         [self.topImageView addSubview:self.backBtn];
         [self.topImageView addSubview:self.titleLabel];
         [self.topImageView addSubview:self.zanBtn];
-        [self.topImageView addSubview:self.collectBtn];
+//        [self.topImageView addSubview:self.collectBtn];
         [self.topImageView addSubview:self.shareBtn];
         [self addSubview:self.topImageView];
         
@@ -126,17 +126,17 @@
         make.centerY.equalTo(self.backBtn.mas_centerY);
     }];
     
-    [self.collectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(49);
-        make.trailing.equalTo(self.shareBtn.mas_leading).offset(-10);
-        make.centerY.equalTo(self.backBtn.mas_centerY);
-    }];
+//    [self.collectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.width.mas_equalTo(40);
+//        make.height.mas_equalTo(49);
+//        make.trailing.equalTo(self.shareBtn.mas_leading).offset(-10);
+//        make.centerY.equalTo(self.backBtn.mas_centerY);
+//    }];
     
     [self.zanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(40);
         make.height.mas_equalTo(49);
-        make.trailing.equalTo(self.collectBtn.mas_leading).offset(-10);
+        make.trailing.equalTo(self.shareBtn.mas_leading).offset(-10);
         make.centerY.equalTo(self.backBtn.mas_centerY);
     }];
     

@@ -32,7 +32,7 @@
 #import "SDWebImage.h"
 #import "SZUserTracker.h"
 #import <MJRefresh/MJRefresh.h>
-
+#import "UIDevice+MJCategory.h"
 
 
 @interface SZHomeRootView1 ()<UICollectionViewDelegate, UICollectionViewDataSource>
@@ -127,7 +127,7 @@
 #pragma mark - Request
 -(void)requestVideos
 {
-    NSString * ssid = [[SZManager sharedManager].delegate onGetUserDevice];
+    NSString * ssid = [UIDevice getIDFA];
     NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
     
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
@@ -156,7 +156,7 @@
     ContentModel * lastModel = dataModel.dataArr.lastObject;
     NSString * lastContentId =  lastModel.id;
     NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
-    NSString * ssid = [[SZManager sharedManager].delegate onGetUserDevice];
+    NSString * ssid = [UIDevice getIDFA];
     
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:panelCode forKey:@"panelCode"];
@@ -278,8 +278,6 @@
 }
 
 
-
-
 #pragma mark - 下拉/上拉
 -(void)pulldownRefreshAction:(MJRefreshHeader*)refreshHeader
 {
@@ -298,15 +296,12 @@
 -(void)rankBtnAction
 {
     NSString * url = APPEND_SUBURL(BASE_H5_URL, @"act/xksh/#/ranking");
-    [[SZManager sharedManager].delegate onOpenWebview:url param:nil];
+    
 }
 
 -(void)activityTapAction
 {
-    //行为埋点
-    [SZUserTracker trackingButtonEventName:@"short_video_page_click" param:@{@"button_name":@"活动规则按钮"}];
     
-    [[SZManager sharedManager].delegate onOpenWebview:acitivity_link param:nil];
 }
 
 -(void)activityUnfoldBtnAction
@@ -373,7 +368,6 @@
         [[SZData sharedSZData]setCurrentContentId:contentid];
     }
 }
-
 
 
 #pragma mark - CollectionView Datasource & Delegate

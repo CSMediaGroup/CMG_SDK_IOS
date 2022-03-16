@@ -31,6 +31,20 @@
     return manager;
 }
 
++(void)initWithAppId:(NSString*)appid appKey:(NSString*)appkey appDelegate:(id<SZDelegate>)delegate enviroment:(SZ_ENV)env
+{
+    SZManager * manager =  [SZManager sharedManager];
+    manager.delegate=delegate;
+    manager.enviroment=env;
+    manager.appid=appid;
+    manager.appkey=appkey;
+}
+
++(NSString*)getUserDeviceID
+{
+    return @"123465789";
+}
+
 
 
 @end

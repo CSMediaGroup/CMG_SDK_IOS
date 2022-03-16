@@ -32,7 +32,7 @@
 #import "SZHomeVC.h"
 #import "SDWebImage.h"
 #import <MJRefresh/MJRefresh.h>
-
+#import "UIDevice+MJCategory.h"
 
 @interface SZHomeRootView2 ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -141,7 +141,7 @@
 -(void)requestVideoList
 {
     NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
-    NSString * ssid = [[SZManager sharedManager].delegate onGetUserDevice];
+    NSString * ssid = [UIDevice getIDFA];
     
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:panelCode forKey:@"panelCode"];
@@ -168,7 +168,7 @@
     ContentModel * lastModel = dataModel.dataArr.lastObject;
     NSString * lastContentId =  lastModel.id;
     NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
-    NSString * ssid = [[SZManager sharedManager].delegate onGetUserDevice];
+    NSString * ssid = [UIDevice getIDFA];
     
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:panelCode forKey:@"panelCode"];
@@ -315,7 +315,7 @@
 #pragma mark - Btn Action
 -(void)activityTapAction
 {
-    [[SZManager sharedManager].delegate onOpenWebview:acitivity_link param:nil];
+    
 }
 
 -(void)activityUnfoldBtnAction

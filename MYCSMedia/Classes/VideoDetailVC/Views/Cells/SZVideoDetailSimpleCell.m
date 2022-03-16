@@ -336,7 +336,7 @@
     if (enable)
     {
         //如果当前登录用户是自己
-        if ([[SZGlobalInfo sharedManager].userId isEqualToString:dataModel.createBy])
+        if ([[SZGlobalInfo sharedManager].SZRMUserId isEqualToString:dataModel.createBy])
         {
             levelIcon.hidden = NO;
             followBtn.hidden=YES;
@@ -521,7 +521,7 @@
 
 -(void)authorDetailBtnAction
 {
-    [[SZManager sharedManager].delegate onOpenWebview:@"https://www.zhipin.com" param:nil];
+//    [[SZManager sharedManager].delegate onOpenWebview:@"https://www.zhipin.com" param:nil];
 }
 
 -(void)selectBtnAction
@@ -550,7 +550,7 @@
 
 -(void)topicClickAction
 {
-    [[SZManager sharedManager].delegate onOpenWebview:@"https://www.zhipin.com" param:nil];
+//    [[SZManager sharedManager].delegate onOpenWebview:@"https://www.zhipin.com" param:nil];
 }
 
 

@@ -50,6 +50,7 @@
 #define API_URL_GET_CONTENT_STATE   @"api/cms/client/contentStats/queryStatsData"
 #define API_URL_GET_REPLY_LIST      @"api/cms/client/comment/getCommentByContent"
 #define API_URL_TOKEN_EXCHANGE      @"api/sys/login/mycs/token"
+#define API_URL_3rd_LOGIN           @"api/sys/login/3rd/party"
 #define API_URL_QUERYCATEGORY       @"api/cms/client/panel/queryPanelByCategory"
 #define API_URL_RELATED_CONTENT     @"api/cms/client/content/recommend"
 #define API_URL_FOLLOW_USER         @"api/sys/user/me/follow"
@@ -133,7 +134,7 @@
 
 //NSLog和MJLog
 #ifdef DEBUG
-#define NSLog(FORMAT, ...) fprintf(stderr, "%s:%zd\t%s\n", [[[NSString stringWithUTF8String: __FILE__] lastPathComponent] UTF8String], __LINE__, [[NSString stringWithFormat: FORMAT, ## __VA_ARGS__] UTF8String]);
+#define NSLog(FORMAT, ...) NSLog(FORMAT, ## __VA_ARGS__)
 #else
 #define NSLog(FORMAT, ...) nil
 #endif

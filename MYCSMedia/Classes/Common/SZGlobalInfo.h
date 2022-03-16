@@ -15,10 +15,11 @@ typedef void (^LoginCallback)(BOOL suc);
 +(SZGlobalInfo *)sharedManager;
 
 @property(strong,nonatomic)NSString * SZRMToken;
-@property(strong,nonatomic)NSString * localTGT;
+@property(strong,nonatomic)NSString * SZRMUserId;
+@property(strong,nonatomic)NSString * GDYToken;
+@property(strong,nonatomic)NSString * localAppUserId;
 @property(strong,nonatomic)NSString * loginDesc;
-@property(strong,nonatomic)NSString * gdyToken;
-@property(strong,nonatomic)NSString * userId;
+@property(strong,nonatomic)NSString * SZRMUserInfo;                     //包含token，gdytoken，userinfo
 
 
 +(NSString*)mjgetBaseURL;           //获取BaseURL

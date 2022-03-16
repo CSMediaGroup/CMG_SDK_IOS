@@ -133,7 +133,7 @@
             make.left.mas_equalTo(17);
             make.top.mas_equalTo(40);
             make.height.mas_equalTo(32);
-            make.right.mas_equalTo(self).offset(-158);
+            make.right.mas_equalTo(self).offset(-124);
         }];
         
         shotBtn.hidden=YES;
@@ -228,31 +228,31 @@
     }];
     
     
-    //收藏
-    collectBtn = [[MJButton alloc]init];
-    collectBtn.mj_imageObjec = [UIImage getBundleImage:@"sz_commentbar_collect"];
-    collectBtn.mj_imageObject_sel = [UIImage getBundleImage:@"sz_commentbar_collect_sel"];
-    [collectBtn addTarget:self action:@selector(collectBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:collectBtn];
-    [collectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(sendBtn.mas_right).offset(10);
-        make.centerY.mas_equalTo(sendBtn.mas_centerY).offset(-8);
-        make.width.mas_equalTo(44);
-        make.height.mas_equalTo(44);
-    }];
-    
-    //收藏数
-    collectLabel = [[UILabel alloc]init];
-    collectLabel.text=@"收藏";
-    collectLabel.font=FONT(11);
-    collectLabel.textColor=HW_WHITE;
-    collectLabel.alpha=0.5;
-    collectLabel.textAlignment=NSTextAlignmentCenter;
-    [self addSubview:collectLabel];
-    [collectLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(collectBtn.mas_centerX);
-        make.top.mas_equalTo(collectBtn.mas_bottom).offset(-8.5);
-    }];
+//    //收藏
+//    collectBtn = [[MJButton alloc]init];
+//    collectBtn.mj_imageObjec = [UIImage getBundleImage:@"sz_commentbar_collect"];
+//    collectBtn.mj_imageObject_sel = [UIImage getBundleImage:@"sz_commentbar_collect_sel"];
+//    [collectBtn addTarget:self action:@selector(collectBtnAction) forControlEvents:UIControlEventTouchUpInside];
+//    [self addSubview:collectBtn];
+//    [collectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(sendBtn.mas_right).offset(10);
+//        make.centerY.mas_equalTo(sendBtn.mas_centerY).offset(-8);
+//        make.width.mas_equalTo(44);
+//        make.height.mas_equalTo(44);
+//    }];
+//    
+//    //收藏数
+//    collectLabel = [[UILabel alloc]init];
+//    collectLabel.text=@"收藏";
+//    collectLabel.font=FONT(11);
+//    collectLabel.textColor=HW_WHITE;
+//    collectLabel.alpha=0.5;
+//    collectLabel.textAlignment=NSTextAlignmentCenter;
+//    [self addSubview:collectLabel];
+//    [collectLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.mas_equalTo(collectBtn.mas_centerX);
+//        make.top.mas_equalTo(collectBtn.mas_bottom).offset(-8.5);
+//    }];
     
     
     //点赞
@@ -262,8 +262,8 @@
     [zanBtn addTarget:self action:@selector(zanBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:zanBtn];
     [zanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(collectBtn.mas_right).offset(3);
-        make.centerY.mas_equalTo(collectBtn.mas_centerY);
+        make.left.mas_equalTo(sendBtn.mas_right).offset(14);
+        make.centerY.mas_equalTo(sendBtn.mas_centerY);
         make.width.mas_equalTo(44);
         make.height.mas_equalTo(44);
     }];
@@ -289,7 +289,7 @@
     [self addSubview:shareBtn];
     [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(zanBtn.mas_right).offset(3);
-        make.centerY.mas_equalTo(collectBtn.mas_centerY);
+        make.centerY.mas_equalTo(sendBtn.mas_centerY);
         make.width.mas_equalTo(44);
         make.height.mas_equalTo(44);
     }];
@@ -315,7 +315,7 @@
     [self addSubview:shotBtn];
     [shotBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(shareBtn.mas_right).offset(4);
-        make.centerY.mas_equalTo(collectBtn.mas_centerY);
+        make.centerY.mas_equalTo(shareBtn.mas_centerY);
         make.width.mas_equalTo(44);
         make.height.mas_equalTo(44);
     }];

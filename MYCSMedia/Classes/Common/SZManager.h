@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SZUserInfo.h"
 
 //分享平台
 typedef NS_ENUM(NSUInteger, SZ_SHARE_PLATFORM)
@@ -23,26 +24,16 @@ typedef NS_ENUM(NSUInteger, SZ_ENV)
 };
 
 
+
+
+
 @protocol SZDelegate <NSObject>
-
-//获取TGT
--(NSString*)onGetTGT;
-
+//获取用户信息
+-(SZUserInfo*)onGetUserInfo;
 //分享事件
 -(void)onShareAction:(SZ_SHARE_PLATFORM)platform title:(NSString*)title image:(NSString*)imgurl desc:(NSString*)desc URL:(NSString*)url;
-
 //跳转到登录页
 -(void)onLoginAction;
-
-//打开webview
--(void)onOpenWebview:(NSString *)url param:(NSDictionary*)param;
-
-//火山埋点SDK
--(void)onEventTracking:(NSString*)key param:(NSDictionary*)param;
-
-//获取设备ID
--(NSString*)onGetUserDevice;
-
 @end
 
 
@@ -51,5 +42,15 @@ typedef NS_ENUM(NSUInteger, SZ_ENV)
 @interface SZManager : NSObject
 @property(assign,nonatomic)SZ_ENV enviroment;
 @property(weak,nonatomic)id <SZDelegate> delegate;
+@property(strong,nonatomic)NSString * appid;
+@property(strong,nonatomic)NSString * appkey;
+
 +(SZManager*)sharedManager;
++(void)initWithAppId:(NSString*)appid appKey:(NSString*)appkey appDelegate:(id<SZDelegate>)delegate enviroment:(SZ_ENV)env;
+
 @end
+
+
+
+
+

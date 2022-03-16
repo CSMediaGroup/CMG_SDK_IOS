@@ -143,9 +143,9 @@
     //附加广电云token
     if ([H5URL containsString:@"guangdianyun"])
     {
-        if ([SZGlobalInfo sharedManager].gdyToken.length)
+        if ([SZGlobalInfo sharedManager].GDYToken.length)
         {
-            H5URL = [H5URL appenURLParam:@"token" value:[SZGlobalInfo sharedManager].gdyToken];
+            H5URL = [H5URL appenURLParam:@"token" value:[SZGlobalInfo sharedManager].GDYToken];
         }
         else
         {
@@ -161,7 +161,7 @@
     [param setValue:model.shareTitle forKey:@"shareTitle"];
     
     
-    [[SZManager sharedManager].delegate onOpenWebview:H5URL param:param];
+    
 }
 
 

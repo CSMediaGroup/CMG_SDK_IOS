@@ -30,7 +30,7 @@
     self.view.backgroundColor=[UIColor whiteColor];
     
     NSString * str1 = [SZGlobalInfo sharedManager].SZRMToken;
-    NSString * str2 = [SZGlobalInfo sharedManager].localTGT;
+    NSString * str2 = [SZGlobalInfo sharedManager].localAppUserId;
     NSUInteger env = [SZManager sharedManager].enviroment;
     
     

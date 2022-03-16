@@ -41,9 +41,6 @@
 
 @implementation SZVideoDetailVC
 {
-    //data
-    BOOL isRandomMode;
-    
     //UI
     UICollectionView * collectionView;
     SZCommentBar * commentBar;
@@ -76,9 +73,7 @@
 {
     [self removeNotifications];
     
-
     [[SZData sharedSZData]setCurrentContentId:@""];
-//    [MJVideoManager destroyVideoPlayer];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -205,6 +200,8 @@
 
 }
 
+
+//请求单条视频的详情
 -(void)requestSingleVideo
 {
     NSString * url = APPEND_SUBURL(BASE_URL, API_URL_VIDEO);
@@ -221,7 +218,7 @@
         [weakSelf requestDone:list.dataArr];
         
         //加载更多
-//        [weakSelf fetchMoreVideos];
+        [weakSelf requestMoreRandomVideos];
         
         } Error:^(id responseObject) {
             [weakSelf requestFailed];
@@ -230,8 +227,8 @@
         }];
 }
 
--(void)requestRandomVideos
-{
+//-(void)requestRandomVideos
+//{
 //    NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
 //
 //    NSMutableDictionary * param=[NSMutableDictionary dictionary];
@@ -246,29 +243,30 @@
 //        } Fail:^(NSError *error) {
 //            [weakSelf requestFailed];
 //        }];
-}
+//}
 
 -(void)requestMoreRandomVideos
 {
-//    NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
-//
-//    NSMutableDictionary * param=[NSMutableDictionary dictionary];
-//    [param setValue:pagesize forKey:@"pageSize"];
-//
-//    ContentListModel * dataModel = [ContentListModel model];
-//    dataModel.hideLoading=YES;
-//    __weak typeof (self) weakSelf = self;
-//    [dataModel GETRequestInView:self.view WithUrl:APPEND_SUBURL(BASE_URL, API_URL_RANDOM_VIDEO_LIST) Params:param Success:^(id responseObject){
-//        [weakSelf requestMoreVideoDone:dataModel];
-//        } Error:^(id responseObject) {
-//            [weakSelf requestFailed];
-//        } Fail:^(NSError *error) {
-//            [weakSelf requestFailed];
-//        }];
+    NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
+
+    NSMutableDictionary * param=[NSMutableDictionary dictionary];
+    [param setValue:pagesize forKey:@"pageSize"];
+    [param setValue:[SZManager sharedManager].appid forKey:@"org_id"];
+
+    ContentListModel * dataModel = [ContentListModel model];
+    dataModel.hideLoading=YES;
+    __weak typeof (self) weakSelf = self;
+    [dataModel GETRequestInView:self.view WithUrl:APPEND_SUBURL(BASE_URL, API_URL_RANDOM_VIDEO_LIST) Params:param Success:^(id responseObject){
+        [weakSelf requestMoreVideoDone:dataModel];
+        } Error:^(id responseObject) {
+            [weakSelf requestFailed];
+        } Fail:^(NSError *error) {
+            [weakSelf requestFailed];
+        }];
 }
 
--(void)requestMoreVideosInPannel
-{
+//-(void)requestMoreVideosInPannel
+//{
 //    //获取最后一条视频的ID
 //    ContentModel * lastModel = dataArr.lastObject;
 //    NSString * lastContentId =  lastModel.id;
@@ -290,7 +288,7 @@
 //        } Fail:^(NSError *error) {
 //            [weakSelf requestFailed];
 //        }];
-}
+//}
 
 
 #pragma mark - Request Done
@@ -314,37 +312,37 @@
 
 -(void)requestMoreVideoDone:(ContentListModel*)model
 {
-//    [collectionView.mj_footer endRefreshing];
-//    [collectionView.mj_header endRefreshing];
-//
-//    if (model.dataArr.count==0 && [self getCurrentRow].row==self.dataArr.count-1)
-//    {
-//        [MJHUD_Notice showNoticeView:@"没有更多视频了" inView:self.view hideAfterDelay:2];
-//        return;
-//    }
-//
-//
-//    NSInteger startIdx = self.dataArr.count;
-//
-//
-//    NSMutableArray * idxArr = [NSMutableArray array];
-//    for (int i = 0; i<model.dataArr.count; i++)
-//    {
-//        NSInteger idx = startIdx++;
-//        NSIndexPath * idpath = [NSIndexPath indexPathForRow:idx inSection:0];
-//        [idxArr addObject:idpath];
-//    }
-//
-//
-//
-//    [self.dataArr addObjectsFromArray:model.dataArr];
-//
-//    //追加collectionview数量
-//    [collectionView performBatchUpdates:^{
-//            [collectionView insertItemsAtIndexPaths:idxArr];
-//        } completion:^(BOOL finished) {
-//
-//        }];
+    [collectionView.mj_footer endRefreshing];
+    [collectionView.mj_header endRefreshing];
+
+    if (model.dataArr.count==0 && [self getCurrentRow].row==self.dataArr.count-1)
+    {
+        [MJHUD_Notice showNoticeView:@"没有更多视频了" inView:self.view hideAfterDelay:2];
+        return;
+    }
+
+
+    NSInteger startIdx = self.dataArr.count;
+
+
+    NSMutableArray * idxArr = [NSMutableArray array];
+    for (int i = 0; i<model.dataArr.count; i++)
+    {
+        NSInteger idx = startIdx++;
+        NSIndexPath * idpath = [NSIndexPath indexPathForRow:idx inSection:0];
+        [idxArr addObject:idpath];
+    }
+
+
+
+    [self.dataArr addObjectsFromArray:model.dataArr];
+
+    //追加collectionview数量
+    [collectionView performBatchUpdates:^{
+            [collectionView insertItemsAtIndexPaths:idxArr];
+        } completion:^(BOOL finished) {
+
+        }];
     
 }
 
@@ -378,8 +376,8 @@
     collectionView.backgroundColor=HW_BLACK;
     [collectionView registerClass:[SZVideoDetailSimpleCell class] forCellWithReuseIdentifier:@"simpleVideoCell"];
     [collectionView registerClass:[SZVideoCell class] forCellWithReuseIdentifier:@"fullVideoCell"];
-//    collectionView.mj_header = [CustomAnimatedHeader headerWithRefreshingTarget:self refreshingAction:@selector(pulldownRefreshAction:)];
-//    collectionView.mj_footer = [CustomFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullupLoadAction:)];
+    collectionView.mj_header = [CustomAnimatedHeader headerWithRefreshingTarget:self refreshingAction:@selector(pulldownRefreshAction:)];
+    collectionView.mj_footer = [CustomFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullupLoadAction:)];
     collectionView.delegate = self;
     collectionView.dataSource = self;
     collectionView.pagingEnabled=YES;
@@ -421,36 +419,23 @@
     [[SZData sharedSZData]setCurrentContentId:@""];
     [MJVideoManager destroyVideoPlayer];
     
-//    if (self.pannelId.length==0)
-//    {
-        isRandomMode = YES;
-//    }
+
 }
 
 
 #pragma mark - 下拉/上拉
 -(void)pulldownRefreshAction:(MJRefreshHeader*)refreshHeader
 {
-    isRandomMode = YES;
-    [self requestRandomVideos];
+    [self requestSingleVideo];
+//    [self requestRandomVideos];
 }
 
 -(void)pullupLoadAction:(MJRefreshFooter*)footer
 {
-    [self fetchMoreVideos];
+    [self requestMoreRandomVideos];
 }
 
--(void)fetchMoreVideos
-{
-    if (isRandomMode==YES)
-    {
-        [self requestMoreRandomVideos];
-    }
-    else
-    {
-        [self requestMoreVideosInPannel];
-    }
-}
+
 
 
 
@@ -465,7 +450,7 @@
     //如果是倒数第二个则加载更多
     if (indexpath.row==self.dataArr.count-2)
     {
-        [self fetchMoreVideos];
+        [self requestMoreRandomVideos];
     }
 }
 

@@ -446,7 +446,7 @@
     }
     
     NSString * h5url = APPEND_SUBURL(BASE_H5_URL, @"act/xksh/#/me");
-    [[SZManager sharedManager].delegate onOpenWebview:h5url param:nil];
+//    [[SZManager sharedManager].delegate onOpenWebview:h5url param:nil];
 }
 
 -(void)searchBtnAction
@@ -455,7 +455,7 @@
     [SZUserTracker trackingButtonEventName:@"short_video_page_click" param:@{@"button_name":@"搜索"}];
     
     NSString * h5ur = APPEND_SUBURL(BASE_H5_URL, @"fuse/news/#/searchPlus");
-    [[SZManager sharedManager].delegate onOpenWebview:h5ur param:nil];
+//    [[SZManager sharedManager].delegate onOpenWebview:h5ur param:nil];
 }
 
 

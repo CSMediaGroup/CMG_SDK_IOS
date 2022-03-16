@@ -49,6 +49,7 @@
         avatar.backgroundColor= [UIColor blackColor];
         avatar.layer.cornerRadius=19;
         avatar.layer.masksToBounds=YES;
+        avatar.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:avatar];
         [avatar mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(21);
