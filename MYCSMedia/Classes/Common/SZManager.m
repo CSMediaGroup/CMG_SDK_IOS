@@ -11,6 +11,7 @@
 #import "SZDefines.h"
 #import "MJHud.h"
 #import "SZUserTracker.h"
+#import "SZGlobalInfo.h"
 
 @implementation SZManager
 
@@ -38,12 +39,11 @@
     manager.enviroment=env;
     manager.appid=appid;
     manager.appkey=appkey;
+    
+    [[SZGlobalInfo sharedManager]requestThirdPartAppInfo];
 }
 
-+(NSString*)getUserDeviceID
-{
-    return @"123465789";
-}
+
 
 
 

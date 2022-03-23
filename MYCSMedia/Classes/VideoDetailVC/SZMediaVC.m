@@ -6,6 +6,8 @@
 //
 
 #import "SZMediaVC.h"
+#import "SZGlobalInfo.h"
+#import "ThirdAppInfo.h"
 
 @interface SZMediaVC ()
 
@@ -18,9 +20,8 @@
     self = [super init];
     if (self)
     {
-//        self.H5URL = @"https://uat-h5.zhcs.csbtv.com/sdk/news/#/";
-        
-        self.H5URL = @"http://192.168.31.161:8081/news/index.html#/";
+        ThirdAppInfo * info = [SZGlobalInfo sharedManager].thirdApp;
+        self.H5URL = info.config.listUrl;
     }
     return self;
 }

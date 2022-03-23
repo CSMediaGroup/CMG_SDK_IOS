@@ -40,6 +40,7 @@
 #import "SZVideoDetailVC.h"
 #import "YYText.h"
 #import "SZHomeVC.h"
+#import "ThirdAppInfo.h"
 
 @interface SZVideoCell ()<GYRollingNoticeViewDelegate,GYRollingNoticeViewDataSource>
 
@@ -111,7 +112,9 @@
         
         //Logo
         logoImage = [[UIImageView alloc]init];
-        logoImage.image = [UIImage getBundleImage:@"sz_videoMark_logo"];
+        logoImage.contentMode=UIViewContentModeScaleAspectFill;
+        ThirdAppInfo * appinfo = [SZGlobalInfo sharedManager].thirdApp;
+        [logoImage sd_setImageWithURL:[NSURL URLWithString:appinfo.logo]];
         [self.contentView addSubview:logoImage];
         
         

@@ -14,6 +14,7 @@
 #import "SZUserTracker.h"
 #import "SZData.h"
 #import "YYModel.h"
+#import "ThirdAppInfo.h"
 
 @interface SZGlobalInfo ()
 @property(strong,nonatomic)LoginCallback loginResult;
@@ -169,14 +170,16 @@
         }];
 }
 
+
 -(void)requestTokenDone:(TokenExchangeModel*)model appUserId:(NSString*)appuserid
 {
     //存对象
     self.SZRMToken = model.token;
-    self.SZRMUserId = model.userInfo.id;
+    self.SZRMUserId = model.loginSysUserVo.id;
     self.GDYToken = model.gdyToken;
     self.localAppUserId = appuserid;
     self.SZRMUserInfo = [model yy_modelToJSONString];
+    
     
     
     
@@ -190,6 +193,31 @@
     
     //发广播
     [[NSNotificationCenter defaultCenter]postNotificationName:@"SZRMTokenExchangeDone" object:nil];
+}
+
+
+-(void)requestThirdPartAppInfo
+{
+    NSString * appid = [SZManager sharedManager].appid;
+    
+    NSMutableDictionary * param=[NSMutableDictionary dictionary];
+    [param setValue:appid forKey:@"appId"];
+    
+    __weak typeof (self) weakSelf = self;
+    ThirdAppInfo * model = [ThirdAppInfo model];
+    [model GETRequestInView:nil WithUrl:APPEND_SUBURL(BASE_URL, API_THIRD_APP_INFO) Params:param Success:^(id responseObject) {
+        [weakSelf requestThirdPartAppInfoDone:model];
+        } Error:^(id responseObject) {
+            NSLog(@"SDK init fail");
+        } Fail:^(NSError *error) {
+            NSLog(@"SDK init error");
+        }];
+}
+
+
+-(void)requestThirdPartAppInfoDone:(ThirdAppInfo*)model
+{
+    self.thirdApp = model;
 }
 
 

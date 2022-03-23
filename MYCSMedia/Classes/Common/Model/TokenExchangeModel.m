@@ -18,7 +18,7 @@
     NSDictionary * userDic = [data valueForKey:@"loginSysUserVo"];
     UserInfoModel * userModel = [UserInfoModel model];
     [userModel parseData:userDic];
-    self.userInfo = userModel;
+    self.loginSysUserVo = userModel;
     
 }
 

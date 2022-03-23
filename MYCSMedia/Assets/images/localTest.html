@@ -53,6 +53,8 @@
             <div><input type="button" value="打开登录页" onclick="mjmethod8()"></div>
             <br />
             <div><input type="button" value="打开视频详情" onclick="mjmethod9()"></div>
+            <br />
+            <div><input type="button" value="获取设备信息" onclick="mjmethod10()"></div>
             
         </div>
         <script type="text/javascript">
@@ -86,17 +88,15 @@
                 responseCallback('1357888');
             })
         });
-            
-            
-            
-            
-            
-            
+        
+        
         
         //设置标题
         function mjmethod1()
         {
-            var param = {methodName:'setTitle',data:'湖南新闻XXX'};
+            
+            
+            var param = {methodName:'setTitle',data:{title:'湖南新闻XXX'}};
             WebViewJavascriptBridge.callHandler('MJBrigeHandler',param)
         }
         
@@ -116,17 +116,18 @@
         {
             var param = {methodName:'getDeviceId',data:null};
             WebViewJavascriptBridge.callHandler('MJBrigeHandler',param,function(res) {
-                        alert('deviceId = '+res.deviceId);
+                        alert(res);
                     })
             
         }
         
         
         
+        
         //分享
         function mjmethod4()
         {
-            var param = {methodName:'share',data:{platform:'2',shareUrl:'https://www.csbtv.com',shareTitle:"Tttitle",shareImage:'xxx.png',shareBrief:'briefffff'}};
+            var param = {methodName:'share',data:{shareUrl:'https://www.csbtv.com',shareTitle:"Tttitle",shareImage:'xxx.png',shareBrief:'briefffff'}};
             
             WebViewJavascriptBridge.callHandler('MJBrigeHandler',param)
         }
@@ -151,7 +152,7 @@
             var param = {methodName:'savePhoto',data:{url:'https://img1.baidu.com/it/u=3879630843,420155804&fm=253&fmt=auto&app=138&f=JPEG?w=550&h=370'}};
             
             WebViewJavascriptBridge.callHandler('MJBrigeHandler',param,function(res) {
-                        if(res==1)
+                        if(res == '1')
                         {
                             alert('保存成功')
                         }
@@ -177,7 +178,7 @@
         //打开登录页
         function mjmethod8()
         {
-            var param = {methodName:'goLogin',data:{}};
+            var param = {methodName:'goLogin',data:null};
             
             WebViewJavascriptBridge.callHandler('MJBrigeHandler',param)
         }
@@ -190,8 +191,17 @@
             
             WebViewJavascriptBridge.callHandler('MJBrigeHandler',param)
         }
-    
-    
+            
+            
+        //获取设备信息
+        function mjmethod10()
+        {
+            var param = {methodName:'getDeviceInfo',data:null};
+            
+            WebViewJavascriptBridge.callHandler('MJBrigeHandler',param,function(res) {
+                        alert(res)
+                    })
+        }
     
 
         

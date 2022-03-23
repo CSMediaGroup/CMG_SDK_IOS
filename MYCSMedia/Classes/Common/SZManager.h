@@ -45,6 +45,7 @@ typedef NS_ENUM(NSUInteger, SZ_ENV)
 @property(strong,nonatomic)NSString * appid;
 @property(strong,nonatomic)NSString * appkey;
 
+
 +(SZManager*)sharedManager;
 +(void)initWithAppId:(NSString*)appid appKey:(NSString*)appkey appDelegate:(id<SZDelegate>)delegate enviroment:(SZ_ENV)env;
 

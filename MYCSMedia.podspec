@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MYCSMedia'
-  s.version          = '1.2'
+  s.version          = '1.2.1'
   s.summary          = 'News & Video Components'
   s.description      = 'News & Video Components'
   s.homepage         = 'https://git.zhcs.csbtv.com/fuse/fuse-ios-sdk'

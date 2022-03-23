@@ -59,7 +59,7 @@
 #define API_URL_VIDEO_UPLOAD        @"api/media/file/upload?isPublic=1&generateCoverImage=1"
 //#define API_URL_VIDEO_COMMIT        @"api/cms/client/content/activity/works/create"
 #define API_URL_VIDEO_COMMIT        @"api/cms/client/content/activity/works/create/v2"
-
+#define API_THIRD_APP_INFO          @"api/sys/client/org/cfg"
 #define API_URL_PANEL_ACTIVITY      @"api/cms/client/panel/info"
 #define API_URL_CONTENT_TRACKING    @"api/cms/client/tracking/upload"
 #define API_URL_CONTENT_IN_ALBUM    @"api/cms/client/video/getCollectToVideo"

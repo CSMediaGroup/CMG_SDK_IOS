@@ -14,7 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong,nonatomic)NSString * token;
 @property(strong,nonatomic)NSString * gdyToken;
 @property(strong,nonatomic)NSString * mycsUserId;
-@property(strong,nonatomic)UserInfoModel * userInfo;
+@property(strong,nonatomic)UserInfoModel * loginSysUserVo;
+@property(strong,nonatomic)NSString * certificated;
+@property(strong,nonatomic)NSString * asideCode;
+@property(strong,nonatomic)NSString * thirdPartyUserId;
+@property(strong,nonatomic)NSString * appId;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

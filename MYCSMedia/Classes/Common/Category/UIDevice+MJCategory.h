@@ -23,4 +23,7 @@
 //获取系统版本
 +(NSString*)getSystemVersion;
 
+//获取app版本
++(NSString*)getAppVersion;
+
 @end

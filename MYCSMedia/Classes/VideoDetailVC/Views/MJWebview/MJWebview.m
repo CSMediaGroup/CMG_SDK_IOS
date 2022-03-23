@@ -16,6 +16,9 @@
 #import "UIResponder+MJCategory.h"
 #import "SZGlobalInfo.h"
 #import "WKWebViewJavascriptBridge.h"
+#import "UIDevice+MJCategory.h"
+#import "YYModel.h"
+#import "ThirdAppInfo.h"
 
 @interface MJWebview ()<WKUIDelegate,WKNavigationDelegate>
 @property(strong,nonatomic)WKWebViewJavascriptBridge * mjbridge;
@@ -43,7 +46,48 @@
         {
             config.mediaTypesRequiringUserActionForPlayback=NO;
         }
-
+        
+        
+        //需要注入的东西
+        
+        //1.userInfo
+        SZGlobalInfo * global = [SZGlobalInfo sharedManager];
+        NSString * injectStr1 = [NSString stringWithFormat:@"window.userInfo='%@'",global.SZRMUserInfo];
+        
+        //2.deviceId
+        NSString * deviceId = [UIDevice getIDFA];
+        NSDictionary * dic2 = @{@"deviceId":deviceId};
+        NSString * injectStr2 = [NSString stringWithFormat:@"window.deviceId='%@'",[dic2 yy_modelToJSONString]];
+        
+        //3.appVersion
+        NSMutableDictionary * dic3=[NSMutableDictionary dictionary];
+        NSString * appVer = [UIDevice getAppVersion];
+        NSString * osVer = [UIDevice getSystemVersion];
+        [dic3 setValue:appVer forKey:@"appVersion"];
+        [dic3 setValue:osVer forKey:@"osVersion"];
+        [dic3 setValue:@"apple" forKey:@"brand"];
+        [dic3 setValue:@"ios" forKey:@"osName"];
+        NSString * injectStr3 = [NSString stringWithFormat:@"window.appVersion='%@'",[dic3 yy_modelToJSONString]];
+        
+        //4.orgInfo
+        NSString * orgStr = [global.thirdApp yy_modelToJSONString];
+        NSString * injectStr4 = [NSString stringWithFormat:@"window.orgInfo='%@'",orgStr];
+        
+        
+        
+        //创建WKUserScript
+        WKUserScript *jqueryScript = [[WKUserScript alloc]initWithSource:injectStr1 injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+       [config.userContentController addUserScript:jqueryScript];
+        
+        WKUserScript *jqueryScript2 = [[WKUserScript alloc]initWithSource:injectStr2 injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+       [config.userContentController addUserScript:jqueryScript2];
+        
+        WKUserScript *jqueryScript3 = [[WKUserScript alloc]initWithSource:injectStr3 injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+       [config.userContentController addUserScript:jqueryScript3];
+        
+        WKUserScript *jqueryScript4 = [[WKUserScript alloc]initWithSource:injectStr4 injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+       [config.userContentController addUserScript:jqueryScript4];
+        
         
         //WKWebview
         webview = [[WKWebView alloc] initWithFrame:CGRectMake(0,0,self.width,self.height) configuration:config];
@@ -58,6 +102,7 @@
         //WebviewJavaScriptBridge
         __weak typeof (self) weakSelf = self;
         _mjbridge = [WKWebViewJavascriptBridge bridgeForWebView:webview];
+        [WKWebViewJavascriptBridge enableLogging];
         [_mjbridge registerHandler:@"MJBrigeHandler" handler:^(id data, WVJBResponseCallback responseCallback) {
             [MJBridgeHandler handleJSBridge:data callBack:responseCallback sender:weakSelf];
            }];
@@ -169,7 +214,7 @@
             H5Policy = NSURLRequestReloadIgnoringCacheData;
         }
         
-        NSURLRequest * req = [NSURLRequest requestWithURL:self.customURL cachePolicy:H5Policy timeoutInterval:15];
+        NSMutableURLRequest * req = [NSMutableURLRequest requestWithURL:self.customURL cachePolicy:H5Policy timeoutInterval:15];
         [webview loadRequest:req];
     }
     else
@@ -304,6 +349,8 @@
 {
     
 }
+
+
 
 #pragma mark - WKWebView Delegate
 -(void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler

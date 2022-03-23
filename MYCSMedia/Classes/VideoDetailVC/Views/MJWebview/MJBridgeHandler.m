@@ -17,7 +17,7 @@
 #import "UIResponder+MJCategory.h"
 #import "SZVideoDetailVC.h"
 #import "SZWebVC.h"
-
+#import "MJHUD_Selection.h"
 
 @implementation MJBridgeHandler
 
@@ -27,12 +27,11 @@
     NSString * keyName =  [data mj_valueForKey:@"methodName"];
     id objc = [data mj_valueForKey:@"data"];
     
-    NSLog(@"JS-Call:\n%@",data);
-    
     //设置标题
     if ([keyName isEqualToString:@"setTitle"])
     {
-        [web setWebviewTitle:objc];
+        NSString * titlestr = [objc mj_valueForKey:@"title"];
+        [web setWebviewTitle:titlestr];
     }
     
     //返回
@@ -48,7 +47,8 @@
         {
             NSString * deviceId = [UIDevice getIDFA];
             NSDictionary * dic = @{@"deviceId":deviceId};
-            callBack(dic);
+            NSString * json = [dic yy_modelToJSONString];
+            callBack(json);
         }
     }
     
@@ -59,7 +59,6 @@
         {
             SZGlobalInfo * global = [SZGlobalInfo sharedManager];
             NSString * json = global.SZRMUserInfo;
-            
             callBack(json);
         }
     }
@@ -69,13 +68,24 @@
     {
         NSDictionary * dic = [data mj_valueForKey:@"data"];
         
-        NSString * platform = [dic mj_valueForKey:@"platform"];
         NSString * shareUrl = [dic mj_valueForKey:@"shareUrl"];
         NSString * shareImage = [dic mj_valueForKey:@"shareImage"];
         NSString * shareTitle = [dic mj_valueForKey:@"shareTitle"];
         NSString * shareBrief = [dic mj_valueForKey:@"shareBrief"];
         
-        [[SZManager sharedManager].delegate onShareAction:platform.intValue title:shareTitle image:shareImage desc:shareBrief URL:shareUrl];
+        ContentModel * content = [ContentModel model];
+        content.shareUrl = shareUrl;
+        content.shareBrief = shareBrief;
+        content.shareTitle = shareTitle;
+        content.shareImageUrl = shareImage;
+        
+        [MJHUD_Selection showShareView:^(id objc) {
+            NSNumber * number = objc;
+            SZ_SHARE_PLATFORM plat = number.integerValue;
+
+            [SZGlobalInfo mjshareToPlatform:plat content:content source:@"底部分享"];
+        }];
+        
     }
     
     //保存图片
@@ -111,13 +121,13 @@
                                         
                                         if(callBack)
                                         {
-                                            callBack(@1);
+                                            callBack(@"1");
                                         }
                                         
                                     }
                                     else
                                     {
-                                        callBack(@0);
+                                        callBack(@"0");
                                     }
                                 }];
                             }
@@ -166,18 +176,33 @@
     }
     
     
-    //测试
-    else if ([keyName isEqualToString:@"mjtest"])
+    
+    //获取设备信息
+    else if ([keyName isEqualToString:@"getAppVersion"])
     {
+        NSMutableDictionary * param=[NSMutableDictionary dictionary];
+    
+        NSString * appVer = [UIDevice getAppVersion];
+        NSString * osVer = [UIDevice getSystemVersion];
+        
+        
+        [param setValue:appVer forKey:@"appVersion"];
+        [param setValue:osVer forKey:@"osVersion"];
+        [param setValue:@"apple" forKey:@"brand"];
+        [param setValue:@"ios" forKey:@"osName"];
+        
+        NSString * json = [param yy_modelToJSONString];
+        
         if (callBack)
         {
-            SZUserInfo * user = [[SZUserInfo alloc]init];
-            user.userid=@"1111";
-            user.avatarUrl=@"xx.png";
-            callBack(user);
+            callBack(json);
         }
     }
     
+    else
+    {
+        
+    }
     
     
     
