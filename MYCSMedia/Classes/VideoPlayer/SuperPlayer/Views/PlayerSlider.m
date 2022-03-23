@@ -99,7 +99,7 @@
 }
 
 - (void)onClickHolder:(UIControl *)sender {
-    NSLog(@"clokc");
+    
     for (PlayerPoint *point in self.pointArray) {
         if (point.holder == sender) {
             if ([self.delegate respondsToSelector:@selector(onPlayerPointSelected:)])

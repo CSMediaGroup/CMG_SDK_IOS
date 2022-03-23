@@ -62,7 +62,7 @@
 
 -(void)dealloc
 {
-    NSLog(@"webview--VC dealloc");
+    MJLOG(@"webview--VC dealloc");
 }
 
 #pragma mark - 界面
@@ -162,12 +162,12 @@
 {
 
 //    [self.webview callJSBrdigeMethod:@"JSHandler" data:@"russia" callback:^(id responseData) {
-//            NSLog(@"callbackFromJs:%@",responseData);
+//            MJLOG(@"callbackFromJs:%@",responseData);
 //    }];
     
     
     [self.webview callJSBrdigeMethod:@"onAppLogin" data:@"russia" callback:^(id responseData) {
-            NSLog(@"callbackFromJs:%@",responseData);
+        MJLOG(@"callbackFromJs:%@",responseData);
     }];
     
 //    onAppLogin

@@ -11,6 +11,8 @@
 #import "NSObject+MJCategory.h"
 #import "SZGlobalInfo.h"
 #import "YYModel.h"
+#import "SZDefines.h"
+
 
 @implementation BaseModel
 
@@ -54,7 +56,7 @@
                 [MJHUD_Loading hideLoadingView:view];
             }
     
-            NSLog(@"\n【HTTP响应】 \n URL = %@ \n respObjc = \n %@",task.currentRequest.URL.absoluteString,responseObject);
+        MJLOG(@"\n【HTTP响应】 \n URL = %@ \n respObjc = \n %@",task.currentRequest.URL.absoluteString,responseObject);
     
             //读取公共字段
             self.resultcode = [responseObject mj_valueForKey:@"code"];
@@ -81,7 +83,7 @@
     } fail:^(NSError *error,NSURLSessionDataTask * task)
     {
         
-        NSLog(@"\n【HTTP响应错误】 \n URL = %@ \n error = \n %@",task.currentRequest.URL.absoluteString,error);
+        MJLOG(@"\n【HTTP响应错误】 \n URL = %@ \n error = \n %@",task.currentRequest.URL.absoluteString,error);
         
         if (!self.hideLoading)
         {
@@ -167,7 +169,7 @@
         
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
-//            NSLog(@"正在上传--------%@",uploadProgress);
+//            MJLOG(@"正在上传--------%@",uploadProgress);
         
         if (progressBlock)
         {
@@ -181,7 +183,7 @@
         self.resultcode = [responseObject mj_valueForKey:@"code"];
         self.message = [responseObject mj_valueForKey:@"resultMessage"];
         
-        NSLog(@"【上传】\nResp = %@",responseObject);
+        MJLOG(@"【上传】\nResp = %@",responseObject);
 
         [self parseData:responseObject];
         successblock(responseObject);
@@ -189,7 +191,7 @@
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
-        NSLog(@"上传接口错误%@",error);
+        MJLOG(@"上传接口错误%@",error);
         failblock(error);
 
     }];

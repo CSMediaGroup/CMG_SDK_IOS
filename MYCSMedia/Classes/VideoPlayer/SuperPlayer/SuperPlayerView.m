@@ -19,7 +19,7 @@
 #import "SZUserTracker.h"
 #import "SZContentTracker.h"
 #import "SZUserTracker.h"
-
+#import "SZDefines.h"
 
 static UISlider * _volumeSlider;
 
@@ -776,7 +776,6 @@ static UISlider * _volumeSlider;
             if (self.sumTime < base)
                 self.sumTime = base;
             sliderValue = (self.sumTime - base) / MAX_SHIFT_TIME;
-            NSLog(@"%f",sliderValue);
         }
         [self.fastView showText:timeStr withText:sliderValue];
     }
@@ -1219,7 +1218,7 @@ static UISlider * _volumeSlider;
     //全屏
     if (toKeywindow)
     {
-//        NSLog(@"---切换到KeyWindow---");
+//        MJLog(@"---切换到KeyWindow---");
         
         //隐藏状态栏
         [self setNeedChangeStatusBarHidden:YES];
@@ -1246,7 +1245,7 @@ static UISlider * _volumeSlider;
     }
     else
     {
-//        NSLog(@"---切换到窗口---");
+//        MJLog(@"---切换到窗口---");
         
         //隐藏控制层
         [self.controlView fadeOut:0.1];
@@ -1277,7 +1276,7 @@ static UISlider * _volumeSlider;
     //刷新布局
     [self refreshLayersLayouts:orientation];
     
-//    NSLog(@"---执行旋转动画---");
+//    MJLog(@"---执行旋转动画---");
     
     self.transform = [self getRotationAngle:orientation];
     [UIView commitAnimations];
@@ -1581,20 +1580,20 @@ static UISlider * _volumeSlider;
     dispatch_async(dispatch_get_main_queue(), ^{
         
         
-//        NSLog(@"eventId_%d",EvtID);
+//        MJLog(@"eventId_%d",EvtID);
         
         
         //已读出视频的方向
         if (EvtID == PLAY_EVT_CHANGE_ROTATION)
         {
-            NSLog(@"vodplayer_获取视频方向  ------------");
+            MJLOG(@"vodplayer_获取视频方向  ------------");
         }
         
         
         //已读出视频的宽高比
         else if (EvtID == PLAY_EVT_CHANGE_RESOLUTION)
         {
-            NSLog(@"vodplayer_获取视频宽高");
+            MJLOG(@"vodplayer_获取视频宽高");
             
             if (player.height != 0)
             {
@@ -1606,7 +1605,7 @@ static UISlider * _volumeSlider;
         //视频信息加载完毕
         else if (EvtID == PLAY_EVT_VOD_PLAY_PREPARED)
         {
-            NSLog(@"vodplayer_视频加载完毕");
+            MJLOG(@"vodplayer_视频加载完毕");
             
             if ([self.delegate respondsToSelector:@selector(superPlayerDidStartPlay:)])
             {
@@ -1617,7 +1616,7 @@ static UISlider * _volumeSlider;
         //渲染第一帧
         else if (EvtID == PLAY_EVT_RCV_FIRST_I_FRAME)
         {
-            NSLog(@"vodplayer_播放视频第一帧");
+            MJLOG(@"vodplayer_播放视频第一帧");
             
             if (self.isReplay || self.isManualPlay)
             {
@@ -1665,7 +1664,7 @@ static UISlider * _volumeSlider;
         //开始播放
         else if (EvtID == PLAY_EVT_PLAY_BEGIN)
         {
-            NSLog(@"vodplayer_开始播放视频");
+            MJLOG(@"vodplayer_开始播放视频");
             self.playerState = StatePlaying;
             
             [self layoutSubviews];
@@ -1699,7 +1698,7 @@ static UISlider * _volumeSlider;
         //播放结束
         else if (EvtID == PLAY_EVT_PLAY_END)
         {
-            NSLog(@"vodplayer_视频播放完成");
+            MJLOG(@"vodplayer_视频播放完成");
             [self.controlView setProgressTime:[self playDuration] totalTime:[self playDuration] progressValue:1.f playableValue:1.f];
             
             [self moviePlayDidEnd];
@@ -1709,7 +1708,7 @@ static UISlider * _volumeSlider;
         //播放失败
         else if (EvtID == PLAY_ERR_NET_DISCONNECT || EvtID == PLAY_ERR_FILE_NOT_FOUND || EvtID == PLAY_ERR_HLS_KEY /*|| EvtID == PLAY_ERR_VOD_LOAD_LICENSE_FAIL*/)
         {
-            NSLog(@"vodplayer_视频播放失败");
+            MJLOG(@"vodplayer_视频播放失败");
             
             //网络断开问题
             if (EvtID == PLAY_ERR_NET_DISCONNECT)
@@ -1738,7 +1737,7 @@ static UISlider * _volumeSlider;
         //缓冲中
         else if (EvtID == PLAY_EVT_PLAY_LOADING)
         {
-            NSLog(@"vodplayer_缓冲中");
+            MJLOG(@"vodplayer_缓冲中");
             // 当缓冲是空的时候
             self.playerState = StateBuffering;
         }
@@ -1747,7 +1746,7 @@ static UISlider * _volumeSlider;
         //缓冲结束
         else if (EvtID == PLAY_EVT_VOD_LOADING_END)
         {
-            NSLog(@"vodplayer_缓冲完成");
+            MJLOG(@"vodplayer_缓冲完成");
             
             [self.spinner stopAnimating];
         }
@@ -1768,7 +1767,7 @@ static UISlider * _volumeSlider;
 //        if (EvtID != PLAY_EVT_PLAY_PROGRESS)
 //        {
 //            NSString *desc = [param description];
-//            NSLog(@"%@", [NSString stringWithCString:[desc cStringUsingEncoding:NSUTF8StringEncoding] encoding:NSNonLossyASCIIStringEncoding]);
+//            MJLog(@"%@", [NSString stringWithCString:[desc cStringUsingEncoding:NSUTF8StringEncoding] encoding:NSNonLossyASCIIStringEncoding]);
 //        }
         
         if (EvtID == PLAY_EVT_PLAY_BEGIN || EvtID == PLAY_EVT_RCV_FIRST_I_FRAME)

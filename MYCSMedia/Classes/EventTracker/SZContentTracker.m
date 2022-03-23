@@ -61,7 +61,7 @@
     
     [[SZContentTracker shareTracker]requestForUploading:bizparam eventKey:eventName contentModel:model];
         
-    NSLog(@"MJContentTracker_once_事件:%@_新闻:%@_cateName:%@",eventName,groupId,model.volcCategory);
+    MJLOG(@"MJContentTracker_once_事件:%@_新闻:%@_cateName:%@",eventName,groupId,model.volcCategory);
 }
 
 
@@ -165,7 +165,7 @@
             
             
 
-            NSLog(@"MJContentTracker_end_auto_时长:%@_新闻:%@_百分比:%@_cateName:%@",[NSNumber numberWithInteger:duration],groupId,progressNumber,model.volcCategory);
+            MJLOG(@"MJContentTracker_end_auto_时长:%@_新闻:%@_百分比:%@_cateName:%@",[NSNumber numberWithInteger:duration],groupId,progressNumber,model.volcCategory);
             
         }
         
@@ -271,7 +271,7 @@
             [SZUserTracker trackingButtonEventName:@"content_video_duration" param:param];
             
             
-            NSLog(@"MJContentTracker_end_manual_时长:%@_新闻:%@_百分比:%@_cateName:%@",[NSNumber numberWithInteger:duration],groupId,progressNumber,model.volcCategory);
+            MJLOG(@"MJContentTracker_end_manual_时长:%@_新闻:%@_百分比:%@_cateName:%@",[NSNumber numberWithInteger:duration],groupId,progressNumber,model.volcCategory);
             
         }
         
@@ -435,7 +435,7 @@
     }
     
 //    NSString * contentId = [bizParam valueForKey:@"group_id"];
-//    NSLog(@"request_%@_%@",eventName,content.brief.length>0 ? content.brief : content.title);
+//    MJLOG(@"request_%@_%@",eventName,content.brief.length>0 ? content.brief : content.title);
     
     
     NSArray * events = [SZContentTracker generate_EVENTS:eventName param:bizParam];

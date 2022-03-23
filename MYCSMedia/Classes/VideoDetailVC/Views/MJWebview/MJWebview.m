@@ -102,7 +102,7 @@
         //WebviewJavaScriptBridge
         __weak typeof (self) weakSelf = self;
         _mjbridge = [WKWebViewJavascriptBridge bridgeForWebView:webview];
-        [WKWebViewJavascriptBridge enableLogging];
+//        [WKWebViewJavascriptBridge enableLogging];
         [_mjbridge registerHandler:@"MJBrigeHandler" handler:^(id data, WVJBResponseCallback responseCallback) {
             [MJBridgeHandler handleJSBridge:data callBack:responseCallback sender:weakSelf];
            }];
@@ -120,7 +120,7 @@
 {
     [self removeObservers];
     
-    NSLog(@"MJWebview_dealloc");
+    MJLOG(@"MJWebview_dealloc");
 }
 
 
@@ -221,11 +221,11 @@
     {
         NSURL * url = nil;
         
-        //附加参数zhcs=1
-        _H5URL = [_H5URL appenURLParam:@"zhcs" value:@"1"];
+//        //附加参数zhcs=1
+//        _H5URL = [_H5URL appenURLParam:@"zhcs" value:@"1"];
         
         //打印调试
-        NSLog(@"MJWebview_Start_Loading = %@",_H5URL);
+        MJLOG(@"MJWebview_Start_Loading = %@",_H5URL);
         
         //生成URL
         url = [NSURL URLWithString:_H5URL];
@@ -302,7 +302,7 @@
     _H5URL = navigationAction.request.URL.absoluteString;
     NSString * reqStr = [navigationAction.request.URL.absoluteString stringByRemovingPercentEncoding];
     
-    NSLog(@"MJWebview_Navigation_To = %@",reqStr);
+    MJLOG(@"MJWebview_Navigation_To = %@",reqStr);
     
     //打开app
     if ([reqStr hasPrefix:@"wbmain://"])

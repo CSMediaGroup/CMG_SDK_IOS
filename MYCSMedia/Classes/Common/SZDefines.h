@@ -139,6 +139,12 @@
 #define NSLog(FORMAT, ...) nil
 #endif
 
+#ifdef DEBUG
+#define MJLOG(FORMAT, ...) nil
+#else
+#define NSLog(FORMAT, ...) nil
+#endif
+
 
 
 //调试代码

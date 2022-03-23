@@ -10,6 +10,7 @@
 #import "SZGlobalInfo.h"
 #import <objc/message.h>
 #import "NSDictionary+MJCategory.h"
+#import "SZDefines.h"
 
 @implementation RootModel
 
@@ -39,11 +40,11 @@
     if (json)
     {
         NSString * jsonstr = [params convertToJSON];
-        NSLog(@"\n【HTTP请求】 \n Method = %@ \n URL = %@ \r param = \r%@ \n Header = \n%@",method,url,jsonstr,httpManager.requestSerializer.HTTPRequestHeaders);
+        MJLOG(@"\n【HTTP请求】 \n Method = %@ \n URL = %@ \r param = \r%@ \n Header = \n%@",method,url,jsonstr,httpManager.requestSerializer.HTTPRequestHeaders);
     }
     else
     {
-        NSLog(@"\n【HTTP请求】 \n Method = %@ \n URL = %@ \r param = \r%@ \n Header = \n%@",method,url,params,httpManager.requestSerializer.HTTPRequestHeaders);
+        MJLOG(@"\n【HTTP请求】 \n Method = %@ \n URL = %@ \r param = \r%@ \n Header = \n%@",method,url,params,httpManager.requestSerializer.HTTPRequestHeaders);
     }
     
     //GET

@@ -116,9 +116,6 @@
                                 } completionHandler:^(BOOL success, NSError * _Nullable error) {
                                     if (success)
                                     {
-                                        NSLog(@"保存成功");
-                                        
-                                        
                                         if(callBack)
                                         {
                                             callBack(@"1");

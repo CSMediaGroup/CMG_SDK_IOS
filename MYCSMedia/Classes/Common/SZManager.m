@@ -34,6 +34,15 @@
 
 +(void)initWithAppId:(NSString*)appid appKey:(NSString*)appkey appDelegate:(id<SZDelegate>)delegate enviroment:(SZ_ENV)env
 {
+    if (appid.length==0 ||appkey.length==0)
+    {
+        NSLog(@"请传入appid 和 appkey");
+    }
+    else if (delegate==nil)
+    {
+        NSLog(@"请传入delegate");
+    }
+    
     SZManager * manager =  [SZManager sharedManager];
     manager.delegate=delegate;
     manager.enviroment=env;
