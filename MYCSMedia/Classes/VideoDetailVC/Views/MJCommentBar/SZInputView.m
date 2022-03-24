@@ -59,7 +59,7 @@
     return singleTon;
 }
 
-- (instancetype)init
+-(instancetype)init
 {
     self = [super init];
     if (self)
@@ -67,6 +67,17 @@
         //window
         self.inputWindow = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
         self.inputWindow.windowLevel = UIWindowLevelStatusBar+300;
+        if (@available(iOS 13.0, *))
+        {
+            
+            NSSet * scenesets = [UIApplication sharedApplication].connectedScenes;
+            __block id scene = nil;
+            [scenesets enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+                scene = obj;
+            }];
+            
+            self.inputWindow.windowScene = scene;
+        }
         
         //maskView
         UIView * maskView = [[UIView alloc]initWithFrame:self.inputWindow.bounds];
