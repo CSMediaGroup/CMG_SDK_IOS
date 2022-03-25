@@ -16,6 +16,8 @@
 #import "SZManager.h"
 #import "GYRollingNoticeView.h"
 #import "SZUserTracker.h"
+#import "UIResponder+MJCategory.h"
+#import "SZWebVC.h"
 
 @implementation GYNoticeCell
 {
@@ -116,7 +118,11 @@
 #pragma mark - Tap
 -(void)didClickNotice
 {
+    UINavigationController * nav = [self getCurrentNavigationController];
     
+    SZWebVC * vc = [[SZWebVC alloc]init];
+    vc.H5URL = model.url;
+    [nav pushViewController:vc animated:YES];
 }
 
 
