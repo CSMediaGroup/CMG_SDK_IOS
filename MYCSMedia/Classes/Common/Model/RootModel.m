@@ -115,6 +115,13 @@
         [httpManager.requestSerializer setValue:nil forHTTPHeaderField:@"token"];
     }
     
+    //加appid到请求头
+    NSString * appId = [SZManager sharedManager].appid;
+    if (appId.length)
+    {
+        [httpManager.requestSerializer setValue:appId forHTTPHeaderField:@"appId"];
+    }
+    
     //关闭cookie
     NSHTTPCookie*cookie;
 
