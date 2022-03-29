@@ -10,6 +10,9 @@
 
 @interface SZVideoDetailVC : UIViewController
 
+
+
+
 @property(assign,nonatomic)NSInteger detailType;            //0单条视频 1视频集合
 
 @property(strong,nonatomic)NSString * albumId;               //合辑ID

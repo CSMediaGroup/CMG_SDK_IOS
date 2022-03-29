@@ -35,6 +35,7 @@
 @interface SZVideoDetailVC ()<UICollectionViewDelegate, UICollectionViewDataSource>
 @property(assign,nonatomic)BOOL MJHideStatusbar;
 @property(strong,nonatomic)NSMutableArray * dataArr;
+@property(assign,nonatomic)NSInteger pageNum_videoCollection;
 @end
 
 
@@ -65,7 +66,7 @@
     }
     else if (self.detailType==1)
     {
-        [self requestVideosInCollection];
+        [self requestVideoCollection];
     }
 }
 
@@ -178,26 +179,51 @@
 
 
 #pragma mark - Request
--(void)requestVideosInCollection
+//请求合辑里的视频
+-(void)requestVideoCollection
 {
     NSString * url = APPEND_SUBURL(BASE_URL, API_URL_VIDEOCOLLECT);
     
+    self.pageNum_videoCollection = 1;
+    
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:self.albumId forKey:@"classId"];
-    [param setValue:@"9999" forKey:@"pageSize"];
-    [param setValue:@"1" forKey:@"pageIndex"];
+    [param setValue:[NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE] forKey:@"pageSize"];
+    [param setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum_videoCollection] forKey:@"pageIndex"];
     
     __weak typeof (self) weakSelf = self;
     TopicListModel * model = [TopicListModel model];
     [model GETRequestInView:self.view WithUrl:url Params:param Success:^(id responseObject) {
-        [weakSelf requestDone:model.dataArr];
+        [weakSelf requestVideoArrDone:model.dataArr];
+        } Error:^(id responseObject) {
+            [weakSelf requestFailed];
+        } Fail:^(NSError *error) {
+            [weakSelf requestFailed];
+        }];
+}
+
+//请求更多合辑视频
+-(void)requestMoreVideoCollection
+{
+    NSString * url = APPEND_SUBURL(BASE_URL, API_URL_VIDEOCOLLECT);
+    self.pageNum_videoCollection += 1;
+    
+    NSMutableDictionary * param=[NSMutableDictionary dictionary];
+    [param setValue:self.albumId forKey:@"classId"];
+    [param setValue:[NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE] forKey:@"pageSize"];
+    [param setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum_videoCollection] forKey:@"pageIndex"];
+    
+    __weak typeof (self) weakSelf = self;
+    TopicListModel * model = [TopicListModel model];
+    model.hideLoading=YES;
+    [model GETRequestInView:self.view WithUrl:url Params:param Success:^(id responseObject) {
+        [weakSelf requestMoreVideoDone:model.dataArr];
         } Error:^(id responseObject) {
             [weakSelf requestFailed];
         } Fail:^(NSError *error) {
             [weakSelf requestFailed];
         }];
     
-
 }
 
 
@@ -215,7 +241,7 @@
         model.isManualPlay = YES;
         model.volcCategory = self.category_name;
         [list.dataArr addObject:model];
-        [weakSelf requestDone:list.dataArr];
+        [weakSelf requestVideoArrDone:list.dataArr];
         
         //加载更多
         [weakSelf requestMoreRandomVideos];
@@ -245,6 +271,9 @@
 //        }];
 //}
 
+
+
+//请求更多随机视频
 -(void)requestMoreRandomVideos
 {
     NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
@@ -257,7 +286,7 @@
     dataModel.hideLoading=YES;
     __weak typeof (self) weakSelf = self;
     [dataModel GETRequestInView:self.view WithUrl:APPEND_SUBURL(BASE_URL, API_URL_RANDOM_VIDEO_LIST) Params:param Success:^(id responseObject){
-        [weakSelf requestMoreVideoDone:dataModel];
+        [weakSelf requestMoreVideoDone:dataModel.dataArr];
         } Error:^(id responseObject) {
             [weakSelf requestFailed];
         } Fail:^(NSError *error) {
@@ -292,7 +321,7 @@
 
 
 #pragma mark - Request Done
--(void)requestDone:(NSArray*)modelArr
+-(void)requestVideoArrDone:(NSArray*)modelArr
 {
     [collectionView.mj_footer endRefreshing];
     [collectionView.mj_header endRefreshing];
@@ -310,12 +339,12 @@
 }
 
 
--(void)requestMoreVideoDone:(ContentListModel*)model
+-(void)requestMoreVideoDone:(NSArray*)moreArr
 {
     [collectionView.mj_footer endRefreshing];
     [collectionView.mj_header endRefreshing];
 
-    if (model.dataArr.count==0 && [self getCurrentRow].row==self.dataArr.count-1)
+    if (moreArr.count==0 && [self getCurrentRow].row==self.dataArr.count-1)
     {
         [MJHUD_Notice showNoticeView:@"没有更多视频了" inView:self.view hideAfterDelay:2];
         return;
@@ -326,7 +355,7 @@
 
 
     NSMutableArray * idxArr = [NSMutableArray array];
-    for (int i = 0; i<model.dataArr.count; i++)
+    for (int i = 0; i<moreArr.count; i++)
     {
         NSInteger idx = startIdx++;
         NSIndexPath * idpath = [NSIndexPath indexPathForRow:idx inSection:0];
@@ -335,7 +364,7 @@
 
 
 
-    [self.dataArr addObjectsFromArray:model.dataArr];
+    [self.dataArr addObjectsFromArray:moreArr];
 
     //追加collectionview数量
     [collectionView performBatchUpdates:^{
@@ -416,6 +445,7 @@
 -(void)MJInitData
 {
     //清空状态
+    self.pageNum_videoCollection = 1;
     [[SZData sharedSZData]setCurrentContentId:@""];
     [MJVideoManager destroyVideoPlayer];
     
@@ -426,13 +456,32 @@
 #pragma mark - 下拉/上拉
 -(void)pulldownRefreshAction:(MJRefreshHeader*)refreshHeader
 {
-    [self requestSingleVideo];
-//    [self requestRandomVideos];
+    //如果是视频合辑，则加载视频合辑的接口
+    if (_detailType==1)
+    {
+        [self requestVideoCollection];
+    }
+    
+    //如果是普通视频详情，则请求单条视频接口
+    else
+    {
+        [self requestSingleVideo];
+    }
 }
 
 -(void)pullupLoadAction:(MJRefreshFooter*)footer
 {
-    [self requestMoreRandomVideos];
+    //如果是视频合辑，则加在视频合辑的分页
+    if (_detailType==1)
+    {
+        [self requestMoreVideoCollection];
+    }
+    
+    //如果是普通视频详情，则请求随机接口
+    else
+    {
+        [self requestMoreRandomVideos];
+    }
 }
 
 
@@ -450,7 +499,17 @@
     //如果是倒数第二个则加载更多
     if (indexpath.row==self.dataArr.count-2)
     {
-        [self requestMoreRandomVideos];
+        //如果是普通视频详情，则请求随机接口
+        if (_detailType==1)
+        {
+            [self requestMoreVideoCollection];
+        }
+        else
+        {
+            [self requestMoreRandomVideos];
+        }
+        
+        
     }
 }
 
