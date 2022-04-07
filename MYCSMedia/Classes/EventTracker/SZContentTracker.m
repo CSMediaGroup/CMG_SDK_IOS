@@ -13,6 +13,9 @@
 #import "SZDefines.h"
 #import "SZUserTracker.h"
 #import "UIDevice+MJCategory.h"
+#import "SZManager.h"
+#import "ThirdAppInfo.h"
+
 
 @interface SZContentTracker ()
 @property(strong,nonatomic)NSMutableDictionary * startTimeDic;
@@ -404,8 +407,10 @@
 
 +(NSDictionary*)generate_HEADER
 {
+    ThirdAppInfo * info = [SZGlobalInfo sharedManager].thirdApp;
+    
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
-    [param setValue:@"rangers_12216_my_changsha_app" forKey:@"app_name"];
+    [param setValue:info.config.appName forKey:@"app_name"];
     [param setValue:@"" forKey:@"ab_sdk_version"];
     [param setValue:@"" forKey:@"app_channel"];
     [param setValue:@"" forKey:@"app_package"];
