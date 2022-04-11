@@ -140,9 +140,9 @@
 #endif
 
 #ifdef DEBUG
-#define MJLOG(FORMAT, ...) nil
+#define MJLOG(FORMAT, ...) NSLog(FORMAT, ## __VA_ARGS__)
 #else
-#define NSLog(FORMAT, ...) nil
+#define MJLOG(FORMAT, ...) nil
 #endif
 
 
