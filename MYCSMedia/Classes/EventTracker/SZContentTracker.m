@@ -434,10 +434,10 @@
 #pragma mark - Request
 -(void)requestForUploading:(NSDictionary*)bizParam eventKey:(NSString*)eventName contentModel:(ContentModel*)content
 {
-    if (content.thirdPartyId.length==0 || content.volcCategory.length==0)
-    {
-        return;
-    }
+//    if (content.thirdPartyId.length==0 || content.volcCategory.length==0)
+//    {
+//        return;
+//    }
     
 //    NSString * contentId = [bizParam valueForKey:@"group_id"];
 //    MJLOG(@"request_%@_%@",eventName,content.brief.length>0 ? content.brief : content.title);
