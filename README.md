@@ -1,30 +1,59 @@
-#融媒SDK对接
+#融媒SDK集成说明
 
 ##SDK说明
-本SDK包含三个页面：
 
-```
-列表页、资讯详情页、视频详情页
+###主要功能
 ```
 
-需要使用到您的原生能力：
+SDK主要包含资讯列表、资讯详情、视频详情三个页面
+
+配合管理后台，可以快速集成新闻、视频的采编，资讯智能推荐等功能
+
 
 ```
-分享、跳转登录页面，用户基本信息等
+
+###资讯列表
+
+![Alt](./list.png)
+
+###资讯详情
+![Alt](./news.png)
+
+###视频详情
+![Alt](./video.png)
+
+
+
+###需要您实现的回调方法
+
 ```
 
-##SDK集成
+1.分享功能
+2.登录功能
+3.用户基本信息
 
-###android端
+
 ```
-使用Gradle集成
 
-1.在模块的build.gradle中添加dependencies {
+
+
+
+
+
+
+
+
+##Android端集成说明
+
+1.使用Gradle集成SDK
+
+```
+<1>.在模块的build.gradle中添加dependencies {
  implementation 'cs.szrm.com:sdk:1.0.1' //请使用最新版本
 }
 
 
-2.在app级别的 build.gradle 中 
+<2>.在app级别的 build.gradle 中 
 buildscript{
 repositories {
  		...
@@ -43,23 +72,7 @@ allprojects{
 
 ```
 
-
-###iOS端
-
-```
-使用Cocoapods集成
-
-在podfile添加
-pod 'MYCSMedia',:git =>"https://git.zhcs.csbtv.com/fuse/fuse-ios-sdk.git"
-
-pod install
-```
-
-##SDK配置
-
-
-###android
-1.在自己的Application中初始化中加入 
+2.在自己的Application中初始化中加入
 
 ```
   /**
@@ -77,7 +90,7 @@ pod install
 
 ```
 
-2.使用单例类去实现SdkParamCallBack接口 实现其中的方法
+3.使用单例类去实现SdkParamCallBack接口 实现其中的方法
 
 ```
 setSdkUserInfo 设置用户信息
@@ -100,39 +113,50 @@ SdkInteractiveParam.getInstance().setSdkCallBack(new SdkParamCallBack() {
 
     }
 });
-```
-
-###iOS
-
-1.在info.plist文件中添加权限配置
 
 ```
+
+
+
+
+
+##iOS端集成说明
+
+1.使用Cocoapods集成SDK
+
+```
+在podfile添加
+
+pod 'MYCSMedia',:git =>"https://git.zhcs.csbtv.com/fuse/fuse-ios-sdk.git"
+
+执行pod install
+
+```
+
+
+2.修改工程配置
+
+```
+<1>在info.plist文件中添加权限配置
+
 NSPhotoLibraryUsageDescription		支持保存新闻图片到您的相册
-```
 
-
-2.关闭BitCode的使用
+<2>关闭BitCode的使用
 
 Targets -> Build Settings -> Enable bitcode     改为 NO
 
+```
 
 
-
-3.在AppDelegate中引入SDK，并添加SZDelegate协议
+3.初始化SDK，并实现SZDelegate协议
 
 ```
 #import <SZManager.h>
-
-~~~
-
+...其他
 @interface SZAppDelegate ()<SZDelegate>
 @end
 
-```
 
-4.在AppDelegate中初始化SDK
-
-```
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     ...其他
@@ -141,31 +165,30 @@ Targets -> Build Settings -> Enable bitcode     改为 NO
 	//UAT_ENVIROMENT 表示UAT环境，生产环境请选 PRD_ENVIROMENT
     [SZManager initWithAppId:@"12333" appKey:@"00000" appDelegate:self enviroment:UAT_ENVIROMENT];
     
-    
-    ...其他
 }
 
-```
+
+//实现SDK协议方法
 
 
-5.在AppDelegate中实现SZDelegate协议方法
-
-```
 //获取用户信息，用户未登录则传nil
--(SZUserInfo *)onGetUserInfo;
+-(SZUserInfo *)onGetUserInfo{
+}
 
 //分享事件
--(void)onShareAction:(SZ_SHARE_PLATFORM)platform title:(NSString*)title image:(NSString*)imgurl desc:(NSString*)desc URL:(NSString*)url;
+-(void)onShareAction:(SZ_SHARE_PLATFORM)platform title:(NSString*)title image:(NSString*)imgurl desc:(NSString*)desc URL:(NSString*)url{
+}
 
 //跳转到登录页
--(void)onLoginAction;
+-(void)onLoginAction{
+}
 
 ```
 
 
 ##SDK的使用
 
-###android
+###Android
 ```
 //跳转到资讯首页  
 Intent intent = new Intent(MainActivity.this, WebActivity);

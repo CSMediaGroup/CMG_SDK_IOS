@@ -38,11 +38,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     self.navigationController.navigationBar.hidden=YES;
-    
+
     [SZGlobalInfo checkLoginStatus:nil];
-    
+
     if (self.shareUrl.length&&self.shareTitle.length&&self.shareImg.length&&self.shareBrief.length)
     {
         shareBtn.hidden=NO;
@@ -56,7 +56,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+
     self.navigationController.navigationBar.hidden=NO;
 }
 
@@ -70,10 +70,10 @@
 {
     //BG
     self.view.backgroundColor=HW_WHITE;
-    
+
     //禁止侧滑返回
     self.navigationController.interactivePopGestureRecognizer.enabled=NO;
-    
+
     //Webview
     _webview = [[MJWebview alloc]init];
     [_webview setFrame:CGRectMake(0, NAVI_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT-NAVI_HEIGHT)];
@@ -82,12 +82,12 @@
     _webview.mjwebviewDelegate=self;
     [self.view addSubview:_webview];
     
-    
+
     //navi
     UIView * navibg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, STATUS_BAR_HEIGHT + 44)];
     navibg.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:navibg];
-    
+
     //cancel
     MJButton * backBtn = [[MJButton alloc]initWithFrame:CGRectMake(16, STATUS_BAR_HEIGHT+8, 55, 26)];
     backBtn.mj_imageObjec=[UIImage getBundleImage:@"sz_naviback_black"];
@@ -96,7 +96,7 @@
     backBtn.mj_textColor=HW_BLACK;
     [backBtn addTarget:self action:@selector(navibackAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
-    
+
     //title
     titleLabel = [[UILabel alloc]init];
     [titleLabel setFrame:CGRectMake(SCREEN_WIDTH/2-80, STATUS_BAR_HEIGHT, 160, 44)];
@@ -107,7 +107,7 @@
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(titleTapAction)];
     [titleLabel addGestureRecognizer:tap];
     [self.view addSubview:titleLabel];
-    
+
     //cancel
     shareBtn = [[MJButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-55, STATUS_BAR_HEIGHT+8, 55, 26)];
     shareBtn.mj_imageObjec=[UIImage getBundleImage:@"sz_naviShare"];
@@ -149,7 +149,7 @@
     content.shareBrief = self.shareBrief;
     content.shareTitle = self.shareTitle;
     content.shareImageUrl = self.shareImg;
-    
+
     [MJHUD_Selection showShareView:^(id objc) {
         NSNumber * number = objc;
         SZ_SHARE_PLATFORM plat = number.integerValue;
@@ -164,12 +164,12 @@
 //    [self.webview callJSBrdigeMethod:@"JSHandler" data:@"russia" callback:^(id responseData) {
 //            MJLOG(@"callbackFromJs:%@",responseData);
 //    }];
-    
-    
+
+
     [self.webview callJSBrdigeMethod:@"onAppLogin" data:@"russia" callback:^(id responseData) {
         MJLOG(@"callbackFromJs:%@",responseData);
     }];
-    
+
 //    onAppLogin
 }
 

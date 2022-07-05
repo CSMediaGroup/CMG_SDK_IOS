@@ -49,16 +49,16 @@
         
         
         //需要注入的东西
-        
+
         //1.userInfo
         SZGlobalInfo * global = [SZGlobalInfo sharedManager];
         NSString * injectStr1 = [NSString stringWithFormat:@"window.userInfo='%@'",global.SZRMUserInfo];
-        
+
         //2.deviceId
         NSString * deviceId = [UIDevice getIDFA];
         NSDictionary * dic2 = @{@"deviceId":deviceId};
         NSString * injectStr2 = [NSString stringWithFormat:@"window.deviceId='%@'",[dic2 yy_modelToJSONString]];
-        
+
         //3.appVersion
         NSMutableDictionary * dic3=[NSMutableDictionary dictionary];
         NSString * appVer = [UIDevice getAppVersion];
@@ -68,26 +68,26 @@
         [dic3 setValue:@"apple" forKey:@"brand"];
         [dic3 setValue:@"ios" forKey:@"osName"];
         NSString * injectStr3 = [NSString stringWithFormat:@"window.appVersion='%@'",[dic3 yy_modelToJSONString]];
-        
+
         //4.orgInfo
         NSString * orgStr = [global.thirdApp yy_modelToJSONString];
         NSString * injectStr4 = [NSString stringWithFormat:@"window.orgInfo='%@'",orgStr];
-        
-        
-        
+
+
+
         //创建WKUserScript
         WKUserScript *jqueryScript = [[WKUserScript alloc]initWithSource:injectStr1 injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
        [config.userContentController addUserScript:jqueryScript];
-        
+
         WKUserScript *jqueryScript2 = [[WKUserScript alloc]initWithSource:injectStr2 injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
        [config.userContentController addUserScript:jqueryScript2];
-        
+
         WKUserScript *jqueryScript3 = [[WKUserScript alloc]initWithSource:injectStr3 injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
        [config.userContentController addUserScript:jqueryScript3];
-        
+
         WKUserScript *jqueryScript4 = [[WKUserScript alloc]initWithSource:injectStr4 injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
        [config.userContentController addUserScript:jqueryScript4];
-        
+
         
         //WKWebview
         webview = [[WKWebView alloc] initWithFrame:CGRectMake(0,0,self.width,self.height) configuration:config];
@@ -204,10 +204,8 @@
 #pragma mark - 外部API
 -(void)startLoadURL
 {
-    //如果有URL（调试），则直接打开URL
     if (self.customURL)
     {
-        //缓存策略(调试阶段不用缓存，正式包使用默认缓存策略)
         NSURLRequestCachePolicy H5Policy = NSURLRequestUseProtocolCachePolicy;
         if (DEV_ENV)
         {
@@ -220,9 +218,6 @@
     else
     {
         NSURL * url = nil;
-        
-//        //附加参数zhcs=1
-//        _H5URL = [_H5URL appenURLParam:@"zhcs" value:@"1"];
         
         //打印调试
         MJLOG(@"MJWebview_Start_Loading = %@",_H5URL);
@@ -247,7 +242,6 @@
                 
             }
             
-            //缓存策略(调试阶段不用缓存，正式包使用默认缓存策略)
             NSURLRequestCachePolicy H5Policy = NSURLRequestUseProtocolCachePolicy;
             if (DEV_ENV)
             {
@@ -301,8 +295,6 @@
 {
     _H5URL = navigationAction.request.URL.absoluteString;
     NSString * reqStr = [navigationAction.request.URL.absoluteString stringByRemovingPercentEncoding];
-    
-    MJLOG(@"MJWebview_Navigation_To = %@",reqStr);
     
     //打开app
     if ([reqStr hasPrefix:@"wbmain://"])
