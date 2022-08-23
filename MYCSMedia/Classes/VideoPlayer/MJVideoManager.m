@@ -7,14 +7,14 @@
 //
 
 #import "MJVideoManager.h"
-#import "MJVideoFullScreen.h"
+#import "SZVideoFullScreen.h"
 #import <SDWebImage/SDWebImage.h>
 #import "SZUserTracker.h"
 #import "SZContentTracker.h"
-@interface MJVideoManager ()<SuperPlayerDelegate>
+@interface MJVideoManager ()<SZSuperPlayerDelegate>
 
 //腾讯
-@property(strong,nonatomic)SuperPlayerView * MJVideoView;
+@property(strong,nonatomic)SZSuperPlayerView * MJVideoView;
 
 @end
 
@@ -29,7 +29,7 @@
         if (manager == nil)
         {
             manager = [[MJVideoManager alloc]init];
-            manager.MJVideoView = [[SuperPlayerView alloc] init];
+            manager.MJVideoView = [[SZSuperPlayerView alloc] init];
         }
         });
     return manager;
@@ -39,7 +39,7 @@
 
 
 #pragma mark - 腾讯播放器
-+(SuperPlayerView *)videoPlayer
++(SZSuperPlayerView *)videoPlayer
 {
     return [MJVideoManager sharedMediaManager].MJVideoView;
 }
@@ -47,7 +47,7 @@
 +(void)playFullScreenVideoAt:(UIViewController *)controller URL:(NSString *)url
 {
     //全屏VC
-    MJVideoFullScreen * fullvc = [[MJVideoFullScreen alloc]init];
+    SZVideoFullScreen * fullvc = [[SZVideoFullScreen alloc]init];
     fullvc.videoURL = url;
     fullvc.modalPresentationStyle = UIModalPresentationFullScreen;
     [controller presentViewController:fullvc animated:NO completion:nil];
@@ -70,20 +70,20 @@
     {
         
         //如果是暂停
-        if (manager.MJVideoView.playerState==StatePause)
+        if (manager.MJVideoView.playerState==SZPlayerState_StatePause)
         {
             [manager.MJVideoView resume];
         }
         
         
         //正在播放
-        else if (manager.MJVideoView.playerState==StatePlaying)
+        else if (manager.MJVideoView.playerState==SZPlayerState_StatePlaying)
         {
             [manager.MJVideoView resume];
         }
         
         //停止播放
-        else if (manager.MJVideoView.playerState==StateStopped)
+        else if (manager.MJVideoView.playerState==SZPlayerState_StateStopped)
         {
             [MJVideoManager playNewVideo:videoURL contentModel:model renderMode:type];
         }
@@ -130,7 +130,7 @@
     manager.MJVideoView.isManualPlay = contentModel.isManualPlay;
     
     //NewModel
-    SuperPlayerModel * playerModel = [[SuperPlayerModel alloc] init];
+    SZSuperPlayerModel * playerModel = [[SZSuperPlayerModel alloc] init];
     playerModel.videoURL = videourl;
     [manager.MJVideoView playWithModel:playerModel];
     

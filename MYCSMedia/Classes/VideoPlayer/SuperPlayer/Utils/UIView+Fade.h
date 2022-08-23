@@ -12,4 +12,5 @@
 - (UIView *)fadeShow;
 - (void)fadeOut:(NSTimeInterval)delay;
 - (void)cancelFadeOut;
+
 @end

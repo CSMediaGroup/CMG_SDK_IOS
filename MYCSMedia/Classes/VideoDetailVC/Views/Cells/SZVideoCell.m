@@ -30,9 +30,9 @@
 #import "MyLayout.h"
 #import "YYText.h"
 #import "NSAttributedString+YYText.h"
-#import "StrUtils.h"
+#import "SZStrUtils.h"
 #import "MJProgressView.h"
-#import "SPDefaultControlView.h"
+#import "SZDefaultControlView.h"
 #import "ContentStateModel.h"
 #import "UIResponder+MJCategory.h"
 #import "SZUserTracker.h"
@@ -760,7 +760,7 @@
     [MJVideoManager playWindowVideoAtView:videoCoverImage url:dataModel.playUrl contentModel:dataModel renderModel:renderMode];
 
     //获取进度条
-    SPDefaultControlView * controlView =  (SPDefaultControlView*)[MJVideoManager videoPlayer].controlView;
+    SZDefaultControlView * controlView =  (SZDefaultControlView*)[MJVideoManager videoPlayer].controlView;
     videoSlider = controlView.externalSlider;
     [self insertSubview:videoSlider belowSubview:descLabel];
 

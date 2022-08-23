@@ -19,8 +19,8 @@ Pod::Spec.new do |s|
    }
   
   s.dependency 'AFNetworking', '>= 4.0'
-  s.dependency 'TXLiteAVSDK_Player', '~> 7.1.8775'
-  s.dependency 'MMLayout', '>= 0.3.0'
+  s.dependency 'TXLiteAVSDK_UGC'
+  s.dependency 'MMLayout'
   s.dependency 'Masonry', '>= 1.1.0'
   s.dependency 'SDWebImage', '>= 5.0'
   s.dependency 'FSTextView', '>= 1.8'

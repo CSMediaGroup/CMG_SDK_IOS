@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SuperPlayer.h"
+#import "SZSuperPlayer.h"
 #import "ContentModel.h"
 
 
@@ -30,7 +30,7 @@ typedef NS_ENUM(NSUInteger, MJVideoControlStyle) {
 +(void)playWindowVideoAtView:(UIView*)view url:(NSString*)videoURL contentModel:(ContentModel*)model renderModel:(NSInteger)type;
 +(void)pauseWindowVideo;
 +(void)destroyVideoPlayer;
-+(SuperPlayerView *)videoPlayer;
++(SZSuperPlayerView *)videoPlayer;
 
 
 

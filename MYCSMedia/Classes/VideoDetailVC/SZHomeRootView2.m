@@ -249,7 +249,7 @@
     
     if (model.dataArr.count==0 && [self getCurrentRow].row==dataModel.dataArr.count-1)
     {
-        [MJHUD_Notice showNoticeView:@"没有更多视频了" inView:self hideAfterDelay:2];
+//        [MJHUD_Notice showNoticeView:@"没有更多视频了" inView:self hideAfterDelay:2];
         return;
     }
     

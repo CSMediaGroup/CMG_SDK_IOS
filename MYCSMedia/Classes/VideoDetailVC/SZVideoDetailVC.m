@@ -346,7 +346,7 @@
 
     if (moreArr.count==0 && [self getCurrentRow].row==self.dataArr.count-1)
     {
-        [MJHUD_Notice showNoticeView:@"没有更多视频了" inView:self.view hideAfterDelay:2];
+//        [MJHUD_Notice showNoticeView:@"没有更多视频了" inView:self.view hideAfterDelay:2];
         return;
     }
 
