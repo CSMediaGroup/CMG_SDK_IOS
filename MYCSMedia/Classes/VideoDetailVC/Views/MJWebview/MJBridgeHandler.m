@@ -68,16 +68,17 @@
     {
         NSDictionary * dic = [data mj_valueForKey:@"data"];
         
-        NSString * shareUrl = [dic mj_valueForKey:@"shareUrl"];
-        NSString * shareImage = [dic mj_valueForKey:@"shareImage"];
-        NSString * shareTitle = [dic mj_valueForKey:@"shareTitle"];
-        NSString * shareBrief = [dic mj_valueForKey:@"shareBrief"];
+        NSString * shareTitle = [dic mj_valueForKey:@"title"];
+        NSString * shareUrl = [dic mj_valueForKey:@"link"];
+        NSString * shareBrief = [dic mj_valueForKey:@"content"];
+        NSString * shareImg = [dic mj_valueForKey:@"imgUrl"];
+        
         
         ContentModel * content = [ContentModel model];
         content.shareUrl = shareUrl;
         content.shareBrief = shareBrief;
         content.shareTitle = shareTitle;
-        content.shareImageUrl = shareImage;
+        content.shareImageUrl = shareImg;
         
         [MJHUD_Selection showShareView:^(id objc) {
             NSNumber * number = objc;
@@ -85,8 +86,8 @@
 
             [SZGlobalInfo mjshareToPlatform:plat content:content source:@"底部分享"];
         }];
-        
     }
+    
     
     //保存图片
     else if ([keyName isEqualToString:@"savePhoto"])
@@ -195,6 +196,8 @@
             callBack(json);
         }
     }
+    
+    
     
     else
     {
