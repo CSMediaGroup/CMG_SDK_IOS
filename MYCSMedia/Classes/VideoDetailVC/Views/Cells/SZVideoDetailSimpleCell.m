@@ -27,7 +27,7 @@
 #import "SZData.h"
 #import "VideoRelateModel.h"
 #import "MyLayout.h"
-#import "YYText.h"
+#import "YYKit.h"
 #import "NSAttributedString+YYText.h"
 #import "SZStrUtils.h"
 #import "MJProgressView.h"
@@ -265,17 +265,17 @@
     
     
     
-    [mutableString yy_setTextHighlightRange:NSMakeRange(0, topicStr.length) color:[UIColor whiteColor] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+    [mutableString setTextHighlightRange:NSMakeRange(0, topicStr.length) color:[UIColor whiteColor] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
         [weakSelf topicClickAction];
     }];
-    [mutableString yy_setFont:[UIFont systemFontOfSize:15] range:NSMakeRange(0, topicStr.length)];
+    [mutableString setFont:[UIFont systemFontOfSize:15] range:NSMakeRange(0, topicStr.length)];
     
     
-    [mutableString yy_setTextHighlightRange:NSMakeRange(topicStr.length, finalDesc.length - topicStr.length) color:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+    [mutableString setTextHighlightRange:NSMakeRange(topicStr.length, finalDesc.length - topicStr.length) color:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
         [weakSelf descClickAction];
     }];
-    [mutableString yy_setFont:[UIFont systemFontOfSize:13] range:NSMakeRange(topicStr.length, finalDesc.length - topicStr.length)];
-    [mutableString yy_setLineSpacing:4 range:NSMakeRange(0,finalDesc.length)];
+    [mutableString setFont:[UIFont systemFontOfSize:13] range:NSMakeRange(topicStr.length, finalDesc.length - topicStr.length)];
+    [mutableString setLineSpacing:4 range:NSMakeRange(0,finalDesc.length)];
     
     descLabel.attributedText = mutableString;
     descLabel.lineBreakMode=NSLineBreakByTruncatingTail;

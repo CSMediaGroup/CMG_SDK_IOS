@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CMG_SDK'
-  s.version          = '1.3.8'
+  s.version          = '1.4.0'
   s.summary          = 'News & Video Components'
   s.description      = 'News & Video Components'
   s.homepage         = 'https://github.com/majia5499531/CMG_SDK'
@@ -25,11 +25,13 @@ Pod::Spec.new do |s|
   s.dependency 'SDWebImage', '>= 5.0'
   s.dependency 'FSTextView', '>= 1.8'
   s.dependency 'MJRefresh'
-  s.dependency 'YYText'
-  s.dependency 'YYModel'
+  s.dependency 'YYKit'
   s.dependency 'WebViewJavascriptBridge'
   s.static_framework = true
   
   
 end
+
+#  s.dependency 'YYModel'
+#  s.dependency 'YYText'
 

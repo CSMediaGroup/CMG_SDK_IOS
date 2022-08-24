@@ -28,7 +28,7 @@
 #import "SZData.h"
 #import "VideoRelateModel.h"
 #import "MyLayout.h"
-#import "YYText.h"
+#import "YYKit.h"
 #import "NSAttributedString+YYText.h"
 #import "SZStrUtils.h"
 #import "MJProgressView.h"
@@ -38,7 +38,7 @@
 #import "SZUserTracker.h"
 #import "ContentListModel.h"
 #import "SZVideoDetailVC.h"
-#import "YYText.h"
+#import "YYKit.h"
 #import "SZHomeVC.h"
 #import "ThirdAppInfo.h"
 
@@ -353,13 +353,13 @@
         UIImageView * imgv = [[UIImageView alloc]initWithImage:img];
         [imgv setFrame:CGRectMake(0, 5, 13, 13)];
         
-        NSMutableAttributedString * attstr = [NSMutableAttributedString yy_attachmentStringWithContent:imgv contentMode:UIViewContentModeScaleAspectFit attachmentSize:imgv.size alignToFont:[UIFont systemFontOfSize:16] alignment:YYTextVerticalAlignmentCenter];
+        NSMutableAttributedString * attstr = [NSMutableAttributedString attachmentStringWithContent:imgv contentMode:UIViewContentModeScaleAspectFit attachmentSize:imgv.size alignToFont:[UIFont systemFontOfSize:16] alignment:YYTextVerticalAlignmentCenter];
         
         
         //插一个space
         UIView * space = [[UIView alloc]init];
         [space setSize:CGSizeMake(6, 0)];
-        NSMutableAttributedString * tempattstr = [NSMutableAttributedString yy_attachmentStringWithContent:space contentMode:UIViewContentModeScaleAspectFit attachmentSize:space.size alignToFont:[UIFont systemFontOfSize:24] alignment:YYTextVerticalAlignmentCenter];
+        NSMutableAttributedString * tempattstr = [NSMutableAttributedString attachmentStringWithContent:space contentMode:UIViewContentModeScaleAspectFit attachmentSize:space.size alignToFont:[UIFont systemFontOfSize:24] alignment:YYTextVerticalAlignmentCenter];
         [attstr appendAttributedString:tempattstr];
         
         //拼专辑
@@ -370,7 +370,7 @@
         //插一个space
         UIView * space2 = [[UIView alloc]init];
         [space2 setSize:CGSizeMake(6, 0)];
-        NSMutableAttributedString * tempattstr2 = [NSMutableAttributedString yy_attachmentStringWithContent:space2 contentMode:UIViewContentModeScaleAspectFit attachmentSize:space2.size alignToFont:[UIFont systemFontOfSize:24] alignment:YYTextVerticalAlignmentCenter];
+        NSMutableAttributedString * tempattstr2 = [NSMutableAttributedString attachmentStringWithContent:space2 contentMode:UIViewContentModeScaleAspectFit attachmentSize:space2.size alignToFont:[UIFont systemFontOfSize:24] alignment:YYTextVerticalAlignmentCenter];
         [attstr appendAttributedString:tempattstr2];
         
         //拼简介
@@ -381,21 +381,21 @@
         
         //设置合集标题样式
         NSRange range3 = [attstr.string rangeOfString:albumName];
-        [attstr yy_setTextHighlightRange:range3 color:[UIColor whiteColor] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+        [attstr setTextHighlightRange:range3 color:[UIColor whiteColor] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
         }];
-        [attstr yy_setFont:[UIFont systemFontOfSize:15] range:range3];
+        [attstr setFont:[UIFont systemFontOfSize:15] range:range3];
         
 
         //设置简介点击事件和样式
         __weak typeof (self) weakSelf = self;
         NSRange range1 = [attstr.string rangeOfString:finalDesc];
-        [attstr yy_setTextHighlightRange:range1 color:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+        [attstr  setTextHighlightRange:range1 color:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
             [weakSelf descClickAction];
         }];
-        [attstr yy_setFont:[UIFont systemFontOfSize:14] range:range1];
+        [attstr  setFont:[UIFont systemFontOfSize:14] range:range1];
         
         //设置整体行间距
-        [attstr yy_setLineSpacing:4 range:NSMakeRange(0,attstr.string.length)];
+        [attstr  setLineSpacing:4 range:NSMakeRange(0,attstr.string.length)];
 
 
         descLabel.attributedText = attstr;
@@ -409,11 +409,11 @@
         //设置简介样式
         __weak typeof (self) weakSelf = self;
         NSMutableAttributedString *mutableString = [[NSMutableAttributedString alloc] initWithString:finalDesc];
-        [mutableString yy_setTextHighlightRange:NSMakeRange(0, finalDesc.length) color:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+        [mutableString  setTextHighlightRange:NSMakeRange(0, finalDesc.length) color:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
             [weakSelf descClickAction];
         }];
-        [mutableString yy_setFont:[UIFont systemFontOfSize:13] range:NSMakeRange(0, finalDesc.length)];
-        [mutableString yy_setLineSpacing:4 range:NSMakeRange(0,finalDesc.length)];
+        [mutableString  setFont:[UIFont systemFontOfSize:13] range:NSMakeRange(0, finalDesc.length)];
+        [mutableString  setLineSpacing:4 range:NSMakeRange(0,finalDesc.length)];
         descLabel.attributedText = mutableString;
         descLabel.lineBreakMode=NSLineBreakByTruncatingTail;
         
@@ -617,13 +617,13 @@
             UIImageView * imgv = [[UIImageView alloc]initWithImage:img];
             [imgv setFrame:CGRectMake(0, 5, 13, 13)];
             
-            NSMutableAttributedString * attstr = [NSMutableAttributedString yy_attachmentStringWithContent:imgv contentMode:UIViewContentModeScaleAspectFit attachmentSize:imgv.size alignToFont:[UIFont systemFontOfSize:16] alignment:YYTextVerticalAlignmentCenter];
+            NSMutableAttributedString * attstr = [NSMutableAttributedString  attachmentStringWithContent:imgv contentMode:UIViewContentModeScaleAspectFit attachmentSize:imgv.size alignToFont:[UIFont systemFontOfSize:16] alignment:YYTextVerticalAlignmentCenter];
             
             
             //插一个space
             UIView * space = [[UIView alloc]init];
             [space setSize:CGSizeMake(6, 0)];
-            NSMutableAttributedString * tempattstr = [NSMutableAttributedString yy_attachmentStringWithContent:space contentMode:UIViewContentModeScaleAspectFit attachmentSize:space.size alignToFont:[UIFont systemFontOfSize:24] alignment:YYTextVerticalAlignmentCenter];
+            NSMutableAttributedString * tempattstr = [NSMutableAttributedString  attachmentStringWithContent:space contentMode:UIViewContentModeScaleAspectFit attachmentSize:space.size alignToFont:[UIFont systemFontOfSize:24] alignment:YYTextVerticalAlignmentCenter];
             [attstr appendAttributedString:tempattstr];
             
             
@@ -640,7 +640,7 @@
                     line.backgroundColor=[UIColor whiteColor];
                     [sepaView addSubview:line];
                     
-                    NSMutableAttributedString * tempattstr = [NSMutableAttributedString yy_attachmentStringWithContent:sepaView contentMode:UIViewContentModeScaleAspectFit attachmentSize:sepaView.size alignToFont:[UIFont systemFontOfSize:24] alignment:YYTextVerticalAlignmentCenter];
+                    NSMutableAttributedString * tempattstr = [NSMutableAttributedString  attachmentStringWithContent:sepaView contentMode:UIViewContentModeScaleAspectFit attachmentSize:sepaView.size alignToFont:[UIFont systemFontOfSize:24] alignment:YYTextVerticalAlignmentCenter];
                     [attstr appendAttributedString:tempattstr];
 
                 }
@@ -654,7 +654,7 @@
             //插一个space
             UIView * space2 = [[UIView alloc]init];
             [space2 setSize:CGSizeMake(6, 0)];
-            NSMutableAttributedString * tempattstr2 = [NSMutableAttributedString yy_attachmentStringWithContent:space2 contentMode:UIViewContentModeScaleAspectFit attachmentSize:space2.size alignToFont:[UIFont systemFontOfSize:24] alignment:YYTextVerticalAlignmentCenter];
+            NSMutableAttributedString * tempattstr2 = [NSMutableAttributedString  attachmentStringWithContent:space2 contentMode:UIViewContentModeScaleAspectFit attachmentSize:space2.size alignToFont:[UIFont systemFontOfSize:24] alignment:YYTextVerticalAlignmentCenter];
             [attstr appendAttributedString:tempattstr2];
             
             
@@ -667,10 +667,10 @@
             //设置简介点击事件和样式
             __weak typeof (self) weakSelf = self;
             NSRange range1 = [attstr.string rangeOfString:finalDesc];
-            [attstr yy_setTextHighlightRange:range1 color:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+            [attstr  setTextHighlightRange:range1 color:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.7] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
                 [weakSelf descClickAction];
             }];
-            [attstr yy_setFont:[UIFont systemFontOfSize:14] range:range1];
+            [attstr  setFont:[UIFont systemFontOfSize:14] range:range1];
             
 
             //分别设置每个合集标题的点击事件和样式
@@ -678,15 +678,15 @@
             {
                 ContentModel * album = belongAlbumArr[i];
                 NSRange range3 = [attstr.string rangeOfString:album.title];
-                [attstr yy_setTextHighlightRange:range3 color:[UIColor whiteColor] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+                [attstr  setTextHighlightRange:range3 color:[UIColor whiteColor] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
                     NSString * substr = [[text string]substringWithRange:range];
                     [weakSelf albumClickAction:substr];
                 }];
-                [attstr yy_setFont:[UIFont systemFontOfSize:15] range:range3];
+                [attstr  setFont:[UIFont systemFontOfSize:15] range:range3];
             }
 
             //设置整体行间距
-            [attstr yy_setLineSpacing:4 range:NSMakeRange(0,attstr.string.length)];
+            [attstr  setLineSpacing:4 range:NSMakeRange(0,attstr.string.length)];
 
 
             descLabel.attributedText = attstr;

@@ -6,15 +6,14 @@
 //
 
 #import "CommentModel.h"
-#import <YYText/YYText.h>
-#import "YYModel.h"
+#import "YYKit.h"
 #import "NSObject+MJCategory.h"
 #import "ReplyModel.h"
 
 @implementation CommentModel
 -(void)parseData:(id)data
 {
-    [self yy_modelSetWithDictionary:data];
+    [self modelSetWithDictionary:data];
     
     //回复
     NSDictionary * replyInfo = [data mj_valueForKey:@"reply"];
@@ -27,7 +26,7 @@
     {
         NSDictionary * dic = replyList[i];
         ReplyModel * model = [ReplyModel model];
-        [model yy_modelSetWithDictionary:dic];
+        [model modelSetWithDictionary:dic];
         [self.dataArr addObject:model];
     }
     

@@ -6,19 +6,19 @@
 //
 
 #import "ThirdAppInfo.h"
-#import "YYModel.h"
 #import "NSObject+MJCategory.h"
+#import "YYKit.h"
 
 @implementation ThirdAppInfo
 
 -(void)parseData:(id)data
 {
-    [self yy_modelSetWithDictionary:data];
+    [self modelSetWithDictionary:data];
     
     NSDictionary * dic = [data mj_valueForKey:@"config"];
     
     ThirdAppConfig * configModel = [[ThirdAppConfig alloc]init];
-    [configModel yy_modelSetWithDictionary:dic];
+    [configModel modelSetWithDictionary:dic];
     
     self.config = configModel;
 }

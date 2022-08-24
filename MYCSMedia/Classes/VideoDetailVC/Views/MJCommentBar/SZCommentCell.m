@@ -17,7 +17,7 @@
 #import "ReplyModel.h"
 #import "NSString+MJCategory.h"
 #import "NSAttributedString+MJCategory.h"
-#import "YYText.h"
+#import "YYKit.h"
 #import "UIView+MJCategory.h"
 #import "SZInputView.h"
 #import "SZData.h"
@@ -95,8 +95,8 @@
         NSString * content = [NSString stringWithFormat:@"%@ 回复 %@: %@",data.nickname,data.rnikeName,data.content];
         NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:content];
         
-        [attString yy_setFont:[UIFont boldSystemFontOfSize:13] range:NSMakeRange(0, data.nickname.length)];
-        [attString yy_setFont:[UIFont boldSystemFontOfSize:13] range:NSMakeRange(data.nickname.length+4, data.rnikeName.length+1)];
+        [attString  setFont:[UIFont boldSystemFontOfSize:13] range:NSMakeRange(0, data.nickname.length)];
+        [attString  setFont:[UIFont boldSystemFontOfSize:13] range:NSMakeRange(data.nickname.length+4, data.rnikeName.length+1)];
         
         contentLabel.attributedText = attString;
     }
@@ -109,8 +109,8 @@
         {
             NSString * content = [NSString stringWithFormat:@"%@: %@",data.nickname,data.content];
             NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:content];
-            [attString yy_setFont:[UIFont boldSystemFontOfSize:13] range:NSMakeRange(0, data.nickname.length+1)];
-            [attString yy_setColor:HW_RED_WORD_1 range:NSMakeRange(0, data.nickname.length+1)];
+            [attString  setFont:[UIFont boldSystemFontOfSize:13] range:NSMakeRange(0, data.nickname.length+1)];
+            [attString  setColor:HW_RED_WORD_1 range:NSMakeRange(0, data.nickname.length+1)];
             contentLabel.attributedText = attString;
         }
         
@@ -118,7 +118,7 @@
         {
             NSString * content = [NSString stringWithFormat:@"%@: %@",data.nickname,data.content];
             NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:content];
-            [attString yy_setFont:[UIFont boldSystemFontOfSize:13] range:NSMakeRange(0, data.nickname.length+1)];
+            [attString  setFont:[UIFont boldSystemFontOfSize:13] range:NSMakeRange(0, data.nickname.length+1)];
             contentLabel.attributedText = attString;
         }
         

@@ -8,7 +8,7 @@
 #import "CategoryListModel.h"
 #import "CategoryModel.h"
 #import "NSObject+MJCategory.h"
-#import "YYModel.h"
+
 
 @implementation CategoryListModel
 
@@ -19,7 +19,7 @@
     {
         NSDictionary * dic = arr[i];
         CategoryModel  * model = [CategoryModel model];
-        [model yy_modelSetWithDictionary:dic];
+        [model modelSetWithDictionary:dic];
         [self.dataArr addObject:model];
     }
 }

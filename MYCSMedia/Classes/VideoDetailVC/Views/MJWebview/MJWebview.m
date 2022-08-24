@@ -17,8 +17,8 @@
 #import "SZGlobalInfo.h"
 #import "WKWebViewJavascriptBridge.h"
 #import "UIDevice+MJCategory.h"
-#import "YYModel.h"
 #import "ThirdAppInfo.h"
+#import "YYKit.h"
 
 @interface MJWebview ()<WKUIDelegate,WKNavigationDelegate>
 @property(strong,nonatomic)WKWebViewJavascriptBridge * mjbridge;
@@ -57,7 +57,7 @@
         //2.deviceId
         NSString * deviceId = [UIDevice getIDFA];
         NSDictionary * dic2 = @{@"deviceId":deviceId};
-        NSString * injectStr2 = [NSString stringWithFormat:@"window.deviceId='%@'",[dic2 yy_modelToJSONString]];
+        NSString * injectStr2 = [NSString stringWithFormat:@"window.deviceId='%@'",[dic2 modelToJSONString]];
 
         //3.appVersion
         NSMutableDictionary * dic3=[NSMutableDictionary dictionary];
@@ -67,10 +67,10 @@
         [dic3 setValue:osVer forKey:@"osVersion"];
         [dic3 setValue:@"apple" forKey:@"brand"];
         [dic3 setValue:@"ios" forKey:@"osName"];
-        NSString * injectStr3 = [NSString stringWithFormat:@"window.appVersion='%@'",[dic3 yy_modelToJSONString]];
+        NSString * injectStr3 = [NSString stringWithFormat:@"window.appVersion='%@'",[dic3 modelToJSONString]];
 
         //4.orgInfo
-        NSString * orgStr = [global.thirdApp yy_modelToJSONString];
+        NSString * orgStr = [global.thirdApp modelToJSONString];
         NSString * injectStr4 = [NSString stringWithFormat:@"window.orgInfo='%@'",orgStr];
 
 

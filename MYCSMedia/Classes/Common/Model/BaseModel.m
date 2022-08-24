@@ -10,7 +10,7 @@
 #import "MJHUD.h"
 #import "NSObject+MJCategory.h"
 #import "SZGlobalInfo.h"
-#import "YYModel.h"
+#import "YYKit.h"
 #import "SZDefines.h"
 
 
@@ -214,7 +214,7 @@
 #pragma mark - 解析数据
 -(void)parseData:(id)data
 {
-    [self yy_modelSetWithDictionary:data];
+    [self modelSetWithDictionary:data];
 }
 -(void)parseDataFromDic:(NSDictionary *)dic
 {
