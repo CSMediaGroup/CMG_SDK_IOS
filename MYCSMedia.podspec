@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
-  s.name             = 'MYCSMedia'
-  s.version          = '1.3.6'
+  s.name             = 'CMG_SDK'
+  s.version          = '1.3.7'
   s.summary          = 'News & Video Components'
   s.description      = 'News & Video Components'
   s.homepage         = 'https://github.com/majia5499531/CMG_SDK'
