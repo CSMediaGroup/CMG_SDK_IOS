@@ -1,13 +1,13 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MYCSMedia'
-  s.version          = '1.3.5'
+  s.version          = '1.3.6'
   s.summary          = 'News & Video Components'
   s.description      = 'News & Video Components'
-  s.homepage         = 'https://git.zhcs.csbtv.com/fuse/fuse-ios-sdk'
+  s.homepage         = 'https://github.com/majia5499531/CMG_SDK'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'majia5499531@163.com' => '5307460+azbura@user.noreply.gitee.com' }
-  s.source           = { :git => 'https://git.zhcs.csbtv.com/fuse/fuse-ios-sdk.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/majia5499531/CMG_SDK', :tag => s.version.to_s }
   
 
   s.ios.deployment_target = '9.0'
