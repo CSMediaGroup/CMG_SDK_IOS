@@ -196,6 +196,7 @@
 }
 
 
+
 -(void)requestThirdPartAppInfo
 {
     NSString * appid = [SZManager sharedManager].appid;

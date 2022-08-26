@@ -24,6 +24,7 @@
 @implementation SZWebVC
 {
     UILabel * titleLabel;
+    BOOL H5KeyboardShow;
 }
 
 -(void)viewDidLoad
@@ -31,6 +32,8 @@
     [super viewDidLoad];
 
     [self setupLayout];
+    
+    [self addObservings];
     
     [_webview startLoadURL];
 }
@@ -62,8 +65,42 @@
 
 -(void)dealloc
 {
+    [self removeObservings];
     MJLOG(@"webview--VC dealloc");
 }
+
+
+
+#pragma mark - Observe
+-(void)addObservings
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                          selector:@selector(keyboardWillShow)
+                                          name:UIKeyboardWillShowNotification
+                                          object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                          selector:@selector(keyboardWillHide)
+                                          name:UIKeyboardWillHideNotification
+                                          object:nil];
+}
+-(void)removeObservings
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+
+-(void)keyboardWillShow
+{
+    H5KeyboardShow = YES;
+}
+
+-(void)keyboardWillHide
+{
+    H5KeyboardShow = NO;
+}
+
+
 
 #pragma mark - 界面
 -(void)setupLayout
@@ -139,7 +176,15 @@
 #pragma mark - 返回按钮
 -(void)navibackAction
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (H5KeyboardShow)
+    {
+        [self.view.window endEditing:YES];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 -(void)shareBtnAction
@@ -160,17 +205,7 @@
 
 -(void)titleTapAction
 {
-
-//    [self.webview callJSBrdigeMethod:@"JSHandler" data:@"russia" callback:^(id responseData) {
-//            MJLOG(@"callbackFromJs:%@",responseData);
-//    }];
-
-
-    [self.webview callJSBrdigeMethod:@"onAppLogin" data:@"russia" callback:^(id responseData) {
-        MJLOG(@"callbackFromJs:%@",responseData);
-    }];
-
-//    onAppLogin
+    
 }
 
 @end

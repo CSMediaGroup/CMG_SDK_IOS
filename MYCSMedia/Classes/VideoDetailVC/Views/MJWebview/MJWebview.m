@@ -102,7 +102,6 @@
         //WebviewJavaScriptBridge
         __weak typeof (self) weakSelf = self;
         _mjbridge = [WKWebViewJavascriptBridge bridgeForWebView:webview];
-//        [WKWebViewJavascriptBridge enableLogging];
         [_mjbridge registerHandler:@"MJBrigeHandler" handler:^(id data, WVJBResponseCallback responseCallback) {
             [MJBridgeHandler handleJSBridge:data callBack:responseCallback sender:weakSelf];
            }];
@@ -138,20 +137,26 @@
 {
     //登陆成功事件广播
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSuccess:) name:@"SZRMTokenExchangeDone" object:nil];
-
+    
+    
     [webview addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     [webview addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
+    
     [webview.scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
 }
 
 -(void)removeObservers
 {
+    [_mjbridge removeHandler:@"MJBrigeHandler"];
+    
     [self stopAllMedia];
 
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 
     [webview removeObserver:self forKeyPath:@"estimatedProgress"];
     [webview removeObserver:self forKeyPath:@"title"];
+    
+    
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
