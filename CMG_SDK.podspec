@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CMG_SDK'
-  s.version          = '1.4.3'
+  s.version          = '1.4.4'
   s.summary          = 'News & Video Components'
   s.description      = 'News & Video Components'
   s.homepage         = 'https://github.com/majia5499531/CMG_SDK'
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
    }
   
   s.dependency 'AFNetworking', '>= 4.0'
-  s.dependency 'TXLiteAVSDK_UGC'
+  s.dependency 'TXLiteAVSDK_UGC', '<= 10.5.11726'
   s.dependency 'MMLayout'
   s.dependency 'Masonry', '>= 1.1.0'
   s.dependency 'SDWebImage', '>= 5.0'

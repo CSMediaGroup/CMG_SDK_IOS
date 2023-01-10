@@ -65,7 +65,7 @@
 #define API_URL_CONTENT_IN_ALBUM    @"api/cms/client/video/getCollectToVideo"
 #define API_URL_CATEGORY_LIST       @"api/cms/client/category/getCategoryData"
 #define API_URL_PANNEL_LIST_URL     @"api/cms/client/category/getCategoryCompositeData"
-
+#define API_URL_PANNEL_LIST_MORE    @"api/cms/client/content/getContentList"
 
 
 //业务

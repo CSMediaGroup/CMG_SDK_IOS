@@ -31,9 +31,9 @@
         }
         else
         {
-            self.H5URL = [SZGlobalInfo sharedManager].thirdApp.config.listUrl;
+//            self.H5URL = [SZGlobalInfo sharedManager].thirdApp.config.listUrl;
+            self.H5URL = @"https://h5.zhcs.csbtv.com/sdk/news/#/?c=1";
         }
-        
         
     }
     return self;

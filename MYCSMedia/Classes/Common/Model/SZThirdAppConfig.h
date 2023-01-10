@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SZThirdAppConfig : NSObject
+@property(strong,nonatomic)NSString * panId;
 @property(strong,nonatomic)NSString * listUrl;
 @property(strong,nonatomic)NSString * categoryCode;
 @property(strong,nonatomic)NSString * detailUrl;

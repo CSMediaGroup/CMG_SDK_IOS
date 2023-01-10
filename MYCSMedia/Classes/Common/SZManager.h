@@ -59,6 +59,9 @@ typedef void (^RMFailBlock)(NSError * error);
 //获取列表数据
 +(void)requestContentList:(NSInteger)pagesize Success:(RMSuccessBlock)successblock Error:(RMErrorBlock)errorblock Fail:(RMFailBlock)failblock;
 
+//获取更多列表数据
++(void)requestMoreContentList:(NSInteger)pagesize LastContent:(SZContentModel*)content Success:(RMSuccessBlock)successblock Error:(RMErrorBlock)errorblock Fail:(RMFailBlock)failblock;
+
 //进入新闻详情页
 +(void)routeToDetailPage:(UINavigationController*)nav content:(SZContentModel*)data;
 

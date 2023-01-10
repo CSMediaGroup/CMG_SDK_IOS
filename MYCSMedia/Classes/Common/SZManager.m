@@ -20,6 +20,7 @@
 #import "SZVideoDetailVC.h"
 #import "SZWebVC.h"
 #import "NSObject+MJCategory.h"
+#import "SZContentListModel.h"
 
 @implementation SZManager
 
@@ -79,7 +80,7 @@
         
         NSArray * pannelArr = panelListM.dataArr;
         NSMutableArray * contentsArr = [NSMutableArray array];
-        for (int i =0; i<pannelArr.count; i++)
+        for (int i = 0; i<pannelArr.count; i++)
         {
             SZPanelModel * pannelM = pannelArr[i];
             [contentsArr addObjectsFromArray:pannelM.dataArr];
@@ -90,6 +91,33 @@
         } Fail:^(NSError *error) {
             failblock(error);
         }];
+}
+
++(void)requestMoreContentList:(NSInteger)pagesize LastContent:(SZContentModel *)content Success:(RMSuccessBlock)successblock Error:(RMErrorBlock)errorblock Fail:(RMFailBlock)failblock
+{
+    SZContentListModel * listm = [SZContentListModel model];
+    
+    SZGlobalInfo * info = [SZGlobalInfo sharedManager];
+    NSString * pannelId = info.thirdApp.config.panId;
+    NSString * deviceId = [UIDevice getIDFA];
+    
+    NSMutableDictionary * param=[NSMutableDictionary dictionary];
+    [param setValue:[NSNumber numberWithInteger:pagesize] forKey:@"pageSize"];
+    [param setValue:pannelId forKey:@"panelId"];
+    [param setValue:content.id forKey:@"contentId"];
+    [param setValue:content.vernier forKey:@"vernier"];
+    [param setValue:deviceId forKey:@"ssid"];
+    [param setValue:@"1" forKey:@"personalRec"];
+    [param setValue:@"loadmore" forKey:@"refreshType"];
+    
+    [listm GETRequestInView:nil WithUrl:APPEND_SUBURL(BASE_H5_URL, API_URL_PANNEL_LIST_MORE) Params:param Success:^(id responseObject) {
+        successblock(listm.dataArr);
+        } Error:^(id responseObject) {
+            errorblock(listm.message);
+        } Fail:^(NSError *error) {
+            failblock(error);
+        }];
+    
 }
 
 + (void)routeToDetailPage:(UINavigationController *)nav content:(SZContentModel *)data
