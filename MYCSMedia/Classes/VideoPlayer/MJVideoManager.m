@@ -53,7 +53,7 @@
     [controller presentViewController:fullvc animated:NO completion:nil];
 }
 
-+(void)playWindowVideoAtView:(UIView*)view url:(NSString*)videoURL contentModel:(ContentModel*)model renderModel:(NSInteger)type
++(void)playWindowVideoAtView:(UIView*)view url:(NSString*)videoURL SZContentModel:(SZContentModel*)model renderModel:(NSInteger)type
 {
     //设置播放层
     MJVideoManager * manager = [MJVideoManager sharedMediaManager];
@@ -85,14 +85,14 @@
         //停止播放
         else if (manager.MJVideoView.playerState==SZPlayerState_StateStopped)
         {
-            [MJVideoManager playNewVideo:videoURL contentModel:model renderMode:type];
+            [MJVideoManager playNewVideo:videoURL SZContentModel:model renderMode:type];
         }
         
         
         //不是则播放
         else
         {
-            [MJVideoManager playNewVideo:videoURL contentModel:model renderMode:type];
+            [MJVideoManager playNewVideo:videoURL SZContentModel:model renderMode:type];
         }
     }
     
@@ -100,7 +100,7 @@
     //新url
     else
     {
-        [MJVideoManager playNewVideo:videoURL contentModel:model renderMode:type];
+        [MJVideoManager playNewVideo:videoURL SZContentModel:model renderMode:type];
     }
     
 }
@@ -109,7 +109,7 @@
 
 
 //播放新视频
-+(void)playNewVideo:(NSString*)videourl contentModel:(ContentModel*)contentModel renderMode:(NSInteger)renderMode
++(void)playNewVideo:(NSString*)videourl SZContentModel:(SZContentModel*)SZContentModel renderMode:(NSInteger)renderMode
 {
     MJVideoManager * manager = [MJVideoManager sharedMediaManager];
     
@@ -124,10 +124,10 @@
     
     
     //content model
-    manager.MJVideoView.externalModel = contentModel;
+    manager.MJVideoView.externalModel = SZContentModel;
     
     //是否是自动播放（手动播放会埋点不同的事件）
-    manager.MJVideoView.isManualPlay = contentModel.isManualPlay;
+    manager.MJVideoView.isManualPlay = SZContentModel.isManualPlay;
     
     //NewModel
     SZSuperPlayerModel * playerModel = [[SZSuperPlayerModel alloc] init];
@@ -135,7 +135,7 @@
     [manager.MJVideoView playWithModel:playerModel];
     
     //tracking
-    [SZContentTracker trackContentEvent:@"cms_client_show" content:contentModel];
+    [SZContentTracker trackContentEvent:@"cms_client_show" content:SZContentModel];
 }
 
 

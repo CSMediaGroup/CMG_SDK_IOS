@@ -11,7 +11,7 @@
 #import "MJButton.h"
 #import "UIImage+MJCategory.h"
 #import "UIColor+MJCategory.h"
-#import "VideoRelateModel.h"
+#import "SZVideoRelateModel.h"
 #import <SDWebImage/SDWebImage.h>
 #import "SZManager.h"
 #import "GYRollingNoticeView.h"
@@ -22,7 +22,7 @@
 @implementation GYNoticeCell
 {
     //data
-    VideoRelateModel * model;
+    SZVideoRelateModel * model;
     
     UIImageView * icon;
     UILabel * label;

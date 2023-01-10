@@ -20,13 +20,13 @@
 #import <FSTextView/FSTextView.h>
 #import "HDPhotoHelper.h"
 #import "IQDataBinding.h"
-#import "TopicListModel.h"
-#import "FileUploadModel.h"
+#import "SZTopicListModel.h"
+#import "SZFileUploadModel.h"
 #import <SDWebImage/SDWebImage.h>
-#import "ContentModel.h"
+#import "SZContentModel.h"
 #import "UIScrollView+MJCategory.h"
-#import "StatusModel.h"
-#import "UploadModel.h"
+#import "SZStatusModel.h"
+#import "SZUploadModel.h"
 #import "SZUserTracker.h"
 
 @interface SZUploadingVC ()
@@ -46,7 +46,7 @@
     
     NSString * currentDesc;
     
-    FileUploadModel * uploadModel;
+    SZFileUploadModel * uploadmodel;
 }
 @end
 
@@ -250,7 +250,7 @@
 #pragma mark - Request
 -(void)requestUploadData:(NSURL*)dataUrl
 {
-    FileUploadModel * model = [FileUploadModel model];
+    SZFileUploadModel * model = [SZFileUploadModel model];
     
     NSData * videoData = [NSData dataWithContentsOfURL:dataUrl];
     
@@ -276,7 +276,7 @@
 
 
 
--(void)requestCommitVideo:(FileUploadModel*)upmodel
+-(void)requestCommitVideo:(SZFileUploadModel*)upmodel
 {
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:upmodel.url forKey:@"playUrl"];
@@ -298,7 +298,7 @@
     [param setValue:currentDesc forKey:@"title"];
     
     __weak typeof (self) weakSelf = self;
-    UploadModel * model = [UploadModel model];
+    SZUploadModel * model = [SZUploadModel model];
     model.size = upmodel.size;
     model.isJSON = YES;
     [model PostRequestInView:self.view WithUrl:APPEND_SUBURL(BASE_URL, API_URL_VIDEO_COMMIT) Params:param Success:^(id responseObject) {
@@ -313,7 +313,7 @@
 
 
 #pragma mark - Rquest Done
--(void)requestUploadDone:(FileUploadModel*)model
+-(void)requestUploadDone:(SZFileUploadModel*)model
 {
     //显示封面图，删除按钮
     coverImage.hidden=NO;
@@ -326,7 +326,7 @@
     progress.hidden=YES;
     
     //保存数据
-    uploadModel = model;
+    uploadmodel = model;
 }
 
 -(void)uploadProgressDidChange:(CGFloat)value
@@ -349,7 +349,7 @@
     progress.progress = value;
 }
 
--(void)requestCommitDone:(UploadModel*)model
+-(void)requestCommitDone:(SZUploadModel*)model
 {
     [MJHUD_Notice showSuccessView:@"你的作品发布成功，正在等待审核" inView:self.view hideAfterDelay:2];
     
@@ -384,13 +384,13 @@
     {
         [MJHUD_Notice showNoticeView:@"请输入视频简介" inView:self.view hideAfterDelay:2];
     }
-    else if (uploadModel.url.length==0)
+    else if (uploadmodel.url.length==0)
     {
         [MJHUD_Notice showNoticeView:@"视频还未上传完成" inView:self.view hideAfterDelay:2];
     }
     else
     {
-        [self requestCommitVideo:uploadModel];
+        [self requestCommitVideo:uploadmodel];
     }
 }
 

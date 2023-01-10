@@ -19,28 +19,28 @@
 #import "SZGlobalInfo.h"
 #import "UIView+MJCategory.h"
 #import "MJHUD.h"
-#import "ContentModel.h"
-#import "VideoCollectModel.h"
+#import "SZContentModel.h"
+#import "SZVideoCollectModel.h"
 #import "MJLabel.h"
 #import "UIScrollView+MJCategory.h"
 #import "GYRollingNoticeView.h"
 #import "GYNoticeCell.h"
 #import "SZData.h"
-#import "VideoRelateModel.h"
+#import "SZVideoRelateModel.h"
 #import "MyLayout.h"
 #import "YYKit.h"
 #import "NSAttributedString+YYText.h"
 #import "SZStrUtils.h"
 #import "MJProgressView.h"
 #import "SZDefaultControlView.h"
-#import "ContentStateModel.h"
+#import "SZContentStateModel.h"
 #import "UIResponder+MJCategory.h"
 #import "SZUserTracker.h"
-#import "ContentListModel.h"
+#import "SZContentListModel.h"
 #import "SZVideoDetailVC.h"
 #import "YYKit.h"
 #import "SZHomeVC.h"
-#import "ThirdAppInfo.h"
+#import "SZThirdAppInfo.h"
 
 @interface SZVideoCell ()<GYRollingNoticeViewDelegate,GYRollingNoticeViewDataSource>
 
@@ -49,9 +49,9 @@
 @implementation SZVideoCell
 {
     //data
-    ContentModel * dataModel;
-    VideoRelateModel * relateModel;
-    VideoCollectModel * collectModel;
+    SZContentModel * dataModel;
+    SZVideoRelateModel * relateModel;
+    SZVideoCollectModel * collectModel;
     NSString * albumName;
     NSInteger videoWHSize;                       //9:16 -- 0          16:9 -- 2        其他比例 -- 1
     
@@ -113,7 +113,7 @@
         //Logo
         logoImage = [[UIImageView alloc]init];
         logoImage.contentMode=UIViewContentModeScaleAspectFill;
-        ThirdAppInfo * appinfo = [SZGlobalInfo sharedManager].thirdApp;
+        SZThirdAppInfo * appinfo = [SZGlobalInfo sharedManager].thirdApp;
         [logoImage sd_setImageWithURL:[NSURL URLWithString:appinfo.logo]];
         [self.contentView addSubview:logoImage];
         
@@ -232,7 +232,7 @@
 
 
 #pragma mark - SetCellData
--(void)setCellData:(ContentModel*)objc enableFollow:(BOOL)isUGC albumnName:(NSString *)albumnName
+-(void)setCellData:(SZContentModel*)objc enableFollow:(BOOL)isUGC albumnName:(NSString *)albumnName
 {
     //model
     dataModel = objc;
@@ -605,7 +605,7 @@
     if ([dataModel.id isEqualToString:contentId])
     {
         SZData * szdata = [SZData sharedSZData];
-        ContentListModel * listM = [szdata.contentBelongAlbumsDic valueForKey:contentId];
+        SZContentListModel * listM = [szdata.contentBelongAlbumsDic valueForKey:contentId];
         
         if (listM.dataArr.count>0)
         {
@@ -630,7 +630,7 @@
             //插入合集标题和分隔符
             for (int i=0; i<belongAlbumArr.count; i++)
             {
-                ContentModel * album = belongAlbumArr[i];
+                SZContentModel * album = belongAlbumArr[i];
                 
                 if (i>0)
                 {
@@ -676,7 +676,7 @@
             //分别设置每个合集标题的点击事件和样式
             for (int i = 0; i<belongAlbumArr.count; i++)
             {
-                ContentModel * album = belongAlbumArr[i];
+                SZContentModel * album = belongAlbumArr[i];
                 NSRange range3 = [attstr.string rangeOfString:album.title];
                 [attstr  setTextHighlightRange:range3 color:[UIColor whiteColor] backgroundColor:[UIColor clearColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
                     NSString * substr = [[text string]substringWithRange:range];
@@ -721,7 +721,7 @@
     if ([dataModel.id isEqualToString:contentId])
     {
         //是否已关注
-        ContentStateModel * stateM = [[SZData sharedSZData].contentStateDic valueForKey:contentId];
+        SZContentStateModel * stateM = [[SZData sharedSZData].contentStateDic valueForKey:contentId];
         if (stateM.whetherFollow)
         {
             followBtn.MJSelectState=YES;
@@ -757,7 +757,7 @@
         renderMode = 1;
     }
 
-    [MJVideoManager playWindowVideoAtView:videoCoverImage url:dataModel.playUrl contentModel:dataModel renderModel:renderMode];
+    [MJVideoManager playWindowVideoAtView:videoCoverImage url:dataModel.playUrl SZContentModel:dataModel renderModel:renderMode];
 
     //获取进度条
     SZDefaultControlView * controlView =  (SZDefaultControlView*)[MJVideoManager videoPlayer].controlView;
@@ -846,7 +846,7 @@
     
     for (int i = 0; i<belongAlbumArr.count; i++)
     {
-        ContentModel * album = belongAlbumArr[i];
+        SZContentModel * album = belongAlbumArr[i];
         if ([album.title isEqualToString:albumTitle])
         {
             //行为埋点
@@ -882,7 +882,7 @@
 {
     GYNoticeCell *cell = [rollingView dequeueReusableCellWithIdentifier:@"gynoticecellid"];
     
-    VideoRelateModel * relateM = relateModel.dataArr[index];
+    SZVideoRelateModel * relateM = relateModel.dataArr[index];
     [cell setCellData:relateM];
     return cell;
 }

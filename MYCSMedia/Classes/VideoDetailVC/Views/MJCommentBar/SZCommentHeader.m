@@ -14,7 +14,7 @@
 #import "UIImage+MJCategory.h"
 #import <SDWebImage/SDWebImage.h>
 #import "SZManager.h"
-#import "CommentModel.h"
+#import "SZCommentModel.h"
 #import "NSString+MJCategory.h"
 #import "NSAttributedString+MJCategory.h"
 #import "UIView+MJCategory.h"
@@ -24,7 +24,7 @@
 
 @implementation SZCommentHeader
 {
-    CommentModel * dataModel;
+    SZCommentModel * dataModel;
     
     UIImageView * avatar;
     UILabel * name;
@@ -127,7 +127,7 @@
 
 
 
--(void)setCellData:(CommentModel*)data
+-(void)setCellData:(SZCommentModel*)data
 {
     dataModel = data;
     
@@ -158,8 +158,8 @@
 
 -(void)replyBtnAction
 {
-    ContentModel * model = [[SZData sharedSZData].contentDic valueForKey:[SZData sharedSZData].currentContentId];
-    [SZInputView callInputView:TypeSendReply contentModel:model replyId:dataModel.id placeHolder:[NSString stringWithFormat:@"回复@%@",dataModel.nickname] completion:^(id responseObject) {
+    SZContentModel * model = [[SZData sharedSZData].contentDic valueForKey:[SZData sharedSZData].currentContentId];
+    [SZInputView callInputView:TypeSendReply SZContentModel:model replyId:dataModel.id placeHolder:[NSString stringWithFormat:@"回复@%@",dataModel.nickname] completion:^(id responseObject) {
         
     }];
     

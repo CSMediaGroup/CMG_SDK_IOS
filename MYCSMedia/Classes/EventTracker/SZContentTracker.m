@@ -9,12 +9,12 @@
 #import "NSArray+MJCategory.h"
 #import "NSDictionary+MJCategory.h"
 #import "SZGlobalInfo.h"
-#import "StatusModel.h"
+#import "SZStatusModel.h"
 #import "SZDefines.h"
 #import "SZUserTracker.h"
 #import "UIDevice+MJCategory.h"
 #import "SZManager.h"
-#import "ThirdAppInfo.h"
+#import "SZThirdAppInfo.h"
 
 
 @interface SZContentTracker ()
@@ -45,7 +45,7 @@
 
 #pragma mark - 追踪事件
 //一次性事件5个参数
-+(void)trackContentEvent:(NSString*)eventName content:(ContentModel*)model
++(void)trackContentEvent:(NSString*)eventName content:(SZContentModel*)model
 {
     NSString * groupId = model.thirdPartyId;
     
@@ -62,14 +62,14 @@
     [bizparam setValue:[SZContentTracker make__items:groupId] forKey:@"__items"];
     [bizparam setValue:model.requestId forKey:@"req_id"];
     
-    [[SZContentTracker shareTracker]requestForUploading:bizparam eventKey:eventName contentModel:model];
+    [[SZContentTracker shareTracker]requestForUploading:bizparam eventKey:eventName SZContentModel:model];
         
     MJLOG(@"MJContentTracker_once_事件:%@_新闻:%@_cateName:%@",eventName,groupId,model.volcCategory);
 }
 
 
 //播放时长（自动版）
-+(void)trackingVideoPlayingDuration:(ContentModel*)model isPlaying:(BOOL)isplay currentTime:(CGFloat)currentTime totalTime:(CGFloat)totalTime
++(void)trackingVideoPlayingDuration:(SZContentModel*)model isPlaying:(BOOL)isplay currentTime:(CGFloat)currentTime totalTime:(CGFloat)totalTime
 {
     //内容ID
     NSString * groupId = model.thirdPartyId;
@@ -142,12 +142,12 @@
             [bizparam setValue:[NSString stringWithFormat:@"%ld",(long)duration] forKey:@"duration"];
             [bizparam setValue:progressNumber forKey:@"percent"];
             [bizparam setValue:model.requestId forKey:@"req_id"];
-            [tracker requestForUploading:bizparam eventKey:@"cms_video_over_auto" contentModel:model];
+            [tracker requestForUploading:bizparam eventKey:@"cms_video_over_auto" SZContentModel:model];
             
             
             
             //行为埋点
-            ContentModel * contentM = model;
+            SZContentModel * contentM = model;
             NSString * finishState = contentM.isFinishPlay? @"是":@"否";
             NSMutableDictionary * param=[NSMutableDictionary dictionary];
             [param setValue:contentM.id forKey:@"content_id"];
@@ -177,7 +177,7 @@
 
 
 //播放时长（手动版）
-+(void)trackingVideoPlayingDuration_manual:(ContentModel*)model isPlaying:(BOOL)isplay currentTime:(CGFloat)currentTime totalTime:(CGFloat)totalTime
++(void)trackingVideoPlayingDuration_manual:(SZContentModel*)model isPlaying:(BOOL)isplay currentTime:(CGFloat)currentTime totalTime:(CGFloat)totalTime
 {
     //内容ID
     NSString * groupId = model.thirdPartyId;
@@ -249,12 +249,12 @@
             [bizparam setValue:progressNumber forKey:@"percent"];
             [bizparam setValue:model.requestId forKey:@"req_id"];
             
-            [tracker requestForUploading:bizparam eventKey:@"cms_video_over" contentModel:model];
+            [tracker requestForUploading:bizparam eventKey:@"cms_video_over" SZContentModel:model];
             
             
             
             //行为埋点
-            ContentModel * contentM = model;
+            SZContentModel * contentM = model;
             NSMutableDictionary * param=[NSMutableDictionary dictionary];
             NSString * finishState = contentM.isFinishPlay? @"是":@"否";
             [param setValue:contentM.id forKey:@"content_id"];
@@ -282,7 +282,7 @@
 }
 
 
-+(void)recordPlayingProgress:(CGFloat)progess content:(ContentModel*)contentM
++(void)recordPlayingProgress:(CGFloat)progess content:(SZContentModel*)contentM
 {
     NSString * groupId = contentM.thirdPartyId;
     if (groupId.length==0)
@@ -406,7 +406,7 @@
 
 +(NSDictionary*)generate_HEADER
 {
-    ThirdAppInfo * info = [SZGlobalInfo sharedManager].thirdApp;
+    SZThirdAppInfo * info = [SZGlobalInfo sharedManager].thirdApp;
     
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:info.config.appName forKey:@"app_name"];
@@ -431,7 +431,7 @@
 
 
 #pragma mark - Request
--(void)requestForUploading:(NSDictionary*)bizParam eventKey:(NSString*)eventName contentModel:(ContentModel*)content
+-(void)requestForUploading:(NSDictionary*)bizParam eventKey:(NSString*)eventName SZContentModel:(SZContentModel*)content
 {
 //    if (content.thirdPartyId.length==0 || content.volcCategory.length==0)
 //    {
@@ -457,7 +457,7 @@
     [requestParam setValue:ids forKey:@"ids"];
     [requestParam setValue:header forKey:@"header"];
     
-    StatusModel * model = [StatusModel model];
+    SZStatusModel * model = [SZStatusModel model];
     model.isJSON=YES;
     
     [model PostRequestInView:nil WithUrl:APPEND_SUBURL(BASE_URL, API_URL_CONTENT_TRACKING) Params:requestParam Success:^(id responseObject) {

@@ -1,36 +1,18 @@
-#融媒SDK集成说明
-
-##SDK说明
-
-###主要功能
-```
-
-SDK主要包含资讯列表、资讯详情、视频详情三个页面
-
-配合管理后台，可以快速集成新闻、视频的采编，资讯智能推荐等功能
-
+#融媒云SDK说明文档
+##一、总体说明
 
 ```
+本SDK包含了资讯列表页，资讯详情页、视频详情页等UI页面，配合管理后台可以快速实现新闻上稿、排版和内容推荐。
 
-###资讯列表
-
-![Alt](./list.png)
-
-###资讯详情
-![Alt](./news.png)
-
-###视频详情
-![Alt](./video.png)
+1.如果您无需自定义资讯列表的UI样式，可以使用SDK自带的UI页面，包含资讯列表页、资讯详情页，短视频页等
+2.如果您需要自定义资讯列表的UI样式，可以使用requestContentList等方法，直接获取资讯瀑布流的原始数据，自行实现其UI渲染代码
 
 
 
-###需要您实现的回调方法
-
-```
-
+由于本SDK包含分享、点赞、评论等涉及用户操作的一些功能，需要您实现以下回调方法：
 1.分享功能
 2.登录功能
-3.用户基本信息
+3.用户基本信息	(用户ID，手机号，昵称，头像)
 
 
 ```
@@ -39,17 +21,13 @@ SDK主要包含资讯列表、资讯详情、视频详情三个页面
 
 
 
-
-
-
-
-##Android端集成说明
+##二、Android端集成步骤
 
 1.使用Gradle集成SDK
 
 ```
 <1>.在模块的build.gradle中添加dependencies {
- implementation 'cs.szrm.com:sdk:1.0.1' //请使用最新版本
+ implementation 'com.github.aaa31210aaa:SzrmSdk:latest.release'
 }
 
 
@@ -120,14 +98,14 @@ SdkInteractiveParam.getInstance().setSdkCallBack(new SdkParamCallBack() {
 
 
 
-##iOS端集成说明
+##三、iOS端集成步骤
 
 1.使用Cocoapods集成SDK
 
 ```
 在podfile添加
 
-pod 'MYCSMedia',:git =>"https://git.zhcs.csbtv.com/fuse/fuse-ios-sdk.git"
+pod 'CMG_SDK', :git => 'https://github.com/majia5499531/CMG_SDK.git'
 
 执行pod install
 
@@ -186,23 +164,70 @@ Targets -> Build Settings -> Enable bitcode     改为 NO
 ```
 
 
-##SDK的使用
+##四、SDK的使用
 
-###Android
+###1.使用SDK的UI
+
 ```
+Android：
+
 //跳转到资讯首页  
 Intent intent = new Intent(MainActivity.this, WebActivity);
 startActivity(intent);
-
 ```
 
-
-###iOS
 ```
+iOS：
+
+//引入SZMediaVC，SZMediaVC为资讯列表页
+#import <SZMediaVC.h>
+
 //跳转到资讯首页
-//#import <SZMediaVC.h>
-...
 SZMediaVC * web = [[SZMediaVC alloc]init];
 [self.navigationController pushViewController:web animated:YES];
 
+
+```
+
+
+###2.自定义UI
+
+```
+Android：
+
+//获取列表数据 调用
+SzrmRecommend.getInstance().requestContentList("open");
+
+//通过LiveData拿到接口数据
+SzrmRecommend.getInstance().contentsEvent.observe(MainActivity.this, new Observer<List<SZContentModel.DataDTO.ContentsDTO>>() {
+                    @Override
+                    public void onChanged(List<SZContentModel.DataDTO.ContentsDTO> contentsDTOS) {
+                    //数据
+                    }
+                });
+                
+//进入新闻详情页
+SzrmRecommend.getInstance().routeToDetailPage(SZContentModel);
+```
+
+```
+iOS:
+
+//引入SZManagers
+#import "SZManager.h"
+
+//请求资讯列表数据，返回一个包含SZContentModel数组
+[SZManager requestContentList:10 Success:^(NSArray<SZContentModel *> * data) {
+		//数据
+    } Error:^(NSString *msg) {
+        
+    } Fail:^(NSError *error) {
+        
+    }];
+    
+    
+//在列表点击等事件中，调用路由方法，进入视频详情页
+//传入当前VC的NavigationController，和获得的SZContentModel
+[SZManager routeToDetailPage:self.navigationController content:model];
+    
 ```

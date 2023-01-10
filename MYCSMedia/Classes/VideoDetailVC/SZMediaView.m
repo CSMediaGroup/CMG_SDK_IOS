@@ -10,7 +10,7 @@
 #import "MJWebview.h"
 #import "Masonry.h"
 #import "UIView+MJCategory.h"
-#import "ThirdAppInfo.h"
+#import "SZThirdAppInfo.h"
 #import "SZGlobalInfo.h"
 
 @implementation SZMediaView
@@ -32,7 +32,7 @@
 
 -(void)loadAppInfo
 {
-    ThirdAppInfo * info = [SZGlobalInfo sharedManager].thirdApp;
+    SZThirdAppInfo * info = [SZGlobalInfo sharedManager].thirdApp;
     
     if (info.config.listUrl.length)
     {

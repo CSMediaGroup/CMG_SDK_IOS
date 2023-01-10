@@ -9,6 +9,7 @@
 #import "SZVideoRateView.h"
 #import "MJButton.h"
 #import "MJProgressView.h"
+
 @interface SZDefaultControlView : SZSuperPlayerControlView
 
 

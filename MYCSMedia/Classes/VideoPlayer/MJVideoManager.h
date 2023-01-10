@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SZSuperPlayer.h"
-#import "ContentModel.h"
+#import "SZContentModel.h"
 
 
 typedef NS_ENUM(NSUInteger, MJVideoControlStyle) {
@@ -27,7 +27,7 @@ typedef NS_ENUM(NSUInteger, MJVideoControlStyle) {
 
 #pragma mark - Video
 +(void)playFullScreenVideoAt:(UIViewController*)controller URL:(NSString*)url;
-+(void)playWindowVideoAtView:(UIView*)view url:(NSString*)videoURL contentModel:(ContentModel*)model renderModel:(NSInteger)type;
++(void)playWindowVideoAtView:(UIView*)view url:(NSString*)videoURL SZContentModel:(SZContentModel*)model renderModel:(NSInteger)type;
 +(void)pauseWindowVideo;
 +(void)destroyVideoPlayer;
 +(SZSuperPlayerView *)videoPlayer;

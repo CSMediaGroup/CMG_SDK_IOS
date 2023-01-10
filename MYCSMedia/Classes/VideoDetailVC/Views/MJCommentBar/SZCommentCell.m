@@ -14,7 +14,7 @@
 #import "UIImage+MJCategory.h"
 #import <SDWebImage/SDWebImage.h>
 #import "SZManager.h"
-#import "ReplyModel.h"
+#import "SZReplyModel.h"
 #import "NSString+MJCategory.h"
 #import "NSAttributedString+MJCategory.h"
 #import "YYKit.h"
@@ -24,7 +24,7 @@
 
 @implementation SZCommentCell
 {
-    ReplyModel * dataModel;
+    SZReplyModel * dataModel;
     
     YYLabel * contentLabel;
     UILabel * date;
@@ -83,7 +83,7 @@
 }
 
 
--(void)setCellData:(ReplyModel*)data
+-(void)setCellData:(SZReplyModel*)data
 {
     dataModel = data;
         
@@ -131,8 +131,8 @@
 
 -(void)replyBtnAction
 {
-    ContentModel * model = [[SZData sharedSZData].contentDic valueForKey:[SZData sharedSZData].currentContentId];
-    [SZInputView callInputView:TypeSendMail contentModel:model replyId:dataModel.id placeHolder:[NSString stringWithFormat:@"回复@%@",dataModel.nickname] completion:^(id responseObject) {
+    SZContentModel * model = [[SZData sharedSZData].contentDic valueForKey:[SZData sharedSZData].currentContentId];
+    [SZInputView callInputView:TypeSendMail SZContentModel:model replyId:dataModel.id placeHolder:[NSString stringWithFormat:@"回复@%@",dataModel.nickname] completion:^(id responseObject) {
         
     }];
 }

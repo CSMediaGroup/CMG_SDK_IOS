@@ -13,13 +13,13 @@
 #import "UIColor+MJCategory.h"
 #import "YYKit.h"
 #import "SZData.h"
-#import "ReplyListModel.h"
+#import "SZReplyListModel.h"
 #import "SZDefines.h"
 #import "SZGlobalInfo.h"
 
 @implementation SZCommentFooter
 {
-    CommentModel * dataModel;
+    SZCommentModel * dataModel;
     
     UIView * line;
     YYLabel * descLabel;
@@ -55,7 +55,7 @@
     return self;
 }
 
--(void)setCellData:(CommentModel *)data
+-(void)setCellData:(SZCommentModel *)data
 {
     dataModel = data;
     
@@ -193,7 +193,7 @@
 #pragma mark - Request
 -(void)requestReplyListData:(NSString*)commentID
 {
-    ReplyListModel * model = [ReplyListModel model];
+    SZReplyListModel * model = [SZReplyListModel model];
     model.isJSON = YES;
     model.hideLoading = YES;
     model.hideErrorMsg = YES;

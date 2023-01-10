@@ -189,7 +189,7 @@
 
 -(void)shareBtnAction
 {
-    ContentModel * content = [ContentModel model];
+    SZContentModel * content = [SZContentModel model];
     content.shareUrl = self.shareUrl;
     content.shareBrief = self.shareBrief;
     content.shareTitle = self.shareTitle;

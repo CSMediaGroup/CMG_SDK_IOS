@@ -20,16 +20,16 @@
 #import "SZInputView.h"
 #import "SZCommentBar.h"
 #import "MJHUD.h"
-#import "BaseModel.h"
-#import "ContentListModel.h"
-#import "ContentModel.h"
-#import "TokenExchangeModel.h"
+#import "SZBaseModel.h"
+#import "SZContentListModel.h"
+#import "SZContentModel.h"
+#import "SZTokenExchangeModel.h"
 #import "ConsoleVC.h"
 #import "SZData.h"
 #import "SZGlobalInfo.h"
 #import "SZVideoCell.h"
 #import <MJRefresh/MJRefresh.h>
-#import "TopicListModel.h"
+#import "SZTopicListModel.h"
 #import "SZHomeVC.h"
 
 @interface SZVideoDetailVC ()<UICollectionViewDelegate, UICollectionViewDataSource>
@@ -192,7 +192,7 @@
     [param setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum_videoCollection] forKey:@"pageIndex"];
     
     __weak typeof (self) weakSelf = self;
-    TopicListModel * model = [TopicListModel model];
+    SZTopicListModel * model = [SZTopicListModel model];
     [model GETRequestInView:self.view WithUrl:url Params:param Success:^(id responseObject) {
         [weakSelf requestVideoArrDone:model.dataArr];
         } Error:^(id responseObject) {
@@ -214,7 +214,7 @@
     [param setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum_videoCollection] forKey:@"pageIndex"];
     
     __weak typeof (self) weakSelf = self;
-    TopicListModel * model = [TopicListModel model];
+    SZTopicListModel * model = [SZTopicListModel model];
     model.hideLoading=YES;
     [model GETRequestInView:self.view WithUrl:url Params:param Success:^(id responseObject) {
         [weakSelf requestMoreVideoDone:model.dataArr];
@@ -233,11 +233,11 @@
     NSString * url = APPEND_SUBURL(BASE_URL, API_URL_VIDEO);
     url = APPEND_SUBURL(url, self.contentId);
     
-    ContentModel * model = [ContentModel model];
+    SZContentModel * model = [SZContentModel model];
     __weak typeof (self) weakSelf = self;
     [model GETRequestInView:self.view WithUrl:url Params:nil Success:^(id responseObject) {
         
-        ContentListModel * list = [ContentListModel model];
+        SZContentListModel * list = [SZContentListModel model];
         model.isManualPlay = YES;
         model.volcCategory = self.category_name;
         [list.dataArr addObject:model];
@@ -260,7 +260,7 @@
 //    NSMutableDictionary * param=[NSMutableDictionary dictionary];
 //    [param setValue:pagesize forKey:@"pageSize"];
 //
-//    ContentListModel * dataModel = [ContentListModel model];
+//    SZContentListModel * dataModel = [SZContentListModel model];
 //    __weak typeof (self) weakSelf = self;
 //    [dataModel GETRequestInView:self.view WithUrl:APPEND_SUBURL(BASE_URL, API_URL_RANDOM_VIDEO_LIST) Params:param Success:^(id responseObject){
 //        [weakSelf requestDone:dataModel];
@@ -282,7 +282,7 @@
     [param setValue:pagesize forKey:@"pageSize"];
     [param setValue:[SZManager sharedManager].appid forKey:@"org_id"];
 
-    ContentListModel * dataModel = [ContentListModel model];
+    SZContentListModel * dataModel = [SZContentListModel model];
     dataModel.hideLoading=YES;
     __weak typeof (self) weakSelf = self;
     [dataModel GETRequestInView:self.view WithUrl:APPEND_SUBURL(BASE_URL, API_URL_RANDOM_VIDEO_LIST) Params:param Success:^(id responseObject){
@@ -297,7 +297,7 @@
 //-(void)requestMoreVideosInPannel
 //{
 //    //获取最后一条视频的ID
-//    ContentModel * lastModel = dataArr.lastObject;
+//    SZContentModel * lastModel = dataArr.lastObject;
 //    NSString * lastContentId =  lastModel.id;
 //    NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
 //
@@ -307,7 +307,7 @@
 //    [param setValue:pagesize forKey:@"pageSize"];
 //    [param setValue:@"1" forKey:@"removeFirst"];
 //
-//    ContentListModel * model = [ContentListModel model];
+//    SZContentListModel * model = [SZContentListModel model];
 //    model.hideLoading=YES;
 //    __weak typeof (self) weakSelf = self;
 //    [model GETRequestInView:self.view WithUrl:APPEND_SUBURL(BASE_URL, API_URL_VIDEO_LIST) Params:param Success:^(id responseObject){
@@ -526,13 +526,13 @@
     }
     
     //contentId
-    ContentModel * contentModel = self.dataArr[path.row];
-    NSString * contentid = contentModel.id;
+    SZContentModel * SZContentModel = self.dataArr[path.row];
+    NSString * contentid = SZContentModel.id;
     
     //更新数据
     if(![[SZData sharedSZData].currentContentId isEqualToString:contentid] || force)
     {
-        [[SZData sharedSZData].contentDic setValue:contentModel forKey:contentid];
+        [[SZData sharedSZData].contentDic setValue:SZContentModel forKey:contentid];
         [[SZData sharedSZData]setCurrentContentId:contentid];
     }
 }

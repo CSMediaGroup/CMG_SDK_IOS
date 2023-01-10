@@ -8,8 +8,6 @@
 #import "SZVideoRateView.h"
 #import <Masonry/Masonry.h>
 #import "SZSuperPlayer.h"
-#import "SZUserTracker.h"
-#import "SZData.h"
 
 #define TAG_1_SPEED 1001
 #define TAG_2_SPEED 1002
@@ -175,23 +173,6 @@
     CGFloat rateValue = [btn.titleLabel.text floatValue];
     self.playerConfig.playRate = rateValue;
     [self.controlView.delegate controlViewDidUpdateConfig:self.controlView withReload:NO];
-    
-    
-    //行为埋点
-    ContentModel * contentM = [[SZData sharedSZData].contentDic valueForKey:[SZData sharedSZData].currentContentId];
-    NSMutableDictionary * param=[NSMutableDictionary dictionary];
-    [param setValue:contentM.id forKey:@"content_id"];
-    [param setValue:contentM.title forKey:@"content_name"];
-    [param setValue:contentM.source forKey:@"content_source"];
-    [param setValue:[NSString stringWithFormat:@"%.1f",rateValue] forKey:@"speed_n"];
-    [param setValue:contentM.keywords forKey:@"content_key"];
-    [param setValue:contentM.tags forKey:@"content_list"];
-    [param setValue:contentM.classification forKey:@"content_classify"];
-    [param setValue:contentM.thirdPartyId forKey:@"third_ID"];
-    [param setValue:contentM.startTime forKey:@"create_time"];
-    [param setValue:contentM.issueTimeStamp forKey:@"publish_time"];
-    [SZUserTracker trackingButtonEventName:@"video_click_speed" param:param];
-    
 }
 
 

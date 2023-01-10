@@ -7,6 +7,7 @@
 
 #import "SZVideoErrorMessageView.h"
 #import <Masonry/Masonry.h>
+
 @implementation SZVideoErrorMessageView
 {
     UILabel * errLabel;

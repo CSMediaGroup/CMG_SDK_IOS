@@ -11,7 +11,7 @@
 #import <Masonry/Masonry.h>
 #import "UIColor+MJCategory.h"
 #import <SDWebImage/SDWebImage.h>
-#import "ContentModel.h"
+#import "SZContentModel.h"
 #import "UIImage+MJCategory.h"
 
 @implementation SZLiveCell
@@ -72,7 +72,7 @@
 
 
 
--(void)setCellData:(ContentModel*)model
+-(void)setCellData:(SZContentModel*)model
 {
     [coverImageView sd_setImageWithURL:[NSURL URLWithString:model.thumbnailUrl]];
     

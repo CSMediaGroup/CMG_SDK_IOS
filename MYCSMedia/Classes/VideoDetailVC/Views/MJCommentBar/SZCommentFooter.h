@@ -6,13 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CommentModel.h"
+#import "SZCommentModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SZCommentFooter : UICollectionReusableView
 
--(void)setCellData:(CommentModel*)data;
+-(void)setCellData:(SZCommentModel*)data;
 -(CGSize)getHeaderSize;
 
 @end

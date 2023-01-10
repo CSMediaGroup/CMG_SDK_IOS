@@ -20,10 +20,10 @@
 #import "SZInputView.h"
 #import "SZCommentBar.h"
 #import "MJHUD.h"
-#import "BaseModel.h"
-#import "ContentListModel.h"
-#import "ContentModel.h"
-#import "TokenExchangeModel.h"
+#import "SZBaseModel.h"
+#import "SZContentListModel.h"
+#import "SZContentModel.h"
+#import "SZTokenExchangeModel.h"
 #import "MJLabel.h"
 #import "IQDataBinding.h"
 #import "NSString+MJCategory.h"
@@ -33,14 +33,14 @@
 #import "SZHomeRootView3.h"
 #import "SZColumnBar.h"
 #import "SZData.h"
-#import "PanelModel.h"
+#import "SZPanelModel.h"
 #import "SZUserTracker.h"
-#import "CategoryListModel.h"
-#import "CategoryModel.h"
+#import "SZCategoryListModel.h"
+#import "SZCategoryModel.h"
 
 @interface SZHomeVC ()<UIScrollViewDelegate,NewsColumnDelegate>
 {
-    CategoryListModel * cateList;
+    SZCategoryListModel * cateList;
     UIScrollView * scrollBG;
     SZColumnBar * columnbar;
     NSArray * titleArr;
@@ -167,7 +167,7 @@
     NSString * str = @"我的小康生活";
     for (int i =0; i<cateList.dataArr.count; i++)
     {
-        CategoryModel * model = cateList.dataArr[i];
+        SZCategoryModel * model = cateList.dataArr[i];
         if ([model.code isEqualToString:@"mycs.xksh"])
         {
             str = model.name;
@@ -225,7 +225,7 @@
 #pragma mark - Request
 -(void)requestCategoryList
 {
-    CategoryListModel * list = [CategoryListModel model];
+    SZCategoryListModel * list = [SZCategoryListModel model];
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:@"mycs.video" forKey:@"categoryCode"];
     
@@ -242,7 +242,7 @@
 
 -(void)requestXKSH_Activity
 {
-    PanelModel * model = [PanelModel model];
+    SZPanelModel * model = [SZPanelModel model];
     model.hideLoading=YES;
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:@"activity.xksh.link" forKey:@"panelCode"];
@@ -259,7 +259,7 @@
 
 -(void)requestVideoColumnInfo
 {
-    PanelModel * model = [PanelModel model];
+    SZPanelModel * model = [SZPanelModel model];
     model.hideLoading=YES;
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:@"activity.video.link" forKey:@"panelCode"];
@@ -276,7 +276,7 @@
 
 
 #pragma mark - Request Done
--(void)requestCategoryListDone:(CategoryListModel*)list
+-(void)requestCategoryListDone:(SZCategoryListModel*)list
 {
     cateList = list;
     
@@ -288,7 +288,7 @@
     
     [self requestVideoColumnInfo];
 }
--(void)requestXKSH_ActivityDone:(PanelConfigModel*)panelConfig
+-(void)requestXKSH_ActivityDone:(SZPanelConfigModel*)panelConfig
 {
     NSString * img1 = panelConfig.imageUrl;
     NSString * img2 = panelConfig.backgroundImageUrl;
@@ -303,7 +303,7 @@
 }
 
 
--(void)requestVideoColumnInfoDone:(PanelConfigModel*)panelConfig
+-(void)requestVideoColumnInfoDone:(SZPanelConfigModel*)panelConfig
 {
     NSString * img1 = panelConfig.imageUrl;
     NSString * img2 = panelConfig.backgroundImageUrl;

@@ -3,7 +3,7 @@
 #import "SZSuperPlayerModel.h"
 #import "SZSuperPlayerViewConfig.h"
 #import "SZVideoErrorMessageView.h"
-#import "ContentModel.h"
+#import "SZContentModel.h"
 
 @class SZSuperPlayerControlView;
 @class SZSuperPlayerView;
@@ -69,7 +69,7 @@ typedef NS_ENUM(NSInteger, SZPlayerState) {
 @property NSArray *keyFrameDescList;                                 //关键帧信息
 @property(assign,nonatomic)BOOL ignoreWWAN;                         //允许4g播放
 @property(assign,nonatomic)BOOL disableInteraction;                //禁止非全屏下的手势交互
-@property(strong,nonatomic)ContentModel * externalModel;            //内容模型
+@property(strong,nonatomic)SZContentModel * externalModel;            //内容模型
 @property(assign,nonatomic)BOOL isReplay;                            //是否是重播
 @property(assign,nonatomic)BOOL isManualPlay;                       //是否是手动播放
 

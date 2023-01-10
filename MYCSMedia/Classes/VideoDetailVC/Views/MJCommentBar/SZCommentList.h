@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SZCommentBar.h"
-#import "CommentDataModel.h"
+#import "SZCommentDataModel.h"
 
 
 

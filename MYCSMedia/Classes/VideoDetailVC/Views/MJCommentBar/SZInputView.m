@@ -14,7 +14,7 @@
 #import "UIView+MJCategory.h"
 #import "SZManager.h"
 #import "MJHud.h"
-#import "BaseModel.h"
+#import "SZBaseModel.h"
 #import "SZGlobalInfo.h"
 #import "SZData.h"
 #import "Masonry.h"
@@ -37,7 +37,7 @@
     
     //data
     SZInputViewType inputType;
-    ContentModel * ContentM;
+    SZContentModel * ContentM;
     NSString * replyID;
     
     //block
@@ -150,7 +150,7 @@
 
 
 #pragma mark - 公共方法
-+(void)callInputView:(SZInputViewType)type contentModel:(ContentModel*)M replyId:(NSString*)replyId placeHolder:(NSString*)placeholder completion:(CompletionBlock)finish
++(void)callInputView:(SZInputViewType)type SZContentModel:(SZContentModel*)M replyId:(NSString*)replyId placeHolder:(NSString*)placeholder completion:(CompletionBlock)finish
 {
     //未登录则跳转登录
     if (![SZGlobalInfo sharedManager].SZRMToken.length)
@@ -278,7 +278,7 @@
 #pragma mark - Request
 -(void)requestForSendingComment:(NSString*)text
 {
-    BaseModel * model = [BaseModel model];
+    SZBaseModel * model = [SZBaseModel model];
     __weak typeof (self) weakSelf = self;
     model.isJSON = YES;
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
@@ -300,7 +300,7 @@
 
 -(void)requestForSendingReply:(NSString*)text
 {
-    BaseModel * model = [BaseModel model];
+    SZBaseModel * model = [SZBaseModel model];
     __weak typeof (self) weakSelf = self;
     model.isJSON = YES;
     NSMutableDictionary * param=[NSMutableDictionary dictionary];

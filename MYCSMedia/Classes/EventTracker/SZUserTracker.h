@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ContentModel.h"
+#import "SZContentModel.h"
 
 
 @interface SZUserTracker : NSObject

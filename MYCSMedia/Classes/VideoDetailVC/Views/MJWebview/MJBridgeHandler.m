@@ -74,7 +74,7 @@
         NSString * shareImg = [dic mj_valueForKey:@"imgUrl"];
         
         
-        ContentModel * content = [ContentModel model];
+        SZContentModel * content = [SZContentModel model];
         content.shareUrl = shareUrl;
         content.shareBrief = shareBrief;
         content.shareTitle = shareTitle;

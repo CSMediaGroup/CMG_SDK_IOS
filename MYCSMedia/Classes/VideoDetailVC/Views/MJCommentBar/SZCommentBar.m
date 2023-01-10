@@ -15,14 +15,14 @@
 #import "SZGlobalInfo.h"
 #import "SZInputView.h"
 #import "SZCommentList.h"
-#import "CommentDataModel.h"
-#import "CommentModel.h"
+#import "SZCommentDataModel.h"
+#import "SZCommentModel.h"
 #import "MJHUD.h"
-#import "StatusModel.h"
-#import "ContentStateModel.h"
+#import "SZStatusModel.h"
+#import "SZContentStateModel.h"
 #import "IQDataBinding.h"
 #import "SZData.h"
-#import "ContentModel.h"
+#import "SZContentModel.h"
 #import "SZManager.h"
 #import "SZUserTracker.h"
 #import "SZUploadingVC.h"
@@ -349,7 +349,7 @@
 -(void)updateContentStateData
 {
     //取数据
-    ContentStateModel * stateM = [[SZData sharedSZData].contentStateDic valueForKey:self.contentId];
+    SZContentStateModel * stateM = [[SZData sharedSZData].contentStateDic valueForKey:self.contentId];
     
     collectBtn.MJSelectState = stateM.whetherFavor;
     
@@ -379,7 +379,7 @@
 
 -(void)updateCommentData
 {
-    CommentDataModel * commentM = [[SZData sharedSZData].contentCommentDic valueForKey:self.contentId];
+    SZCommentDataModel * commentM = [[SZData sharedSZData].contentCommentDic valueForKey:self.contentId];
     countLabel.text = [NSString stringWithFormat:@"(%ld)",commentM.total];
 }
 
@@ -390,7 +390,7 @@
     
     
     //判断是否禁止评论
-    ContentModel * contenM = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
+    SZContentModel * contenM = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
     if(contenM.disableComment.boolValue)
     {
         sendBtn.mj_text=@"该内容禁止评论";
@@ -420,16 +420,16 @@
 
 -(void)sendCommentAction
 {
-    ContentModel * contentModel = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
+    SZContentModel * SZContentModel = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
     
     //禁止评论
-    if (contentModel.disableComment.boolValue)
+    if (SZContentModel.disableComment.boolValue)
     {
         return;
     }
     
     __weak typeof (self) weakSelf = self;
-    [SZInputView callInputView:TypeSendComment contentModel:contentModel replyId:nil placeHolder:@"发表您的评论" completion:^(id responseObject) {
+    [SZInputView callInputView:TypeSendComment SZContentModel:SZContentModel replyId:nil placeHolder:@"发表您的评论" completion:^(id responseObject) {
         [MJHUD_Notice showSuccessView:@"评论已提交，请等待审核通过！" inView:weakSelf.window hideAfterDelay:2];
         
         [weakSelf commentTapAction];
@@ -469,8 +469,8 @@
     [MJHUD_Selection showShareView:^(id objc) {
         NSNumber * number = objc;
         SZ_SHARE_PLATFORM plat = number.integerValue;
-        ContentModel * contentModel = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
-        [SZGlobalInfo mjshareToPlatform:plat content:contentModel source:@"底部分享"];
+        SZContentModel * SZContentModel = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
+        [SZGlobalInfo mjshareToPlatform:plat content:SZContentModel source:@"底部分享"];
     }];
     
 }

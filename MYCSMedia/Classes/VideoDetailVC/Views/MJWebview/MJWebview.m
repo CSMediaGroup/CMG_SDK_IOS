@@ -17,7 +17,7 @@
 #import "SZGlobalInfo.h"
 #import "WKWebViewJavascriptBridge.h"
 #import "UIDevice+MJCategory.h"
-#import "ThirdAppInfo.h"
+#import "SZThirdAppInfo.h"
 #import "YYKit.h"
 
 @interface MJWebview ()<WKUIDelegate,WKNavigationDelegate>

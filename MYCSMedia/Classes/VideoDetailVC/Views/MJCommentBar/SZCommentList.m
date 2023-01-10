@@ -17,16 +17,16 @@
 #import "SZCommentCell.h"
 #import "CustomFooter.h"
 #import "CustomAnimatedHeader.h"
-#import "CommentDataModel.h"
-#import "CommentModel.h"
+#import "SZCommentDataModel.h"
+#import "SZCommentModel.h"
 #import "MJHUD.h"
 #import "SZData.h"
-#import "ContentStateModel.h"
-#import "ContentModel.h"
+#import "SZContentStateModel.h"
+#import "SZContentModel.h"
 #import "SZManager.h"
 #import "SZCommentHeader.h"
 #import "SZCommentFooter.h"
-#import "ReplyModel.h"
+#import "SZReplyModel.h"
 
 @interface SZCommentList ()<UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate>
 
@@ -35,7 +35,7 @@
 @implementation SZCommentList
 {
     //data
-    CommentDataModel * dataModel;
+    SZCommentDataModel * dataModel;
     
     CGFloat topspace;
     
@@ -280,7 +280,7 @@
 -(void)updateCommentData
 {
     //取数据
-    CommentDataModel * commentM = [[SZData sharedSZData].contentCommentDic valueForKey:self.contentId];
+    SZCommentDataModel * commentM = [[SZData sharedSZData].contentCommentDic valueForKey:self.contentId];
     
     //更新UI
     countLabel.text = [NSString stringWithFormat:@"(%ld)",commentM.total];
@@ -301,7 +301,7 @@
 
 -(void)updateContentInfo
 {
-    ContentModel * contenM = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
+    SZContentModel * contenM = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
     
     if(contenM.disableComment.boolValue)
     {
@@ -318,8 +318,8 @@
 #pragma mark - CollectionView Datasource & Delegate
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CommentModel * model = dataModel.dataArr[indexPath.section];
-    ReplyModel * reply = model.dataArr[indexPath.row];
+    SZCommentModel * model = dataModel.dataArr[indexPath.section];
+    SZReplyModel * reply = model.dataArr[indexPath.row];
     
     SZCommentCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"commentCell" forIndexPath:indexPath];
     [cell setCellData:reply];
@@ -327,7 +327,7 @@
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    CommentModel * model = dataModel.dataArr[indexPath.section];
+    SZCommentModel * model = dataModel.dataArr[indexPath.section];
     if (kind==UICollectionElementKindSectionHeader)
     {
         SZCommentHeader * header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"szcommentheader" forIndexPath:indexPath];
@@ -347,7 +347,7 @@
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    CommentModel * model = dataModel.dataArr[section];
+    SZCommentModel * model = dataModel.dataArr[section];
     return model.replyShowCount;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
@@ -364,7 +364,7 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    CommentModel * model = dataModel.dataArr[section];
+    SZCommentModel * model = dataModel.dataArr[section];
     SZCommentHeader * header = [[SZCommentHeader alloc]initWithFrame:CGRectZero];
     [header setCellData:model];
     CGSize size = [header getHeaderSize];
@@ -373,7 +373,7 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
-    CommentModel * model = dataModel.dataArr[section];
+    SZCommentModel * model = dataModel.dataArr[section];
     SZCommentFooter * header = [[SZCommentFooter alloc]initWithFrame:CGRectZero];
     [header setCellData:model];
     CGSize size = [header getHeaderSize];
@@ -383,8 +383,8 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SZCommentCell * cell = [[SZCommentCell alloc]initWithFrame:CGRectZero];
-    CommentModel * model = dataModel.dataArr[indexPath.section];
-    ReplyModel * reply = model.dataArr[indexPath.row];
+    SZCommentModel * model = dataModel.dataArr[indexPath.section];
+    SZReplyModel * reply = model.dataArr[indexPath.row];
     [cell setCellData:reply];
     CGSize cellsize = [cell getCellSize];
     return cellsize;
@@ -434,7 +434,7 @@
 
 -(void)sendCommentAction
 {
-    ContentModel * model = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
+    SZContentModel * model = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
     
     //禁止评论
     if (model.disableComment.boolValue)
@@ -443,7 +443,7 @@
     }
 
     __weak typeof (self) weakSelf = self;
-    [SZInputView callInputView:TypeSendComment contentModel:model replyId:nil placeHolder:@"发表您的评论" completion:^(id responseObject) {
+    [SZInputView callInputView:TypeSendComment SZContentModel:model replyId:nil placeHolder:@"发表您的评论" completion:^(id responseObject) {
         [MJHUD_Notice showSuccessView:@"评论已提交，请等待审核通过！" inView:weakSelf.window hideAfterDelay:2];
     }];
     

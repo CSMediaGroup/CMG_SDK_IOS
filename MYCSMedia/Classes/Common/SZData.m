@@ -7,17 +7,17 @@
 
 #import "SZData.h"
 #import "SZDefines.h"
-#import "ContentStateModel.h"
+#import "SZContentStateModel.h"
 #import "SZManager.h"
-#import "CommentDataModel.h"
-#import "StatusModel.h"
-#import "VideoRelateModel.h"
+#import "SZCommentDataModel.h"
+#import "SZStatusModel.h"
+#import "SZVideoRelateModel.h"
 #import "SZGlobalInfo.h"
 #import "SZUserTracker.h"
-#import "StatusModel.h"
-#import "ReplyModel.h"
-#import "ReplyListModel.h"
-#import "ContentListModel.h"
+#import "SZStatusModel.h"
+#import "SZReplyModel.h"
+#import "SZReplyListModel.h"
+#import "SZContentListModel.h"
 #import "SZUserTracker.h"
 
 @implementation SZData
@@ -66,7 +66,7 @@
 //请求内容所属合辑
 -(void)requestContentBelongedAlbums
 {
-    ContentListModel * model = [ContentListModel model];
+    SZContentListModel * model = [SZContentListModel model];
     
     NSString * url = APPEND_SUBURL(BASE_URL, API_URL_CONTENT_IN_ALBUM);
     url = APPEND_SUBURL(url, self.currentContentId);
@@ -87,7 +87,7 @@
 //请求内容状态
 -(void)requestContentState
 {
-    ContentStateModel * model = [ContentStateModel model];
+    SZContentStateModel * model = [SZContentStateModel model];
     model.hideLoading=YES;
     model.hideErrorMsg=YES;
     __weak typeof (self) weakSelf = self;
@@ -105,7 +105,7 @@
 //评论列表
 -(void)requestCommentListData
 {
-    CommentDataModel * model = [CommentDataModel model];
+    SZCommentDataModel * model = [SZCommentDataModel model];
     model.isJSON = YES;
     model.hideLoading = YES;
     model.hideErrorMsg = YES;
@@ -131,7 +131,7 @@
     NSString * url = APPEND_SUBURL(BASE_URL, API_URL_VIEW_COUNT);
     url = APPEND_SUBURL(url, self.currentContentId);
     
-    StatusModel * model = [StatusModel model];
+    SZStatusModel * model = [SZStatusModel model];
     [model PostRequestInView:nil WithUrl:url Params:nil Success:^(id responseObject) {
             
         } Error:^(id responseObject) {
@@ -144,7 +144,7 @@
 //点赞+1
 -(void)requestZan
 {
-    StatusModel * model = [StatusModel model];
+    SZStatusModel * model = [SZStatusModel model];
     model.hideLoading=YES;
     model.isJSON=YES;
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
@@ -164,7 +164,7 @@
 //添加收藏
 -(void)requestCollect
 {
-    StatusModel * model = [StatusModel model];
+    SZStatusModel * model = [SZStatusModel model];
     model.isJSON=YES;
     model.hideLoading=YES;
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
@@ -184,7 +184,7 @@
 //请求内容相关的推荐
 -(void)requestContentRelatedContent
 {
-    VideoRelateModel * model = [VideoRelateModel model];
+    SZVideoRelateModel * model = [SZVideoRelateModel model];
     model.isJSON=YES;
     model.hideLoading=YES;
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
@@ -206,7 +206,7 @@
 
 -(void)requestFollowUser:(NSString*)userId
 {
-    StatusModel * model = [StatusModel model];
+    SZStatusModel * model = [SZStatusModel model];
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:userId forKey:@"targetUserId"];
     
@@ -225,7 +225,7 @@
 
 -(void)requestUnFollowUser:(NSString*)userId
 {
-    StatusModel * model = [StatusModel model];
+    SZStatusModel * model = [SZStatusModel model];
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:userId forKey:@"targetUserId"];
     
@@ -246,7 +246,7 @@
 
 
 #pragma mark - Request Done
--(void)requestContentBelongedAlbumsDone:(ContentListModel*)listModel
+-(void)requestContentBelongedAlbumsDone:(SZContentListModel*)listModel
 {
     if (listModel.dataArr.count==0)
     {
@@ -261,7 +261,7 @@
     self.contentBelongAlbumsUpdateTime = currrentTime;
 }
 
--(void)requestContentStateDone:(ContentStateModel*)model
+-(void)requestContentStateDone:(SZContentStateModel*)model
 {
     //保存在字典中
     [self.contentStateDic setValue:model forKey:self.currentContentId];
@@ -272,7 +272,7 @@
     
 }
 
--(void)requestCommentListDone:(CommentDataModel*)model
+-(void)requestCommentListDone:(SZCommentDataModel*)model
 {
     //保存
     [self.contentCommentDic setValue:model forKey:self.currentContentId];
@@ -282,10 +282,10 @@
     self.contentCommentsUpdateTime = currrentTime;
 }
 
--(void)requestCollectDone:(StatusModel*)model
+-(void)requestCollectDone:(SZStatusModel*)model
 {
     //取model
-    ContentStateModel * stateM = [self.contentStateDic valueForKey:self.currentContentId];
+    SZContentStateModel * stateM = [self.contentStateDic valueForKey:self.currentContentId];
     
     //修改值
     stateM.whetherFavor = model.data.boolValue;
@@ -304,7 +304,7 @@
     }
     
     //行为埋点
-    ContentModel * contentM = [self.contentDic valueForKey:self.currentContentId];
+    SZContentModel * contentM = [self.contentDic valueForKey:self.currentContentId];
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:contentM.id forKey:@"content_id"];
     [param setValue:contentM.title forKey:@"content_name"];
@@ -324,10 +324,10 @@
     self.contentCollectTime = currrentTime;
 }
 
--(void)requestZanDone:(StatusModel*)model
+-(void)requestZanDone:(SZStatusModel*)model
 {
     //取model
-    ContentStateModel * stateM = [self.contentStateDic valueForKey:self.currentContentId];
+    SZContentStateModel * stateM = [self.contentStateDic valueForKey:self.currentContentId];
     
     //修改值
     stateM.whetherLike = model.data.boolValue;
@@ -347,7 +347,7 @@
     
     
     //行为埋点
-    ContentModel * contentM = [self.contentDic valueForKey:self.currentContentId];
+    SZContentModel * contentM = [self.contentDic valueForKey:self.currentContentId];
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:contentM.id forKey:@"content_id"];
     [param setValue:contentM.title forKey:@"content_name"];
@@ -370,7 +370,7 @@
     
 }
 
--(void)requestVideoRelateContentDone:(VideoRelateModel*)model
+-(void)requestVideoRelateContentDone:(SZVideoRelateModel*)model
 {
     //保存
     [self.contentRelateContentDic setValue:model forKey:self.currentContentId];
@@ -383,7 +383,7 @@
 -(void)requestFollowCreatorDone:(BOOL)isFollow
 {
     //取model
-    ContentStateModel * stateM = [self.contentStateDic valueForKey:self.currentContentId];
+    SZContentStateModel * stateM = [self.contentStateDic valueForKey:self.currentContentId];
     
     //修改值
     stateM.whetherFollow = isFollow;
@@ -396,9 +396,9 @@
 -(void)requestReplyListDone:(NSArray*)replys commentID:(NSString*)commentID
 {
     //找到这条评论，并将回复数据插入
-    CommentDataModel * commentDataM = [self.contentCommentDic valueForKey:self.currentContentId];
+    SZCommentDataModel * commentDataM = [self.contentCommentDic valueForKey:self.currentContentId];
     
-    for (CommentModel * M in commentDataM.dataArr)
+    for (SZCommentModel * M in commentDataM.dataArr)
     {
         if ([M.id isEqualToString:commentID])
         {

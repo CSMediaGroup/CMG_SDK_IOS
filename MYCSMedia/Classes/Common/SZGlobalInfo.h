@@ -7,11 +7,12 @@
 
 #import <Foundation/Foundation.h>
 #import "SZManager.h"
-#import "ContentModel.h"
-@class ThirdAppInfo;
+#import "SZContentModel.h"
+@class SZThirdAppInfo;
 
 @interface SZGlobalInfo : NSObject
 typedef void (^LoginCallback)(BOOL suc);
+typedef void (^RequestBlock)(id rest);
 
 +(SZGlobalInfo *)sharedManager;
 
@@ -21,7 +22,7 @@ typedef void (^LoginCallback)(BOOL suc);
 @property(strong,nonatomic)NSString * localAppUserId;
 @property(strong,nonatomic)NSString * loginDesc;
 @property(strong,nonatomic)NSString * SZRMUserInfo;                     //包含token，gdytoken，userinfo
-@property(strong,nonatomic)ThirdAppInfo * thirdApp;
+@property(strong,nonatomic)SZThirdAppInfo * thirdApp;
 
 +(NSString*)mjgetBaseURL;           //获取BaseURL
 +(NSString*)mjgetBaseH5URL;         //获取H5 URL
@@ -32,9 +33,9 @@ typedef void (^LoginCallback)(BOOL suc);
 +(void)mjgoToLoginPage;             //跳登录页
 +(void)mjclearLoginInfo;            //清除登录状态
 
-+(void)mjshareToPlatform:(SZ_SHARE_PLATFORM)platform content:(ContentModel*)model source:(NSString*)source;          //分享
++(void)mjshareToPlatform:(SZ_SHARE_PLATFORM)platform content:(SZContentModel*)model source:(NSString*)source;          //分享
 
--(void)requestThirdPartAppInfo;
+-(void)requestThirdPartAppInfo:(RequestBlock)rest;
 
 @end
 

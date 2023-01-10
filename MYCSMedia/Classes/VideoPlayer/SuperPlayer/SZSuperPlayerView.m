@@ -1631,7 +1631,7 @@ static UISlider * _volumeSlider;
             
             
             //行为埋点
-            ContentModel * contentM = self.externalModel;
+            SZContentModel * contentM = self.externalModel;
             NSMutableDictionary * param=[NSMutableDictionary dictionary];
             [param setValue:contentM.id forKey:@"content_id"];
             [param setValue:contentM.title forKey:@"content_name"];

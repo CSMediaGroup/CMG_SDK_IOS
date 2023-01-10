@@ -7,11 +7,19 @@
 
 #import "SZManager.h"
 #import <AFNetworking/AFNetworking.h>
-#import "TokenExchangeModel.h"
+#import "SZTokenExchangeModel.h"
 #import "SZDefines.h"
 #import "MJHud.h"
 #import "SZUserTracker.h"
 #import "SZGlobalInfo.h"
+#import "SZPanelListModel.h"
+#import "SZThirdAppConfig.h"
+#import "SZThirdAppInfo.h"
+#import "UIDevice+MJCategory.h"
+#import "SZPanelModel.h"
+#import "SZVideoDetailVC.h"
+#import "SZWebVC.h"
+#import "NSObject+MJCategory.h"
 
 @implementation SZManager
 
@@ -49,9 +57,61 @@
     manager.appid=appid;
     manager.appkey=appkey;
     
-    [[SZGlobalInfo sharedManager]requestThirdPartAppInfo];
+    [[SZGlobalInfo sharedManager]requestThirdPartAppInfo:nil];
 }
 
++(void)requestContentList:(NSInteger)pagesize Success:(RMSuccessBlock)successblock Error:(RMErrorBlock)errorblock Fail:(RMFailBlock)failblock
+{
+    SZPanelListModel * panelListM = [SZPanelListModel model];
+    
+    SZGlobalInfo * info = [SZGlobalInfo sharedManager];
+    NSString * catecode = info.thirdApp.config.categoryCode;
+    NSString * deviceId = [UIDevice getIDFA];
+    
+    NSMutableDictionary * param=[NSMutableDictionary dictionary];
+    [param setValue:catecode forKey:@"categoryCode"];
+    [param setValue:@"1" forKey:@"personalRec"];
+    [param setValue:@"open" forKey:@"refreshType"];
+    [param setValue:[NSNumber numberWithInteger:pagesize] forKey:@"pageSize"];
+    [param setValue:deviceId forKey:@"ssid"];
+    
+    [panelListM GETRequestInView:nil WithUrl:APPEND_SUBURL(BASE_URL, API_URL_PANNEL_LIST_URL) Params:param Success:^(id responseObject) {
+        
+        NSArray * pannelArr = panelListM.dataArr;
+        NSMutableArray * contentsArr = [NSMutableArray array];
+        for (int i =0; i<pannelArr.count; i++)
+        {
+            SZPanelModel * pannelM = pannelArr[i];
+            [contentsArr addObjectsFromArray:pannelM.dataArr];
+        }
+        successblock(contentsArr);
+        } Error:^(id responseObject) {
+            errorblock(panelListM.message);
+        } Fail:^(NSError *error) {
+            failblock(error);
+        }];
+}
 
++ (void)routeToDetailPage:(UINavigationController *)nav content:(SZContentModel *)data
+{
+    if ([data.type isEqualToString:@"short_video"])
+    {
+        SZVideoDetailVC * vc =[[SZVideoDetailVC alloc]init];
+        vc.contentId = data.id;
+        vc.detailType = 0;
+        [nav pushViewController:vc animated:YES];
+    }
+    else
+    {
+        SZWebVC * vc = [[SZWebVC alloc]init];
+        vc.H5URL = data.detailUrl;
+        
+        vc.shareTitle = data.shareTitle;
+        vc.shareImg = data.shareImageUrl;
+        vc.shareBrief = data.shareBrief;
+        vc.shareUrl = data.shareUrl;
+        [nav pushViewController:vc animated:YES];
+    }
+}
 
 @end

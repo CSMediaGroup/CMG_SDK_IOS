@@ -14,12 +14,11 @@
 #import "SZVideoRateView.h"
 #import "SZData.h"
 #import "IQDataBinding.h"
-#import "ContentStateModel.h"
-#import "ContentModel.h"
+#import "SZContentStateModel.h"
+#import "SZContentModel.h"
 #import "UIImage+MJCategory.h"
 #import "SZGlobalInfo.h"
-#import "SZData.h"
-#import "SZContentTracker.h"
+
 
 
 #pragma clang diagnostic push
@@ -389,8 +388,8 @@
 -(void)updateContentStateData
 {
     //取数据
-    ContentStateModel * stateM = [[SZData sharedSZData].contentStateDic valueForKey:self.contentId];
-    ContentModel * contentM = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
+    SZContentStateModel * stateM = [[SZData sharedSZData].contentStateDic valueForKey:self.contentId];
+    SZContentModel * contentM = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
     
     self.collectBtn.MJSelectState = stateM.whetherFavor;
     
@@ -938,10 +937,6 @@
     
     //设置外部slider
     [self.externalSlider setCurrentTime:currentTime totalTime:totalTime progress:progress isDragging:self.isDragging];
-    
-    //记录百分比
-    SZSuperPlayerView * videoview = (SZSuperPlayerView*)self.delegate;
-    [SZContentTracker recordPlayingProgress:progress content:videoview.externalModel];
 }
 
 

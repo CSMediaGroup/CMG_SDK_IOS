@@ -7,13 +7,13 @@
 
 #import "SZGlobalInfo.h"
 #import <AFNetworking/AFNetworking.h>
-#import "TokenExchangeModel.h"
+#import "SZTokenExchangeModel.h"
 #import "SZDefines.h"
 #import "MJHud.h"
 #import "SZManager.h"
 #import "SZUserTracker.h"
 #import "SZData.h"
-#import "ThirdAppInfo.h"
+#import "SZThirdAppInfo.h"
 #import "YYKit.h"
 
 @interface SZGlobalInfo ()
@@ -136,7 +136,7 @@
 #pragma mark - Request
 -(void)requestToken:(SZUserInfo*)user
 {
-    TokenExchangeModel * requestModel = [TokenExchangeModel model];
+    SZTokenExchangeModel * requestModel = [SZTokenExchangeModel model];
     requestModel.isJSON = YES;
     
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
@@ -171,7 +171,7 @@
 }
 
 
--(void)requestTokenDone:(TokenExchangeModel*)model appUserId:(NSString*)appuserid
+-(void)requestTokenDone:(SZTokenExchangeModel*)model appUserId:(NSString*)appuserid
 {
     //存对象
     self.SZRMToken = model.token;
@@ -196,8 +196,7 @@
 }
 
 
-
--(void)requestThirdPartAppInfo
+-(void)requestThirdPartAppInfo:(RequestBlock)block
 {
     NSString * appid = [SZManager sharedManager].appid;
     
@@ -205,18 +204,29 @@
     [param setValue:appid forKey:@"appId"];
     
     __weak typeof (self) weakSelf = self;
-    ThirdAppInfo * model = [ThirdAppInfo model];
+    SZThirdAppInfo * model = [SZThirdAppInfo model];
     [model GETRequestInView:nil WithUrl:APPEND_SUBURL(BASE_URL, API_THIRD_APP_INFO) Params:param Success:^(id responseObject) {
         [weakSelf requestThirdPartAppInfoDone:model];
+        if (block) {
+            block(model);
+        }
         } Error:^(id responseObject) {
             NSLog(@"SDK init fail");
+            if (block)
+            {
+                block(nil);
+            }
         } Fail:^(NSError *error) {
             NSLog(@"SDK init error");
+            if (block)
+            {
+                block(nil);
+            }
         }];
 }
 
 
--(void)requestThirdPartAppInfoDone:(ThirdAppInfo*)model
+-(void)requestThirdPartAppInfoDone:(SZThirdAppInfo*)model
 {
     self.thirdApp = model;
 }
@@ -258,7 +268,7 @@
 
 
 //分享
-+(void)mjshareToPlatform:(SZ_SHARE_PLATFORM)platform content:(ContentModel*)contentM source:(NSString*)source
++(void)mjshareToPlatform:(SZ_SHARE_PLATFORM)platform content:(SZContentModel*)contentM source:(NSString*)source
 {
     if ([SZGlobalInfo checkDelegate])
     {

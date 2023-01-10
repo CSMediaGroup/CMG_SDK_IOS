@@ -20,10 +20,10 @@
 #import "SZInputView.h"
 #import "SZCommentBar.h"
 #import "MJHUD.h"
-#import "BaseModel.h"
-#import "ContentListModel.h"
-#import "ContentModel.h"
-#import "TokenExchangeModel.h"
+#import "SZBaseModel.h"
+#import "SZContentListModel.h"
+#import "SZContentModel.h"
+#import "SZTokenExchangeModel.h"
 #import "ConsoleVC.h"
 #import "SZData.h"
 #import "SZGlobalInfo.h"
@@ -41,8 +41,8 @@
 @implementation SZHomeRootView2
 {
     //data
-    ContentModel * singleVideo;
-    ContentListModel * dataModel;
+    SZContentModel * singleVideo;
+    SZContentListModel * dataModel;
     NSString * panelCode;
     NSString * acitivity_link;
     
@@ -150,7 +150,7 @@
     [param setValue:ssid forKey:@"ssid"];
     [param setValue:@"refresh" forKey:@"refreshType"];
     
-    ContentListModel * dataModel = [ContentListModel model];
+    SZContentListModel * dataModel = [SZContentListModel model];
     __weak typeof (self) weakSelf = self;
     [dataModel GETRequestInView:self WithUrl:APPEND_SUBURL(BASE_URL, API_URL_VIDEO_LIST) Params:param Success:^(id responseObject){
         [weakSelf requestVideoListDone:dataModel];
@@ -165,7 +165,7 @@
 -(void)requestMoreVideos
 {
     //获取最后一条视频的ID
-    ContentModel * lastModel = dataModel.dataArr.lastObject;
+    SZContentModel * lastModel = dataModel.dataArr.lastObject;
     NSString * lastContentId =  lastModel.id;
     NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
     NSString * ssid = [UIDevice getIDFA];
@@ -178,7 +178,7 @@
     [param setValue:ssid forKey:@"ssid"];
     [param setValue:@"loadmore" forKey:@"refreshType"];
     
-    ContentListModel * model = [ContentListModel model];
+    SZContentListModel * model = [SZContentListModel model];
     model.hideLoading=YES;
     __weak typeof (self) weakSelf = self;
     [model GETRequestInView:nil WithUrl:APPEND_SUBURL(BASE_URL, API_URL_VIDEO_LIST) Params:param Success:^(id responseObject){
@@ -196,7 +196,7 @@
     NSString * url = APPEND_SUBURL(BASE_URL, API_URL_VIDEO);
     url = APPEND_SUBURL(url, self.contentId);
     
-    ContentModel * contentM = [ContentModel model];
+    SZContentModel * contentM = [SZContentModel model];
     __weak typeof (self) weakSelf = self;
     [contentM GETRequestInView:nil WithUrl:url Params:nil Success:^(id responseObject) {
         
@@ -211,7 +211,7 @@
 
 
 #pragma mark - Request Done
--(void)requestVideoListDone:(ContentListModel*)model
+-(void)requestVideoListDone:(SZContentListModel*)model
 {
     [collectionView.mj_footer endRefreshing];
     [collectionView.mj_header endRefreshing];
@@ -232,7 +232,7 @@
 }
 
 
--(void)requestSingleVideoDone:(ContentModel*)model
+-(void)requestSingleVideoDone:(SZContentModel*)model
 {
     SZHomeVC * home = (SZHomeVC*)[self getCurrentViewController];
     singleVideo = model;
@@ -242,7 +242,7 @@
 }
 
 
--(void)requestMoreVideoDone:(ContentListModel*)model
+-(void)requestMoreVideoDone:(SZContentListModel*)model
 {
     [collectionView.mj_footer endRefreshing];
     [collectionView.mj_header endRefreshing];
@@ -389,13 +389,13 @@
     }
     
     //contentId
-    ContentModel * contentModel = dataModel.dataArr[path.row];
-    NSString * contentid = contentModel.id;
+    SZContentModel * SZContentModel = dataModel.dataArr[path.row];
+    NSString * contentid = SZContentModel.id;
     
     //更新数据
     if(![[SZData sharedSZData].currentContentId isEqualToString:contentid] || force)
     {
-        [[SZData sharedSZData].contentDic setValue:contentModel forKey:contentid];
+        [[SZData sharedSZData].contentDic setValue:SZContentModel forKey:contentid];
         
         [[SZData sharedSZData]setCurrentContentId:contentid];
     }

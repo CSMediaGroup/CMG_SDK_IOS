@@ -18,21 +18,21 @@
 #import "SZGlobalInfo.h"
 #import "UIView+MJCategory.h"
 #import "MJHUD.h"
-#import "ContentModel.h"
-#import "VideoCollectModel.h"
+#import "SZContentModel.h"
+#import "SZVideoCollectModel.h"
 #import "MJLabel.h"
 #import "UIScrollView+MJCategory.h"
 #import "GYRollingNoticeView.h"
 #import "GYNoticeCell.h"
 #import "SZData.h"
-#import "VideoRelateModel.h"
+#import "SZVideoRelateModel.h"
 #import "MyLayout.h"
 #import "YYKit.h"
 #import "NSAttributedString+YYText.h"
 #import "SZStrUtils.h"
 #import "MJProgressView.h"
 #import "SZDefaultControlView.h"
-#import "ContentStateModel.h"
+#import "SZContentStateModel.h"
 
 
 @interface SZVideoDetailSimpleCell ()<GYRollingNoticeViewDelegate,GYRollingNoticeViewDataSource>
@@ -42,9 +42,9 @@
 @implementation SZVideoDetailSimpleCell
 {
     //data
-    ContentModel * dataModel;
-    VideoRelateModel * relateModel;
-    VideoCollectModel * collectModel;
+    SZContentModel * dataModel;
+    SZVideoRelateModel * relateModel;
+    SZVideoCollectModel * collectModel;
     NSInteger renderMode;
     
     //UI
@@ -189,7 +189,7 @@
 
 
 #pragma mark - SetCellData
--(void)setCellData:(ContentModel*)objc enableFollow:(BOOL)enable
+-(void)setCellData:(SZContentModel*)objc enableFollow:(BOOL)enable
 {
     //model
     dataModel = objc;
@@ -432,7 +432,7 @@
     if ([dataModel.id isEqualToString:contentId])
     {
         //是否已关注
-        ContentStateModel * stateM = [[SZData sharedSZData].contentStateDic valueForKey:contentId];
+        SZContentStateModel * stateM = [[SZData sharedSZData].contentStateDic valueForKey:contentId];
         if (stateM.whetherFollow)
         {
             followBtn.MJSelectState=YES;
@@ -455,7 +455,7 @@
 -(void)playingVideo
 {
     //播放视频
-    [MJVideoManager playWindowVideoAtView:videoCoverImage url:dataModel.playUrl contentModel:dataModel renderModel:renderMode];
+    [MJVideoManager playWindowVideoAtView:videoCoverImage url:dataModel.playUrl SZContentModel:dataModel renderModel:renderMode];
     
     //获取进度条
     SZDefaultControlView * controlView =  (SZDefaultControlView*)[MJVideoManager videoPlayer].controlView;
@@ -475,7 +475,7 @@
 #pragma mark - Request
 -(void)requestVideoCollection
 {
-    VideoCollectModel * model = [VideoCollectModel model];
+    SZVideoCollectModel * model = [SZVideoCollectModel model];
     __weak typeof (self) weakSelf = self;
     [model GETRequestInView:self.window WithUrl:APPEND_COMPONENT(BASE_URL, API_URL_VIDEO_COLLECTION, dataModel.pid) Params:nil Success:^(id responseObject) {
         [weakSelf requestDone:model];
@@ -486,7 +486,7 @@
         }];
 }
 
--(void)requestDone:(VideoCollectModel*)model
+-(void)requestDone:(SZVideoCollectModel*)model
 {
     collectModel = model;
     
@@ -564,7 +564,7 @@
     NSInteger idx = -1;
     for (int i = 0; i<collectModel.dataArr.count; i++)
     {
-        ContentModel * model = collectModel.dataArr[i];
+        SZContentModel * model = collectModel.dataArr[i];
         if ([model.id isEqualToString: dataModel.id])
         {
             idx = i;
@@ -580,7 +580,7 @@
 
 -(void)reloadDataWithIndex:(NSInteger)idx
 {
-//    ContentModel * newContentModel = collectModel.dataArr[idx];
+//    SZContentModel * newContentModel = collectModel.dataArr[idx];
 //    [self setCellData:newContentModel enableFollow:NO];
 //    [self.delegate didSelectVideo:newContentModel];
 //    [self playingVideo];
@@ -597,7 +597,7 @@
 {
     GYNoticeCell *cell = [rollingView dequeueReusableCellWithIdentifier:@"gynoticecellid"];
     
-    VideoRelateModel * relateM = relateModel.dataArr[index];
+    SZVideoRelateModel * relateM = relateModel.dataArr[index];
     [cell setCellData:relateM];
     return cell;
 }

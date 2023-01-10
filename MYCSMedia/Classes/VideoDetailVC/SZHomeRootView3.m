@@ -7,7 +7,7 @@
 
 #import "SZHomeRootView3.h"
 #import "SZDefines.h"
-#import "ContentListModel.h"
+#import "SZContentListModel.h"
 #import "SZGlobalInfo.h"
 #import "UIView+MJCategory.h"
 #import "UIScrollView+MJCategory.h"
@@ -26,7 +26,7 @@
 @implementation SZHomeRootView3
 {
     NSString * panelCode;
-    ContentListModel * dataModel;
+    SZContentListModel * dataModel;
     UITableView * tableview;
 }
 
@@ -92,7 +92,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    ContentModel * model = dataModel.dataArr[indexPath.row];
+    SZContentModel * model = dataModel.dataArr[indexPath.row];
     [cell setCellData:model];
     
     return cell;
@@ -136,7 +136,7 @@
         return;
     }
     
-    ContentModel * model = dataModel.dataArr[indexPath.row];
+    SZContentModel * model = dataModel.dataArr[indexPath.row];
     NSString * H5URL = model.shareUrl;
     
     
@@ -190,7 +190,7 @@
     [param setValue:@"0" forKey:@"removeFirst"];
     
     
-    ContentListModel * model = [ContentListModel model];
+    SZContentListModel * model = [SZContentListModel model];
     __weak typeof (self) weakSelf = self;
     [model GETRequestInView:self WithUrl:APPEND_SUBURL(BASE_URL, API_URL_VIDEO_LIST) Params:param Success:^(id responseObject){
         [weakSelf requestDone:model];
@@ -206,7 +206,7 @@
 -(void)requestMoreContents
 {
     //获取最后一条视频的ID
-    ContentModel * lastModel = dataModel.dataArr.lastObject;
+    SZContentModel * lastModel = dataModel.dataArr.lastObject;
     NSString * lastContentId =  lastModel.id;
     NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
     
@@ -216,7 +216,7 @@
     [param setValue:pagesize forKey:@"pageSize"];
     [param setValue:@"1" forKey:@"removeFirst"];
     
-    ContentListModel * model = [ContentListModel model];
+    SZContentListModel * model = [SZContentListModel model];
     model.hideLoading=YES;
     __weak typeof (self) weakSelf = self;
     [model GETRequestInView:self WithUrl:APPEND_SUBURL(BASE_URL, API_URL_VIDEO_LIST) Params:param Success:^(id responseObject){
@@ -229,7 +229,7 @@
 }
 
 #pragma mark - Request Done
--(void)requestDone:(ContentListModel*)listM
+-(void)requestDone:(SZContentListModel*)listM
 {
     [tableview.mj_header endRefreshing];
     [tableview.mj_footer endRefreshing];
@@ -239,7 +239,7 @@
     [tableview reloadData];
 }
 
--(void)requestMoreContentDone:(ContentListModel*)listM
+-(void)requestMoreContentDone:(SZContentListModel*)listM
 {
     [tableview.mj_header endRefreshing];
     [tableview.mj_footer endRefreshing];

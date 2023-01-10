@@ -6,21 +6,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ContentModel.h"
+#import "SZContentModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SZContentTracker : NSObject
 
-+(void)trackContentEvent:(NSString*)eventName content:(ContentModel*)contentM;
++(void)trackContentEvent:(NSString*)eventName content:(SZContentModel*)contentM;
 
-+(void)trackingVideoPlayingDuration:(ContentModel*)content isPlaying:(BOOL)isplay currentTime:(CGFloat)currentTime totalTime:(CGFloat)totalTime;
++(void)trackingVideoPlayingDuration:(SZContentModel*)content isPlaying:(BOOL)isplay currentTime:(CGFloat)currentTime totalTime:(CGFloat)totalTime;
 
-+(void)trackingVideoPlayingDuration_manual:(ContentModel*)content isPlaying:(BOOL)isplay currentTime:(CGFloat)currentTime totalTime:(CGFloat)totalTime;
++(void)trackingVideoPlayingDuration_manual:(SZContentModel*)content isPlaying:(BOOL)isplay currentTime:(CGFloat)currentTime totalTime:(CGFloat)totalTime;
 
 
 //记录进度
-+(void)recordPlayingProgress:(CGFloat)progess content:(ContentModel*)contentM;
++(void)recordPlayingProgress:(CGFloat)progess content:(SZContentModel*)contentM;
 
 @end
 
