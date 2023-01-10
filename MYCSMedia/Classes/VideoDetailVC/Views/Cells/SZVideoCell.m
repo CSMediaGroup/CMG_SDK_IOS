@@ -27,7 +27,6 @@
 #import "GYNoticeCell.h"
 #import "SZData.h"
 #import "SZVideoRelateModel.h"
-#import "MyLayout.h"
 #import "YYKit.h"
 #import "NSAttributedString+YYText.h"
 #import "SZStrUtils.h"
@@ -35,11 +34,9 @@
 #import "SZDefaultControlView.h"
 #import "SZContentStateModel.h"
 #import "UIResponder+MJCategory.h"
-#import "SZUserTracker.h"
 #import "SZContentListModel.h"
 #import "SZVideoDetailVC.h"
 #import "YYKit.h"
-#import "SZHomeVC.h"
 #import "SZThirdAppInfo.h"
 
 @interface SZVideoCell ()<GYRollingNoticeViewDelegate,GYRollingNoticeViewDataSource>
@@ -820,9 +817,6 @@
 //简介
 -(void)descClickAction
 {
-    //行为埋点
-    [SZUserTracker trackingButtonEventName:@"short_video_page_click" param:@{@"button_name":@"展开简介"}];
-    
     
     YYLabel * label =  descLabel;
     if (label.numberOfLines < 2)
@@ -848,12 +842,7 @@
     {
         SZContentModel * album = belongAlbumArr[i];
         if ([album.title isEqualToString:albumTitle])
-        {
-            //行为埋点
-            [SZUserTracker trackingButtonEventName:@"short_video_page_click" param:@{@"button_name":[NSString stringWithFormat:@"合集_%@",albumTitle]}];
-            
-            
-            
+        {            
             //视频合集
             UINavigationController * nav = [self getCurrentNavigationController];
             SZVideoDetailVC * vc = [[SZVideoDetailVC alloc]init];;

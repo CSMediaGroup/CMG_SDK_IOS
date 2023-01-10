@@ -11,7 +11,6 @@
 #import "SZDefines.h"
 #import "MJHud.h"
 #import "SZManager.h"
-#import "SZUserTracker.h"
 #import "SZData.h"
 #import "SZThirdAppInfo.h"
 #import "YYKit.h"
@@ -206,18 +205,18 @@
     __weak typeof (self) weakSelf = self;
     SZThirdAppInfo * model = [SZThirdAppInfo model];
     [model GETRequestInView:nil WithUrl:APPEND_SUBURL(BASE_URL, API_THIRD_APP_INFO) Params:param Success:^(id responseObject) {
+        
         [weakSelf requestThirdPartAppInfoDone:model];
+        
         if (block) {
             block(model);
         }
         } Error:^(id responseObject) {
-            NSLog(@"SDK init fail");
             if (block)
             {
                 block(nil);
             }
         } Fail:^(NSError *error) {
-            NSLog(@"SDK init error");
             if (block)
             {
                 block(nil);
@@ -274,21 +273,6 @@
     {
         [[SZManager sharedManager].delegate onShareAction:platform title:contentM.shareTitle image:contentM.shareImageUrl desc:contentM.shareBrief URL:contentM.shareUrl];
         
-        //行为埋点
-        NSMutableDictionary * param=[NSMutableDictionary dictionary];
-        [param setValue:contentM.id forKey:@"content_id"];
-        [param setValue:contentM.title forKey:@"content_name"];
-        [param setValue:contentM.source forKey:@"content_source"];
-        [param setValue:contentM.thirdPartyId forKey:@"third_ID"];
-        [param setValue:contentM.keywords forKey:@"content_key"];
-        [param setValue:contentM.tags forKey:@"content_list"];
-        [param setValue:contentM.classification forKey:@"content_classify"];
-        [param setValue:contentM.startTime forKey:@"create_time"];
-        [param setValue:contentM.issueTimeStamp forKey:@"publish_time"];
-        [param setValue:contentM.type forKey:@"content_type"];
-        [param setValue:source forKey:@"transmit_location"];
-        
-        [SZUserTracker trackingButtonEventName:@"content_transmit" param:param];
     }
     
 }

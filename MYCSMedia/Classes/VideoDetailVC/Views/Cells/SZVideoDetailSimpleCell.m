@@ -26,7 +26,6 @@
 #import "GYNoticeCell.h"
 #import "SZData.h"
 #import "SZVideoRelateModel.h"
-#import "MyLayout.h"
 #import "YYKit.h"
 #import "NSAttributedString+YYText.h"
 #import "SZStrUtils.h"

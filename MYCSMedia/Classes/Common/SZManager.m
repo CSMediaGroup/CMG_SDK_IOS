@@ -10,7 +10,6 @@
 #import "SZTokenExchangeModel.h"
 #import "SZDefines.h"
 #import "MJHud.h"
-#import "SZUserTracker.h"
 #import "SZGlobalInfo.h"
 #import "SZPanelListModel.h"
 #import "SZThirdAppConfig.h"
@@ -33,7 +32,6 @@
         if (manager == nil)
         {
             manager = [[SZManager alloc]init];
-            [SZUserTracker shareTracker];
             
             [[AFNetworkReachabilityManager sharedManager]startMonitoring];
         }
@@ -43,23 +41,58 @@
 
 +(void)initWithAppId:(NSString*)appid appKey:(NSString*)appkey appDelegate:(id<SZDelegate>)delegate enviroment:(SZ_ENV)env
 {
-    if (appid.length==0 ||appkey.length==0)
+    if (appid.length ==NO || appkey.length ==NO)
     {
-        NSLog(@"请传入appid 和 appkey");
+        @throw @"请传入appid 和 appkey";
     }
     else if (delegate==nil)
     {
-        NSLog(@"请传入delegate");
+        @throw @"请设置delegate";
+    }
+    else if ([delegate respondsToSelector:@selector(onShareAction:title:image:desc:URL:)]==NO)
+    {
+        @throw @"请实现代理方法 onShareAction";
+    }
+    else if ([delegate respondsToSelector:@selector(onLoginAction)]==NO)
+    {
+        @throw @"请实现代理方法 onLoginAction";
+    }
+    else if ([delegate respondsToSelector:@selector(onGetUserInfo)]==NO)
+    {
+        @throw @"请实现代理方法 onGetUserInfo";
+    }
+    else
+    {
+        SZManager * manager =  [SZManager sharedManager];
+        manager.delegate=delegate;
+        manager.enviroment=env;
+        manager.appid=appid;
+        manager.appkey=appkey;
+        
+        [[SZManager sharedManager]fetchAppInfo];
     }
     
-    SZManager * manager =  [SZManager sharedManager];
-    manager.delegate=delegate;
-    manager.enviroment=env;
-    manager.appid=appid;
-    manager.appkey=appkey;
     
-    [[SZGlobalInfo sharedManager]requestThirdPartAppInfo:nil];
 }
+
+-(void)fetchAppInfo
+{
+    static int k = 0;
+    [[SZGlobalInfo sharedManager]requestThirdPartAppInfo:^(id rest) {
+        if (rest==nil)
+        {
+            k++;
+            if (k<10)
+            {
+                NSLog(@"retry");
+                [self performSelector:@selector(fetchAppInfo) withObject:nil afterDelay:0];
+            }
+            
+        }
+    }];
+}
+
+
 
 +(void)requestContentList:(NSInteger)pagesize Success:(RMSuccessBlock)successblock Error:(RMErrorBlock)errorblock Fail:(RMFailBlock)failblock
 {

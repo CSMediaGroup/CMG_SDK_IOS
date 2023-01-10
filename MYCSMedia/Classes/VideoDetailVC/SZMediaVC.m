@@ -27,12 +27,11 @@
         }
         else if ([SZGlobalInfo sharedManager].thirdApp.config.listUrl.length==0)
         {
-            [self installNoticeView:@"网络开小差了，点击重新加载" error:1];
+            [self installNoticeView:@"网络开小差了，返回后重试" error:1];
         }
         else
         {
-//            self.H5URL = [SZGlobalInfo sharedManager].thirdApp.config.listUrl;
-            self.H5URL = @"https://h5.zhcs.csbtv.com/sdk/news/#/?c=1";
+            self.H5URL = [SZGlobalInfo sharedManager].thirdApp.config.listUrl;
         }
         
     }
@@ -56,15 +55,7 @@
 
 -(void)tapAction
 {
-    [MJHUD_Loading showMiniLoading:self.view];
-    [[SZGlobalInfo sharedManager]requestThirdPartAppInfo:^(id rest) {
-        if (rest)
-        {
-            [MJHUD_Loading hideLoadingView:self.view];
-            
-            [self.navigationController popViewControllerAnimated: NO];
-        }
-    }];
+    [self.navigationController popViewControllerAnimated: NO];
 }
 
 

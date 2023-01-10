@@ -24,11 +24,7 @@
 #import "SZData.h"
 #import "SZContentModel.h"
 #import "SZManager.h"
-#import "SZUserTracker.h"
-#import "SZUploadingVC.h"
 #import "UIResponder+MJCategory.h"
-#import "SZUserTracker.h"
-#import "SZHomeVC.h"
 
 @interface SZCommentBar ()
 
@@ -478,9 +474,6 @@
 
 -(void)shotBtnAction
 {
-    //行为埋点
-    [SZUserTracker trackingButtonEventName:@"short_video_start_make" param:nil];
-    
     
     //未登录则跳转登录
     if (![SZGlobalInfo sharedManager].SZRMToken.length)
@@ -489,10 +482,6 @@
         return;
     }
     
-    UINavigationController * nav = [self getCurrentNavigationController];
-    SZUploadingVC * vc = [SZUploadingVC new];
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-    [nav presentViewController:vc animated:YES completion:nil];
 }
 
 

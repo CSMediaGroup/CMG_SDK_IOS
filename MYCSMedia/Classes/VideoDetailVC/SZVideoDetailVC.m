@@ -30,7 +30,7 @@
 #import "SZVideoCell.h"
 #import <MJRefresh/MJRefresh.h>
 #import "SZTopicListModel.h"
-#import "SZHomeVC.h"
+
 
 @interface SZVideoDetailVC ()<UICollectionViewDelegate, UICollectionViewDataSource>
 @property(assign,nonatomic)BOOL MJHideStatusbar;
@@ -253,25 +253,6 @@
         }];
 }
 
-//-(void)requestRandomVideos
-//{
-//    NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
-//
-//    NSMutableDictionary * param=[NSMutableDictionary dictionary];
-//    [param setValue:pagesize forKey:@"pageSize"];
-//
-//    SZContentListModel * dataModel = [SZContentListModel model];
-//    __weak typeof (self) weakSelf = self;
-//    [dataModel GETRequestInView:self.view WithUrl:APPEND_SUBURL(BASE_URL, API_URL_RANDOM_VIDEO_LIST) Params:param Success:^(id responseObject){
-//        [weakSelf requestDone:dataModel];
-//        } Error:^(id responseObject) {
-//            [weakSelf requestFailed];
-//        } Fail:^(NSError *error) {
-//            [weakSelf requestFailed];
-//        }];
-//}
-
-
 
 //请求更多随机视频
 -(void)requestMoreRandomVideos
@@ -294,30 +275,7 @@
         }];
 }
 
-//-(void)requestMoreVideosInPannel
-//{
-//    //获取最后一条视频的ID
-//    SZContentModel * lastModel = dataArr.lastObject;
-//    NSString * lastContentId =  lastModel.id;
-//    NSString * pagesize = [NSString stringWithFormat:@"%d",VIDEO_PAGE_SIZE];
-//
-//    NSMutableDictionary * param=[NSMutableDictionary dictionary];
-//    [param setValue:self.pannelId forKey:@"panelId"];
-//    [param setValue:lastContentId forKey:@"contentId"];
-//    [param setValue:pagesize forKey:@"pageSize"];
-//    [param setValue:@"1" forKey:@"removeFirst"];
-//
-//    SZContentListModel * model = [SZContentListModel model];
-//    model.hideLoading=YES;
-//    __weak typeof (self) weakSelf = self;
-//    [model GETRequestInView:self.view WithUrl:APPEND_SUBURL(BASE_URL, API_URL_VIDEO_LIST) Params:param Success:^(id responseObject){
-//        [weakSelf requestMoreVideoDone:model];
-//        } Error:^(id responseObject) {
-//            [weakSelf requestFailed];
-//        } Fail:^(NSError *error) {
-//            [weakSelf requestFailed];
-//        }];
-//}
+
 
 
 #pragma mark - Request Done

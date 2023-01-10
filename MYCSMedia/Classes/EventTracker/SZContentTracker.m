@@ -11,7 +11,6 @@
 #import "SZGlobalInfo.h"
 #import "SZStatusModel.h"
 #import "SZDefines.h"
-#import "SZUserTracker.h"
 #import "UIDevice+MJCategory.h"
 #import "SZManager.h"
 #import "SZThirdAppInfo.h"
@@ -145,28 +144,6 @@
             [tracker requestForUploading:bizparam eventKey:@"cms_video_over_auto" SZContentModel:model];
             
             
-            
-            //行为埋点
-            SZContentModel * contentM = model;
-            NSString * finishState = contentM.isFinishPlay? @"是":@"否";
-            NSMutableDictionary * param=[NSMutableDictionary dictionary];
-            [param setValue:contentM.id forKey:@"content_id"];
-            [param setValue:contentM.title forKey:@"content_name"];
-            [param setValue:contentM.source forKey:@"content_source"];
-            [param setValue:contentM.createBy forKey:@"creator_id"];
-            [param setValue:contentM.thirdPartyId forKey:@"third_ID"];
-            [param setValue:contentM.keywords forKey:@"content_key"];
-            [param setValue:contentM.tags forKey:@"content_list"];
-            [param setValue:contentM.classification forKey:@"content_classify"];
-            [param setValue:contentM.startTime forKey:@"create_time"];
-            [param setValue:contentM.issueTimeStamp forKey:@"publish_time"];
-            [param setValue:contentM.type forKey:@"content_type"];
-            [param setValue:[NSNumber numberWithInteger:duration] forKey:@"play_duration"];
-            [param setValue:finishState forKey:@"is_finish"];
-            [SZUserTracker trackingButtonEventName:@"content_video_duration" param:param];
-            
-            
-            
             MJLOG(@"MJContentTracker_end_auto_时长:%@_新闻:%@_百分比:%@_cateName:%@",[NSNumber numberWithInteger:duration],groupId,progressNumber,model.volcCategory);
             
         }
@@ -250,27 +227,6 @@
             [bizparam setValue:model.requestId forKey:@"req_id"];
             
             [tracker requestForUploading:bizparam eventKey:@"cms_video_over" SZContentModel:model];
-            
-            
-            
-            //行为埋点
-            SZContentModel * contentM = model;
-            NSMutableDictionary * param=[NSMutableDictionary dictionary];
-            NSString * finishState = contentM.isFinishPlay? @"是":@"否";
-            [param setValue:contentM.id forKey:@"content_id"];
-            [param setValue:contentM.title forKey:@"content_name"];
-            [param setValue:contentM.source forKey:@"content_source"];
-            [param setValue:contentM.createBy forKey:@"creator_id"];
-            [param setValue:contentM.thirdPartyId forKey:@"third_ID"];
-            [param setValue:contentM.keywords forKey:@"content_key"];
-            [param setValue:contentM.tags forKey:@"content_list"];
-            [param setValue:contentM.classification forKey:@"content_classify"];
-            [param setValue:contentM.startTime forKey:@"create_time"];
-            [param setValue:contentM.issueTimeStamp forKey:@"publish_time"];
-            [param setValue:contentM.type forKey:@"content_type"];
-            [param setValue:[NSNumber numberWithInteger:duration] forKey:@"play_duration"];
-            [param setValue:finishState forKey:@"is_finish"];
-            [SZUserTracker trackingButtonEventName:@"content_video_duration" param:param];
             
             
             MJLOG(@"MJContentTracker_end_manual_时长:%@_新闻:%@_百分比:%@_cateName:%@",[NSNumber numberWithInteger:duration],groupId,progressNumber,model.volcCategory);

@@ -15,7 +15,6 @@
 #import <SDWebImage/SDWebImage.h>
 #import "SZManager.h"
 #import "GYRollingNoticeView.h"
-#import "SZUserTracker.h"
 #import "UIResponder+MJCategory.h"
 #import "SZWebVC.h"
 

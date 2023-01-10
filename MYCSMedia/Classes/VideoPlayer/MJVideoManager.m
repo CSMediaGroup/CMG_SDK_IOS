@@ -9,7 +9,6 @@
 #import "MJVideoManager.h"
 #import "SZVideoFullScreen.h"
 #import <SDWebImage/SDWebImage.h>
-#import "SZUserTracker.h"
 #import "SZContentTracker.h"
 @interface MJVideoManager ()<SZSuperPlayerDelegate>
 
