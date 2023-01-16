@@ -153,7 +153,7 @@
     
 }
 
-+ (void)routeToDetailPage:(UINavigationController *)nav content:(SZContentModel *)data
++(void)routeToDetailPage:(UINavigationController *)nav content:(SZContentModel *)data
 {
     if ([data.type isEqualToString:@"short_video"])
     {

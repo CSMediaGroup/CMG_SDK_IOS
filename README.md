@@ -27,7 +27,7 @@
 
 ```
 <1>.在模块的build.gradle中添加dependencies {
- implementation 'com.github.aaa31210aaa:SzrmSdk:latest.release'
+ implementation 'com.github.aaa31210aaa:SzrmSdk:1.2.6'
 }
 
 
@@ -36,12 +36,7 @@ buildscript{
 repositories {
  		...
  		maven {url 'https://jitpack.io'}
- 		maven {
-            url 'http://172.30.101.24:8081/repository/maven-releases/'
-            //gradle 如果大于7.0 需要加入下面这一句
-            allowInsecureProtocol true
-        }
-	}
+ 		}
 }
 
 allprojects{
@@ -53,18 +48,17 @@ allprojects{
 2.在自己的Application中初始化中加入
 
 ```
-  /**
+   /**
      * isDebug 是否为测试环境
      * appId 你的appId
-     * appkey 你的appKey
      */
     @Override
     public void onCreate() {
         super.onCreate();
         ...
- AppInit.init(this,false, "your_appId","your_appKey");
-       OkGoUtils.initOkGo(this);
-}
+ AppInit.init(this,false, "your_appId");
+ OkGoUtils.initOkGo(this);
+ }
 
 ```
 
@@ -77,18 +71,22 @@ toLogin 实现跳转登录页面
 
 SdkInteractiveParam.getInstance().setSdkCallBack(new SdkParamCallBack() {
     @Override
-    public SdkUserInfo setSdkUserInfo(SdkUserInfo sdkUserInfo) {
-        return null;
+    public ThirdUserInfo setSdkUserInfo(SdkUserInfo sdkUserInfo) {
+        //传递登录信息
+        ThirdUserInfo thirdUserInfo = new ThirdUserInfo();
+        thirdUserInfo.setUserId("返回你那边登录的用户id")
+        ...
+        return thirdUserInfo;
     }
 
     @Override
     public void shared(ShareInfo shareInfo) {
-
+        //这里是我传递给你的分享要素
     }
 
     @Override
     public void toLogin() {
-
+        //这里是你跳转你的登录页面 去登录
     }
 });
 
