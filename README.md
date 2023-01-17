@@ -1,4 +1,5 @@
 #融媒云SDK说明文档
+
 ##一、总体说明
 
 ```
@@ -138,8 +139,8 @@ Targets -> Build Settings -> Enable bitcode     改为 NO
     ...其他
     
 	//SDK配置
-	//UAT_ENVIROMENT 表示UAT环境，生产环境请选 PRD_ENVIROMENT
-    [SZManager initWithAppId:@"12333" appKey:@"00000" appDelegate:self enviroment:UAT_ENVIROMENT];
+	//enviroment请选择PRD_ENVIROMENT
+    [SZManager initWithAppId:@"12333" appKey:@"00000" appDelegate:self enviroment:PRD_ENVIROMENT];
     
 }
 
@@ -164,7 +165,8 @@ Targets -> Build Settings -> Enable bitcode     改为 NO
 
 ##四、SDK的使用
 
-###1.使用SDK的UI
+###1.使用SDK的UI （使用SDK的列表页样式）
+
 
 ```
 Android：
@@ -177,21 +179,19 @@ startActivity(intent);
 ```
 iOS：
 
-//引入SZMediaVC，SZMediaVC为资讯列表页
-#import <SZMediaVC.h>
-
 //跳转到资讯首页
 SZMediaVC * web = [[SZMediaVC alloc]init];
 [self.navigationController pushViewController:web animated:YES];
 
-
 ```
 
 
-###2.自定义UI
+###2.自定义UI （获取列表数据，自定义列表样式，使用路由方法进入详情页）
 
 ```
 Android：
+
+<1>获取列表数据
 
 //获取列表数据 调用
 SzrmRecommend.getInstance().requestContentList("open");
@@ -204,15 +204,17 @@ SzrmRecommend.getInstance().contentsEvent.observe(MainActivity.this, new Observe
                     }
                 });
                 
-//进入新闻详情页
+
+
+<2>调用SDK提供的路由方法，进入详情页
+
 SzrmRecommend.getInstance().routeToDetailPage(SZContentModel);
 ```
 
 ```
 iOS:
 
-//引入SZManagers
-#import "SZManager.h"
+<1>获取列表数据
 
 //请求资讯列表数据，返回一个包含SZContentModel数组
 [SZManager requestContentList:10 Success:^(NSArray<SZContentModel *> * data) {
@@ -223,8 +225,9 @@ iOS:
         
     }];
     
-    
-//在列表点击等事件中，调用路由方法，进入视频详情页
+
+<2>调用SDK提供的路由方法，进入详情页
+
 //传入当前VC的NavigationController，和获得的SZContentModel
 [SZManager routeToDetailPage:self.navigationController content:model];
     
