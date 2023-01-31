@@ -232,3 +232,31 @@ iOS:
 [SZManager routeToDetailPage:self.navigationController content:model];
     
 ```
+
+
+##五、其他说明
+
+###1.字段说明
+```
+【列表样式】 listStyle
+
+null     左文右图
+0        无图
+1        左文右图
+2        左图右文（可以不实现该样式，目前不会出现）
+3        多图
+4        大图
+5        自定义尺寸的大图  （可以同大图样式处理）
+
+
+
+【封面图】thumbnailUrl    (多图新闻格式需要单独转化，如 "https://cdn-oss.zhcs.csbtv.com/zhcs-prd/images/63bb71e484115300016b9600.jpeg,https://cdn-oss.zhcs.csbtv.com/zhcs-prd/images/63bb720684115300016b9602.jpeg,https://cdn-oss.zhcs.csbtv.com/zhcs-prd/images/63bb721284115300016b9604.jpeg”）
+
+【标题】title
+
+【时间】createTime    （为国际时间UTC，使用时需要转化为当前时区的时间）
+
+【作者】source
+
+【阅读量】目前没有该数据
+```
