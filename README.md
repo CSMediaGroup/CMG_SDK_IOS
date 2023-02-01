@@ -28,7 +28,7 @@
 
 ```
 <1>.在模块的build.gradle中添加dependencies {
- implementation 'com.github.aaa31210aaa:SzrmSdk:1.2.6'
+ implementation 'com.github.CSMediaGroup:CMG_SDK_ANDROID:latest.release'
 }
 
 
@@ -104,7 +104,7 @@ SdkInteractiveParam.getInstance().setSdkCallBack(new SdkParamCallBack() {
 ```
 在podfile添加
 
-pod 'CMG_SDK', :git => 'https://github.com/majia5499531/CMG_SDK.git'
+pod 'CMG_SDK', :git => 'https://github.com/CSMediaGroup/CMG_SDK_IOS.git'
 
 执行pod install
 
