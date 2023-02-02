@@ -94,6 +94,16 @@
 
 
 
+
++(void)requestContentList:(NSNumber*)pagesize callback:(NSDictionary*)callbackDic
+{
+    SuccessBlock sucblock = [callbackDic valueForKey:@"success"];
+    ErrorBlock errorblock = [callbackDic valueForKey:@"error"];
+    FailBlock failblock = [callbackDic valueForKey:@"fail"];
+    [SZManager requestContentList:pagesize.integerValue Success:sucblock Error:errorblock Fail:failblock];
+    
+}
+
 +(void)requestContentList:(NSInteger)pagesize Success:(RMSuccessBlock)successblock Error:(RMErrorBlock)errorblock Fail:(RMFailBlock)failblock
 {
     SZPanelListModel * panelListM = [SZPanelListModel model];

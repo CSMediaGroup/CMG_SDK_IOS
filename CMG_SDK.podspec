@@ -1,13 +1,13 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CMG_SDK'
-  s.version          = '1.4.6'
-  s.summary          = 'News & Video Components'
-  s.description      = 'News & Video Components'
-  s.homepage         = 'https://github.com/majia5499531/CMG_SDK'
+  s.version          = '1.4.7'
+  s.summary          = '长沙广电融媒云SDK'
+  s.description      = '长沙广电融媒云SDK，配合CMS，快速实现新闻采编和兴趣推荐'
+  s.homepage         = 'https://github.com/CSMediaGroup/CMG_SDK_IOS'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'majia5499531@163.com' => '5307460+azbura@user.noreply.gitee.com' }
-  s.source           = { :git => 'https://github.com/CSMediaGroup/CMG_SDK_IOS', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/CSMediaGroup/CMG_SDK_IOS.git', :tag => s.version.to_s }
   
 
   s.ios.deployment_target = '9.0'
@@ -31,7 +31,4 @@ Pod::Spec.new do |s|
   
   
 end
-
-#  s.dependency 'YYModel'
-#  s.dependency 'YYText'
 
