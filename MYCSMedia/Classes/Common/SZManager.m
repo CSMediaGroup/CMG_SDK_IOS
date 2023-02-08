@@ -84,7 +84,6 @@
             k++;
             if (k<10)
             {
-                NSLog(@"retry");
                 [self performSelector:@selector(fetchAppInfo) withObject:nil afterDelay:0];
             }
             
@@ -103,6 +102,7 @@
     [SZManager requestContentList:pagesize.integerValue Success:sucblock Error:errorblock Fail:failblock];
     
 }
+
 
 +(void)requestContentList:(NSInteger)pagesize Success:(RMSuccessBlock)successblock Error:(RMErrorBlock)errorblock Fail:(RMFailBlock)failblock
 {
@@ -170,6 +170,7 @@
         SZVideoDetailVC * vc =[[SZVideoDetailVC alloc]init];
         vc.contentId = data.id;
         vc.detailType = 0;
+        vc.hidesBottomBarWhenPushed=YES;
         [nav pushViewController:vc animated:YES];
     }
     else
@@ -181,6 +182,7 @@
         vc.shareImg = data.shareImageUrl;
         vc.shareBrief = data.shareBrief;
         vc.shareUrl = data.shareUrl;
+        vc.hidesBottomBarWhenPushed=YES;
         [nav pushViewController:vc animated:YES];
     }
 }

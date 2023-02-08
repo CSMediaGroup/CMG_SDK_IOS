@@ -36,7 +36,7 @@
 {
     [super prepare];
     
-    self.autoTriggerTimes=1;
+//    self.autoTriggerTimes=1;
 }
 
 -(void)placeSubviews
