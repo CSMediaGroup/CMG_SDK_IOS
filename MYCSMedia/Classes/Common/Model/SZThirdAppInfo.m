@@ -7,18 +7,18 @@
 
 #import "SZThirdAppInfo.h"
 #import "NSObject+MJCategory.h"
-#import "YYKit.h"
+#import "YYModel.h"
 
 @implementation SZThirdAppInfo
 
 -(void)parseData:(id)data
 {
-    [self modelSetWithDictionary:data];
+    [self yy_modelSetWithDictionary:data];
     
     NSDictionary * dic = [data mj_valueForKey:@"config"];
     
     SZThirdAppConfig * configModel = [[SZThirdAppConfig alloc]init];
-    [configModel modelSetWithDictionary:dic];
+    [configModel yy_modelSetWithDictionary:dic];
     
     self.config = configModel;
 }

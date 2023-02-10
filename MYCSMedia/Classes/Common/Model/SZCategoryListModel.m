@@ -19,7 +19,7 @@
     {
         NSDictionary * dic = arr[i];
         SZCategoryModel  * model = [SZCategoryModel model];
-        [model modelSetWithDictionary:dic];
+        [model yy_modelSetWithDictionary:dic];
         [self.dataArr addObject:model];
     }
 }

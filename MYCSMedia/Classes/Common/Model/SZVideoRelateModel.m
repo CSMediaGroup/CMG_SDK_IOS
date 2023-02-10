@@ -6,7 +6,7 @@
 //
 
 #import "SZVideoRelateModel.h"
-
+#import "YYModel.h"
 
  
 
@@ -21,7 +21,7 @@
     {
         SZVideoRelateModel * model = [SZVideoRelateModel model];
         NSDictionary * dic = arr[i];
-        [model modelSetWithDictionary:dic];
+        [model yy_modelSetWithDictionary:dic];
         [self.dataArr addObject:model];
     }
 }

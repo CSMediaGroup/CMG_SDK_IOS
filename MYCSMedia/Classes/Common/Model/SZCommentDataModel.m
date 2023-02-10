@@ -9,13 +9,13 @@
 #import "NSObject+MJCategory.h"
 #import "SZCommentModel.h"
 #import "NSObject+YYModel.h"
-#import "YYKit.h"
+#import "YYModel.h"
 
 @implementation SZCommentDataModel
 
 -(void)parseData:(id)data
 {
-    [self modelSetWithDictionary:data];
+    [self yy_modelSetWithDictionary:data];
     
     NSArray * comments = [data mj_valueForKey:@"records"];
     for (int i = 0; i<comments.count; i++)

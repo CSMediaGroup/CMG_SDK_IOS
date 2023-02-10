@@ -8,7 +8,7 @@
 #import "SZContentListModel.h"
 #import "NSObject+MJCategory.h"
 #import "SZContentModel.h"
-#import "YYKit.h"
+#import "YYModel.h"
 
 
 @implementation SZContentListModel
@@ -20,7 +20,7 @@
         SZContentModel * model = [SZContentModel model];
         NSDictionary * dic = data[i];
         
-        [model modelSetWithDictionary:dic];
+        [model yy_modelSetWithDictionary:dic];
 
         [self.dataArr addObject:model];
     }

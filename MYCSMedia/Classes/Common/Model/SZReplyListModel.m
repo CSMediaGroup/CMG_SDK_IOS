@@ -7,15 +7,14 @@
 
 #import "SZReplyListModel.h"
 #import "SZReplyModel.h"
-#import "YYKit.h"
 #import "NSObject+MJCategory.h"
-#import "YYKit.h"
+#import "YYModel.h"
 
 @implementation SZReplyListModel
 
 -(void)parseData:(id)data
 {
-    [self modelSetWithDictionary:data];
+    [self yy_modelSetWithDictionary:data];
     
     NSArray * comments = [data mj_valueForKey:@"records"];
     for (int i = 0; i<comments.count; i++)

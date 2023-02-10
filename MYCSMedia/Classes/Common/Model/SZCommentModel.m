@@ -6,14 +6,14 @@
 //
 
 #import "SZCommentModel.h"
-#import "YYKit.h"
+#import "YYModel.h"
 #import "NSObject+MJCategory.h"
 #import "SZReplyModel.h"
 
 @implementation SZCommentModel
 -(void)parseData:(id)data
 {
-    [self modelSetWithDictionary:data];
+    [self yy_modelSetWithDictionary:data];
     
     //回复
     NSDictionary * replyInfo = [data mj_valueForKey:@"reply"];
@@ -26,7 +26,7 @@
     {
         NSDictionary * dic = replyList[i];
         SZReplyModel * model = [SZReplyModel model];
-        [model modelSetWithDictionary:dic];
+        [model yy_modelSetWithDictionary:dic];
         [self.dataArr addObject:model];
     }
     

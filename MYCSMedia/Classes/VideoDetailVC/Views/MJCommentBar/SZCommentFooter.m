@@ -11,11 +11,12 @@
 #import "Masonry.h"
 #import "UIView+MJCategory.h"
 #import "UIColor+MJCategory.h"
-#import "YYKit.h"
+#import "YYModel.h"
 #import "SZData.h"
 #import "SZReplyListModel.h"
 #import "SZDefines.h"
 #import "SZGlobalInfo.h"
+#import "YYText.h"
 
 @implementation SZCommentFooter
 {
@@ -75,10 +76,10 @@
         {
             NSString * str = [NSString stringWithFormat:@"%@ 等人共%@条回复  展开",data.lastReplyName,data.totalReplyCount];
             NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:str];
-            [attString  setFont:[UIFont boldSystemFontOfSize:13] range:NSMakeRange(0, data.lastReplyName.length)];
+            [attString  yy_setFont:[UIFont boldSystemFontOfSize:13] range:NSMakeRange(0, data.lastReplyName.length)];
             
             __weak typeof (self) weakSelf = self;
-            [attString  setTextHighlightRange:NSMakeRange(str.length-2, 2) color:HW_RED_WORD_1 backgroundColor:[UIColor whiteColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+            [attString  yy_setTextHighlightRange:NSMakeRange(str.length-2, 2) color:HW_RED_WORD_1 backgroundColor:[UIColor whiteColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
                 [weakSelf unfoldReplys:YES];
             }];
             
@@ -90,7 +91,7 @@
             NSString * str = [NSString stringWithFormat:@"继续展开"];
             NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:str];
             __weak typeof (self) weakSelf = self;
-            [attString  setTextHighlightRange:NSMakeRange(0, 4) color:HW_RED_WORD_1 backgroundColor:[UIColor whiteColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+            [attString  yy_setTextHighlightRange:NSMakeRange(0, 4) color:HW_RED_WORD_1 backgroundColor:[UIColor whiteColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
                 [weakSelf unfoldReplys:YES];
             }];
             
@@ -102,7 +103,7 @@
         {
             __weak typeof (self) weakSelf = self;
             NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"收起"];
-            [attString  setTextHighlightRange:NSMakeRange(0, 2) color:HW_RED_WORD_1 backgroundColor:[UIColor whiteColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+            [attString  yy_setTextHighlightRange:NSMakeRange(0, 2) color:HW_RED_WORD_1 backgroundColor:[UIColor whiteColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
                 [weakSelf unfoldReplys:NO];
             }];
             descLabel.attributedText = attString;

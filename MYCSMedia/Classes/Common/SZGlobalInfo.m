@@ -13,7 +13,7 @@
 #import "SZManager.h"
 #import "SZData.h"
 #import "SZThirdAppInfo.h"
-#import "YYKit.h"
+#import "YYModel.h"
 
 @interface SZGlobalInfo ()
 @property(strong,nonatomic)LoginCallback loginResult;
@@ -177,7 +177,7 @@
     self.SZRMUserId = model.loginSysUserVo.id;
     self.GDYToken = model.gdyToken;
     self.localAppUserId = appuserid;
-    self.SZRMUserInfo = [model modelToJSONString];
+    self.SZRMUserInfo = [model yy_modelToJSONString];
     
     
     

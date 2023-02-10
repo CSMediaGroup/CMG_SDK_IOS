@@ -17,7 +17,7 @@
 #import "SZVideoDetailVC.h"
 #import "SZWebVC.h"
 #import "MJHUD_Selection.h"
-#import "YYKit.h"
+#import "YYModel.h"
 
 @implementation MJBridgeHandler
 
@@ -47,7 +47,7 @@
         {
             NSString * deviceId = [UIDevice getIDFA];
             NSDictionary * dic = @{@"deviceId":deviceId};
-            NSString * json = [dic  modelToJSONString];
+            NSString * json = [dic yy_modelToJSONString];
             callBack(json);
         }
     }
@@ -189,7 +189,7 @@
         [param setValue:@"apple" forKey:@"brand"];
         [param setValue:@"ios" forKey:@"osName"];
         
-        NSString * json = [param  modelToJSONString];
+        NSString * json = [param  yy_modelToJSONString];
         
         if (callBack)
         {

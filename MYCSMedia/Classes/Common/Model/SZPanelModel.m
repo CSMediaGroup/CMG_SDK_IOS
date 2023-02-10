@@ -18,7 +18,7 @@
 -(void)parseData:(id)data
 {
     //其他属性
-    [self modelSetWithDictionary:data];
+    [self yy_modelSetWithDictionary:data];
     
     //config
     SZPanelConfigModel * configModel = [SZPanelConfigModel model];
@@ -32,7 +32,7 @@
     {
         NSDictionary * contentDic = contents[i];
         SZContentModel * model = [SZContentModel model];
-        [model modelSetWithDictionary:contentDic];
+        [model yy_modelSetWithDictionary:contentDic];
         [self.dataArr addObject:model];
     }
     
@@ -45,7 +45,7 @@
         NSDictionary * subcateDic = subarr[i];
         
         SZCategoryModel * submodel = [SZCategoryModel model];
-        [submodel modelSetWithDictionary:subcateDic];
+        [submodel yy_modelSetWithDictionary:subcateDic];
         [self.subCategories addObject:submodel];
     }
 }

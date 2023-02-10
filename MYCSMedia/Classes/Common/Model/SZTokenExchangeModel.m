@@ -8,12 +8,13 @@
 #import "SZTokenExchangeModel.h"
 #import "NSObject+YYModel.h"
 #import "SZUserInfoModel.h"
+#import "YYModel.h"
 
 
 @implementation SZTokenExchangeModel
 -(void)parseData:(id)data
 {
-    [self modelSetWithDictionary:data];
+    [self yy_modelSetWithDictionary:data];
     
     NSDictionary * userDic = [data valueForKey:@"loginSysUserVo"];
     SZUserInfoModel * userModel = [SZUserInfoModel model];
