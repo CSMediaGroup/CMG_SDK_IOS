@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CMG_SDK'
-  s.version          = '1.4.9'
+  s.version          = '1.4.10'
   s.summary          = '长沙广电融媒云SDK'
   s.description      = '长沙广电融媒云SDK，配合CMS，快速实现新闻采编和兴趣推荐'
   s.homepage         = 'https://github.com/CSMediaGroup/CMG_SDK_IOS'
@@ -27,7 +27,6 @@ Pod::Spec.new do |s|
   s.dependency 'MJRefresh'
   s.dependency 'YYText'
   s.dependency 'YYModel'
-  s.dependency 'WebViewJavascriptBridge'
   s.static_framework = true
   
   

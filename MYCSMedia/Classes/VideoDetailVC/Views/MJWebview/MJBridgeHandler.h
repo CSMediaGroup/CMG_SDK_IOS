@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WebViewJavascriptBridge.h"
+#import "WKWebViewJavascriptBridge.h"
+
 #import "MJWebview.h"
 
 NS_ASSUME_NONNULL_BEGIN
