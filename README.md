@@ -20,84 +20,7 @@
 
 
 
-
-
-##二、Android端集成步骤
-
-1.使用Gradle集成SDK
-
-```
-<1>.在模块的build.gradle中添加dependencies {
- implementation 'com.github.CSMediaGroup:CMG_SDK_ANDROID:latest.release'
-}
-
-
-<2>.在app级别的 build.gradle 中 
-buildscript{
-repositories {
- 		...
- 		maven {url 'https://jitpack.io'}
- 		}
-}
-
-allprojects{
-	//...同上
-}
-
-```
-
-2.在自己的Application中初始化中加入
-
-```
-   /**
-     * isDebug 是否为测试环境
-     * appId 你的appId
-     */
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        ...
- AppInit.init(this,false, "your_appId");
- OkGoUtils.initOkGo(this);
- }
-
-```
-
-3.使用单例类去实现SdkParamCallBack接口 实现其中的方法
-
-```
-setSdkUserInfo 设置用户信息
-shared  可以拿到分享要素
-toLogin 实现跳转登录页面
-
-SdkInteractiveParam.getInstance().setSdkCallBack(new SdkParamCallBack() {
-    @Override
-    public ThirdUserInfo setSdkUserInfo(SdkUserInfo sdkUserInfo) {
-        //传递登录信息
-        ThirdUserInfo thirdUserInfo = new ThirdUserInfo();
-        thirdUserInfo.setUserId("返回你那边登录的用户id")
-        ...
-        return thirdUserInfo;
-    }
-
-    @Override
-    public void shared(ShareInfo shareInfo) {
-        //这里是我传递给你的分享要素
-    }
-
-    @Override
-    public void toLogin() {
-        //这里是你跳转你的登录页面 去登录
-    }
-});
-
-```
-
-
-
-
-
-##三、iOS端集成步骤
+##二、iOS端集成步骤
 
 1.使用Cocoapods集成SDK
 
@@ -163,22 +86,12 @@ Targets -> Build Settings -> Enable bitcode     改为 NO
 ```
 
 
-##四、SDK的使用
+##三、SDK的使用
 
-###1.使用SDK的UI （使用SDK的列表页样式）
+###1.使用SDK的UI 
 
-
-```
-Android：
-
-//跳转到资讯首页  
-Intent intent = new Intent(MainActivity.this, WebActivity);
-startActivity(intent);
-```
 
 ```
-iOS：
-
 //跳转到资讯首页
 SZMediaVC * web = [[SZMediaVC alloc]init];
 [self.navigationController pushViewController:web animated:YES];
@@ -186,34 +99,10 @@ SZMediaVC * web = [[SZMediaVC alloc]init];
 ```
 
 
-###2.自定义UI （获取列表数据，自定义列表样式，使用路由方法进入详情页）
+###2.使用自定义UI 
+
 
 ```
-Android：
-
-<1>获取列表数据
-
-//获取列表数据 调用
-SzrmRecommend.getInstance().requestContentList("open");
-
-//通过LiveData拿到接口数据
-SzrmRecommend.getInstance().contentsEvent.observe(MainActivity.this, new Observer<List<SZContentModel.DataDTO.ContentsDTO>>() {
-                    @Override
-                    public void onChanged(List<SZContentModel.DataDTO.ContentsDTO> contentsDTOS) {
-                    //数据
-                    }
-                });
-                
-
-
-<2>调用SDK提供的路由方法，进入详情页
-
-SzrmRecommend.getInstance().routeToDetailPage(SZContentModel);
-```
-
-```
-iOS:
-
 <1>获取列表数据
 
 //请求资讯列表数据，返回一个包含SZContentModel数组
@@ -226,7 +115,7 @@ iOS:
     }];
     
 
-<2>调用SDK提供的路由方法，进入详情页
+<2>当需要进入某条新闻详情时，请调用SDK提供的路由方法
 
 //传入当前VC的NavigationController，和获得的SZContentModel
 [SZManager routeToDetailPage:self.navigationController content:model];
@@ -234,7 +123,7 @@ iOS:
 ```
 
 
-##五、其他说明
+##四、其他说明
 
 ###1.字段说明
 ```
