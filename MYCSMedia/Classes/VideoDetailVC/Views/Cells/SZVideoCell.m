@@ -831,26 +831,28 @@
 //合辑名称
 -(void)albumClickAction:(NSString*)albumTitle
 {
-    //如果已经在合辑列表了，则不能再点下级页面了
-    if (albumName.length)
-    {
-        return;
-    }
+    //这个功能先取消
     
-    for (int i = 0; i<belongAlbumArr.count; i++)
-    {
-        SZContentModel * album = belongAlbumArr[i];
-        if ([album.title isEqualToString:albumTitle])
-        {            
-            //视频合集
-            UINavigationController * nav = [self getCurrentNavigationController];
-            SZVideoDetailVC * vc = [[SZVideoDetailVC alloc]init];;
-            vc.albumId = album.id;
-            vc.detailType=1;
-            vc.albumName=albumTitle;
-            [nav pushViewController:vc animated:YES];
-        }
-    }
+//    //如果已经在合辑列表了，则不能再点下级页面了
+//    if (albumName.length)
+//    {
+//        return;
+//    }
+//
+//    for (int i = 0; i<belongAlbumArr.count; i++)
+//    {
+//        SZContentModel * album = belongAlbumArr[i];
+//        if ([album.title isEqualToString:albumTitle])
+//        {
+//            //视频合集
+//            UINavigationController * nav = [self getCurrentNavigationController];
+//            SZVideoDetailVC * vc = [[SZVideoDetailVC alloc]init];;
+//            vc.albumId = album.id;
+//            vc.detailType=1;
+//            vc.albumName=albumTitle;
+//            [nav pushViewController:vc animated:YES];
+//        }
+//    }
 }
 
 //全屏播放按钮

@@ -31,7 +31,15 @@
         }
         else
         {
-            self.H5URL = [SZGlobalInfo sharedManager].thirdApp.config.listUrl;
+            if ([SZGlobalInfo sharedManager].debugApp.config.listUrl)
+            {
+                self.H5URL = [SZGlobalInfo sharedManager].debugApp.config.listUrl;
+            }
+            else
+            {
+                self.H5URL = [SZGlobalInfo sharedManager].thirdApp.config.listUrl;
+            }
+            
         }
         
     }

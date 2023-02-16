@@ -23,6 +23,7 @@ typedef void (^RequestBlock)(id rest);
 @property(strong,nonatomic)NSString * loginDesc;
 @property(strong,nonatomic)NSString * SZRMUserInfo;                     //包含token，gdytoken，userinfo
 @property(strong,nonatomic)SZThirdAppInfo * thirdApp;
+@property(strong,nonatomic)SZThirdAppInfo * debugApp;
 
 +(NSString*)mjgetBaseURL;           //获取BaseURL
 +(NSString*)mjgetBaseH5URL;         //获取H5 URL

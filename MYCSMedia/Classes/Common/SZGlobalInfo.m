@@ -271,6 +271,8 @@
 {
     if ([SZGlobalInfo checkDelegate])
     {
+        //分享链接增加AppId给前端
+        
         [[SZManager sharedManager].delegate onShareAction:platform title:contentM.shareTitle image:contentM.shareImageUrl desc:contentM.shareBrief URL:contentM.shareUrl];
         
     }

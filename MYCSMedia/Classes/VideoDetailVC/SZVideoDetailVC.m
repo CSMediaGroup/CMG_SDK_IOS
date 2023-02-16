@@ -70,13 +70,6 @@
     }
 }
 
--(void)dealloc
-{
-    [self removeNotifications];
-    
-    [[SZData sharedSZData]setCurrentContentId:@""];
-}
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -115,6 +108,13 @@
     pt.y = pt.y + collectionView.frame.size.height/2;
     NSIndexPath * idx = [collectionView indexPathForItemAtPoint:pt];
     return idx;
+}
+
+-(void)dealloc
+{
+    [self removeNotifications];
+    
+    [[SZData sharedSZData]setCurrentContentId:@""];
 }
 
 
@@ -244,7 +244,7 @@
         [weakSelf requestVideoArrDone:list.dataArr];
         
         //加载更多
-        [weakSelf requestMoreRandomVideos];
+//        [weakSelf requestMoreRandomVideos];
         
         } Error:^(id responseObject) {
             [weakSelf requestFailed];
@@ -363,8 +363,8 @@
     collectionView.backgroundColor=HW_BLACK;
     [collectionView registerClass:[SZVideoDetailSimpleCell class] forCellWithReuseIdentifier:@"simpleVideoCell"];
     [collectionView registerClass:[SZVideoCell class] forCellWithReuseIdentifier:@"fullVideoCell"];
-    collectionView.mj_header = [CustomAnimatedHeader headerWithRefreshingTarget:self refreshingAction:@selector(pulldownRefreshAction:)];
-    collectionView.mj_footer = [CustomFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullupLoadAction:)];
+//    collectionView.mj_header = [CustomAnimatedHeader headerWithRefreshingTarget:self refreshingAction:@selector(pulldownRefreshAction:)];
+//    collectionView.mj_footer = [CustomFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullupLoadAction:)];
     collectionView.delegate = self;
     collectionView.dataSource = self;
     collectionView.pagingEnabled=YES;
