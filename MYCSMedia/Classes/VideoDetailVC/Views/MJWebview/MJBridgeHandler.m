@@ -21,7 +21,7 @@
 
 @implementation MJBridgeHandler
 
-+(void)handleJSBridge:(id)data callBack:(WVJBResponseCallback)callBack sender:(nonnull MJWebview *)web
++(void)handleJSBridge:(id)data callBack:(MJJBResponseCallback)callBack sender:(nonnull MJWebview *)web
 {
     
     NSString * keyName =  [data mj_valueForKey:@"methodName"];

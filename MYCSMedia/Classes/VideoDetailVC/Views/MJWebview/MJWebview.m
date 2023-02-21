@@ -15,13 +15,13 @@
 #import "MJHUD.h"
 #import "UIResponder+MJCategory.h"
 #import "SZGlobalInfo.h"
-#import "WKWebViewJavascriptBridge.h"
+#import "MJWKWebViewJavascriptBridge.h"
 #import "UIDevice+MJCategory.h"
 #import "SZThirdAppInfo.h"
 #import "YYModel.h"
 
 @interface MJWebview ()<WKUIDelegate,WKNavigationDelegate>
-@property(strong,nonatomic)WKWebViewJavascriptBridge * mjbridge;
+@property(strong,nonatomic)MJWKWebViewJavascriptBridge * mjbridge;
 @end
 
 @implementation MJWebview
@@ -101,8 +101,8 @@
         
         //WebviewJavaScriptBridge
         __weak typeof (self) weakSelf = self;
-        _mjbridge = [WKWebViewJavascriptBridge bridgeForWebView:webview];
-        [_mjbridge registerHandler:@"MJBrigeHandler" handler:^(id data, WVJBResponseCallback responseCallback) {
+        _mjbridge = [MJWKWebViewJavascriptBridge bridgeForWebView:webview];
+        [_mjbridge registerHandler:@"MJBrigeHandler" handler:^(id data, MJJBResponseCallback responseCallback) {
             [MJBridgeHandler handleJSBridge:data callBack:responseCallback sender:weakSelf];
            }];
         [_mjbridge setWebViewDelegate:weakSelf];

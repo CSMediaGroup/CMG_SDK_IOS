@@ -1,5 +1,5 @@
 //
-//  WebViewJavascriptBridgeBase.h
+//  MJWebViewJavascriptBridgeBase.h
 //
 //  Created by @LokiMeyburg on 10/15/14.
 //  Copyright (c) 2014 @LokiMeyburg. All rights reserved.
@@ -7,32 +7,32 @@
 
 #import <Foundation/Foundation.h>
 
-#define kOldProtocolScheme @"wvjbscheme"
-#define kNewProtocolScheme @"https"
-#define kQueueHasMessage   @"__wvjb_queue_message__"
-#define kBridgeLoaded      @"__bridge_loaded__"
+#define MJkOldProtocolScheme @"wvjbscheme"
+#define MJkNewProtocolScheme @"https"
+#define MJkQueueHasMessage   @"__wvjb_queue_message__"
+#define MJkBridgeLoaded      @"__bridge_loaded__"
 
-typedef void (^WVJBResponseCallback)(id responseData);
-typedef void (^WVJBHandler)(id data, WVJBResponseCallback responseCallback);
-typedef NSDictionary WVJBMessage;
+typedef void (^MJJBResponseCallback)(id responseData);
+typedef void (^MJJBHandler)(id data, MJJBResponseCallback responseCallback);
+typedef NSDictionary MJJBMessage;
 
-@protocol WebViewJavascriptBridgeBaseDelegate <NSObject>
+@protocol MJWebViewJavascriptBridgeBaseDelegate <NSObject>
 - (NSString*) _evaluateJavascript:(NSString*)javascriptCommand;
 @end
 
-@interface WebViewJavascriptBridgeBase : NSObject
+@interface MJWebViewJavascriptBridgeBase : NSObject
 
 
-@property (weak, nonatomic) id <WebViewJavascriptBridgeBaseDelegate> delegate;
+@property (weak, nonatomic) id <MJWebViewJavascriptBridgeBaseDelegate> delegate;
 @property (strong, nonatomic) NSMutableArray* startupMessageQueue;
 @property (strong, nonatomic) NSMutableDictionary* responseCallbacks;
 @property (strong, nonatomic) NSMutableDictionary* messageHandlers;
-@property (strong, nonatomic) WVJBHandler messageHandler;
+@property (strong, nonatomic) MJJBHandler messageHandler;
 
 + (void)enableLogging;
 + (void)setLogMaxLength:(int)length;
 - (void)reset;
-- (void)sendData:(id)data responseCallback:(WVJBResponseCallback)responseCallback handlerName:(NSString*)handlerName;
+- (void)sendData:(id)data responseCallback:(MJJBResponseCallback)responseCallback handlerName:(NSString*)handlerName;
 - (void)flushMessageQueue:(NSString *)messageQueueString;
 - (void)injectJavascriptFile;
 - (BOOL)isWebViewJavascriptBridgeURL:(NSURL*)url;

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WKWebViewJavascriptBridge.h"
+#import "MJWKWebViewJavascriptBridge.h"
 
 #import "MJWebview.h"
 
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MJBridgeHandler : NSObject
 
-+(void)handleJSBridge:(id)data callBack:(WVJBResponseCallback)responseCallback sender:(MJWebview*)web;
++(void)handleJSBridge:(id)data callBack:(MJJBResponseCallback)responseCallback sender:(MJWebview*)web;
 
 @end
 
