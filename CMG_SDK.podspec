@@ -1,12 +1,12 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CMG_SDK'
-  s.version          = '1.5.1'
+  s.version          = '1.5.2'
   s.summary          = '长沙广电融媒云SDK'
-  s.description      = '长沙广电融媒云SDK，配合CMS，快速实现新闻采编和兴趣推荐'
+  s.description      = '新闻采编、新闻瀑布流，兴趣推荐'
   s.homepage         = 'https://github.com/CSMediaGroup/CMG_SDK_IOS'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'majia5499531@163.com' => '5307460+azbura@user.noreply.gitee.com' }
+  s.author           = { 'majia5499531@163.com' => 'https://github.com/CSMediaGroup' }
   s.source           = { :git => 'https://github.com/CSMediaGroup/CMG_SDK_IOS.git', :tag => s.version.to_s }
   
 
@@ -24,7 +24,6 @@ Pod::Spec.new do |s|
   s.dependency 'Masonry', '>= 1.1.0'
   s.dependency 'SDWebImage', '>= 5.0'
   s.dependency 'FSTextView', '>= 1.8'
-  s.dependency 'MJRefresh'
   s.dependency 'YYText'
   s.dependency 'YYModel'
   s.static_framework = true

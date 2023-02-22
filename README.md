@@ -27,7 +27,10 @@
 ```
 在podfile添加
 
-pod 'CMG_SDK', :git => 'https://github.com/CSMediaGroup/CMG_SDK_IOS.git'
+source 'https://gitee.com/azbura/ios_repo'
+source 'https://cdn.cocoapods.org/'
+
+pod 'CMG_SDK'
 
 执行pod install
 

@@ -6,7 +6,6 @@
 //
 
 #import "SZBaseModel.h"
-#import "NSObject+YYModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -315,7 +315,7 @@
 -(NSMutableAttributedString*)underLineString
 {
     NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:self attributes:attribtDic];
+    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:self.string attributes:attribtDic];
     return attribtStr;
 }
 

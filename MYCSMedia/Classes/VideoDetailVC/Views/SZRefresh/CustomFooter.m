@@ -9,8 +9,7 @@
 #import "CustomFooter.h"
 #import "SZDefines.h"
 #import "UIColor+MJCategory.h"
-
-#import <MJRefresh/MJRefresh.h>
+#import "SZRefresh.h"
 
 @implementation CustomFooter
 {
@@ -36,7 +35,7 @@
 {
     [super prepare];
     
-//    self.autoTriggerTimes=1;
+    self.autoTriggerTimes=1;
 }
 
 -(void)placeSubviews

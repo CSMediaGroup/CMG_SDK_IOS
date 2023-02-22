@@ -8,7 +8,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import "AFNetworking.h"
+#import <AFNetworking/AFNetworking.h>
 
 
 typedef void (^MJHTTPSuccessBlock)(id responseObject , NSURLSessionDataTask * task);

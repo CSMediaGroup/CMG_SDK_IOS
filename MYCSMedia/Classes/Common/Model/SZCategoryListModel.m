@@ -8,7 +8,7 @@
 #import "SZCategoryListModel.h"
 #import "SZCategoryModel.h"
 #import "NSObject+MJCategory.h"
-
+#import <YYModel/YYModel.h>
 
 @implementation SZCategoryListModel
 

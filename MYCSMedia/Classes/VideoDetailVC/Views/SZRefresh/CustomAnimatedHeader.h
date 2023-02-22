@@ -6,11 +6,12 @@
 //  Copyright © 2019 ChangShaBroadcastGroup. All rights reserved.
 //
 
-#import "MJRefreshGifHeader.h"
+
+#import "SZRefresh.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CustomAnimatedHeader : MJRefreshStateHeader
+@interface CustomAnimatedHeader : SZRefreshStateHeader
 @property(strong,nonatomic)UIImageView * loadingImage;
 @property(strong,nonatomic)UILabel * loadingLabel;
 @end

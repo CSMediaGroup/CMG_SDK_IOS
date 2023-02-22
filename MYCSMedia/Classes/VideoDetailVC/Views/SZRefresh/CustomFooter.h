@@ -6,11 +6,11 @@
 //  Copyright © 2019 ChangShaBroadcastGroup. All rights reserved.
 //
 
-#import "MJRefreshAutoFooter.h"
+#import "SZRefresh.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CustomFooter : MJRefreshAutoFooter
+@interface CustomFooter : SZRefreshAutoFooter
 
 @property(strong,nonatomic)NSString * customNoMoreDataStr;
 @property(strong,nonatomic)UILabel * MJStateLabel;

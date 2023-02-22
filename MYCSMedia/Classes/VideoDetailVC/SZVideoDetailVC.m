@@ -28,7 +28,7 @@
 #import "SZData.h"
 #import "SZGlobalInfo.h"
 #import "SZVideoCell.h"
-#import <MJRefresh/MJRefresh.h>
+#import "SZRefresh.h"
 #import "SZTopicListModel.h"
 
 
@@ -281,8 +281,8 @@
 #pragma mark - Request Done
 -(void)requestVideoArrDone:(NSArray*)modelArr
 {
-    [collectionView.mj_footer endRefreshing];
-    [collectionView.mj_header endRefreshing];
+    [collectionView.sz_footer endRefreshing];
+    [collectionView.sz_header endRefreshing];
     
     [self.dataArr removeAllObjects];
     [self.dataArr addObjectsFromArray:modelArr];
@@ -299,8 +299,8 @@
 
 -(void)requestMoreVideoDone:(NSArray*)moreArr
 {
-    [collectionView.mj_footer endRefreshing];
-    [collectionView.mj_header endRefreshing];
+    [collectionView.sz_footer endRefreshing];
+    [collectionView.sz_header endRefreshing];
 
     if (moreArr.count==0 && [self getCurrentRow].row==self.dataArr.count-1)
     {
@@ -336,8 +336,8 @@
 
 -(void)requestFailed
 {
-    [collectionView.mj_footer endRefreshing];
-    [collectionView.mj_header endRefreshing];
+    [collectionView.sz_footer endRefreshing];
+    [collectionView.sz_header endRefreshing];
 }
 
 
@@ -412,7 +412,7 @@
 
 
 #pragma mark - 下拉/上拉
--(void)pulldownRefreshAction:(MJRefreshHeader*)refreshHeader
+-(void)pulldownRefreshAction:(SZRefreshHeader*)refreshHeader
 {
     //如果是视频合辑，则加载视频合辑的接口
     if (_detailType==1)
@@ -427,7 +427,7 @@
     }
 }
 
--(void)pullupLoadAction:(MJRefreshFooter*)footer
+-(void)pullupLoadAction:(SZRefreshFooter*)footer
 {
     //如果是视频合辑，则加在视频合辑的分页
     if (_detailType==1)

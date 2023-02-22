@@ -6,9 +6,8 @@
 //
 
 #import "SZVideoRelateModel.h"
-#import "YYModel.h"
+#import <YYModel/YYModel.h>
 
- 
 
 @implementation SZVideoRelateModel
 
