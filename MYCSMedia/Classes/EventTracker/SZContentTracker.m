@@ -14,6 +14,7 @@
 #import "UIDevice+MJCategory.h"
 #import "SZManager.h"
 #import "SZThirdAppInfo.h"
+#import "SZData.h"
 
 
 @interface SZContentTracker ()
@@ -310,7 +311,8 @@
 
 +(NSString*)currentDeviceUniqueId
 {
-    return [UIDevice getIDFA];
+    NSString * devideId = [[SZData sharedSZData]getDeviceId];
+    return devideId;
 }
 
 +(NSString*)currentAppVersion

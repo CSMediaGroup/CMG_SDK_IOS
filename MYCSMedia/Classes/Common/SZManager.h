@@ -39,6 +39,11 @@ typedef void (^RMFailBlock)(NSError * error);
 
 //跳转到登录页
 -(void)onLoginAction;
+
+//是否同意隐私协议
+-(BOOL)privacyAgreement;
+
+
 @end
 
 

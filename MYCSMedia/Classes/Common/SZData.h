@@ -24,22 +24,28 @@
 @property(strong,nonatomic)NSNumber * contentBelongAlbumsUpdateTime;         //内容标签变化
 
 //数据
-@property(strong,nonatomic)NSMutableDictionary * contentDic;
+@property(strong,nonatomic)NSMutableDictionary * contentDetailDic;
 @property(strong,nonatomic)NSMutableDictionary * contentStateDic;
 @property(strong,nonatomic)NSMutableDictionary * contentCommentDic;
 @property(strong,nonatomic)NSMutableDictionary * contentRelateContentDic;
 @property(strong,nonatomic)NSMutableDictionary * contentRelateContentDislikeDic;
 @property(strong,nonatomic)NSMutableDictionary * contentBelongAlbumsDic;;
+@property(strong,nonatomic)NSString * isShowCommentBG;
+
+
 
 +(instancetype)sharedSZData;
 
-
 -(void)requestZan;
 -(void)requestCollect;
+-(void)requestCommentListData;
+-(void)requestCommentZan:(NSString*)commentId replyId:(NSString*)replyId;
 -(void)requestFollowUser:(NSString*)userId;
 -(void)requestUnFollowUser:(NSString*)userId;
--(void)requestCommentListData;
 
+
+-(NSString*)getDeviceId;
+-(void)DoubleTapZanAction;
 
 @end
 

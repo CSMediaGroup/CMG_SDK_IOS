@@ -70,7 +70,7 @@
 
 //业务
 #define VIDEO_PAGE_SIZE             15
-#define COMMENT_BAR_HEIGHT          (CGFloat)(IS_IPHONE_X?(121):(87))
+#define COMMENT_BAR_HEIGHT          (CGFloat)(IS_IPHONE_X?(92):(58))
 #define IMG_RADIUS                  5
 #define IMAGE_RATE_169              (9.0/16.0)
 #define IMAGE_RATE_1611             (11.0/16.0)

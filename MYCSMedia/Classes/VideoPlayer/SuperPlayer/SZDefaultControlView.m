@@ -27,7 +27,7 @@
 
 #define SZ_BOTTOM_IMAGE_VIEW_HEIGHT 50
 
-@interface SZDefaultControlView () <UIGestureRecognizerDelegate, SZ_PlayerSliderDelegate>
+@interface SZDefaultControlView () <UIGestureRecognizerDelegate, SZ_PlayerSliderDelegate,MJSliderDelegate>
 
 @end
 
@@ -389,7 +389,7 @@
 {
     //取数据
     SZContentStateModel * stateM = [[SZData sharedSZData].contentStateDic valueForKey:self.contentId];
-    SZContentModel * contentM = [[SZData sharedSZData].contentDic valueForKey:self.contentId];
+    SZContentModel * contentM = [[SZData sharedSZData].contentDetailDic valueForKey:self.contentId];
     
     self.collectBtn.MJSelectState = stateM.whetherFavor;
     
@@ -604,9 +604,7 @@
     {
         _externalSlider = [[MJProgressView alloc]init];
         _externalSlider.hidden=YES;
-        [_externalSlider.slider addTarget:self action:@selector(progressSliderTouchBegan:) forControlEvents:UIControlEventTouchDown];
-        [_externalSlider.slider addTarget:self action:@selector(progressSliderValueChanged:) forControlEvents:UIControlEventValueChanged];
-        [_externalSlider.slider addTarget:self action:@selector(progressSliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
+        _externalSlider.delegate=self;
         
     }
     return _externalSlider;
@@ -911,6 +909,20 @@
         return NO;
     }
     return YES;
+}
+
+#pragma mark - Slider Delegate
+-(void)MJSliderWillChange
+{
+    self.isDragging=YES;
+}
+-(void)MJSliderDidChange:(CGFloat)value
+{
+    [self.delegate controlViewSeek:self where:value];
+}
+-(void)MJSliderEndChange
+{
+    self.isDragging=NO;
 }
 
 #pragma mark - 播放状态更新

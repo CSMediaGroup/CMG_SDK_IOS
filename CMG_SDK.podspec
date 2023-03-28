@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CMG_SDK'
-  s.version          = '1.5.2'
+  s.version          = '1.5.3'
   s.summary          = '长沙广电融媒云SDK'
   s.description      = '新闻采编、新闻瀑布流，兴趣推荐'
   s.homepage         = 'https://github.com/CSMediaGroup/CMG_SDK_IOS'

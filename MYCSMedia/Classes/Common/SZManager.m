@@ -20,6 +20,7 @@
 #import "SZWebVC.h"
 #import "NSObject+MJCategory.h"
 #import "SZContentListModel.h"
+#import "SZData.h"
 
 @implementation SZManager
 
@@ -110,7 +111,7 @@
     
     SZGlobalInfo * info = [SZGlobalInfo sharedManager];
     NSString * catecode = info.thirdApp.config.categoryCode;
-    NSString * deviceId = [UIDevice getIDFA];
+    NSString * deviceId = [[SZData sharedSZData]getDeviceId];
     
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:catecode forKey:@"categoryCode"];
@@ -126,6 +127,18 @@
         for (int i = 0; i<pannelArr.count; i++)
         {
             SZPanelModel * pannelM = pannelArr[i];
+            
+            //过滤UGC
+            for (int k = 0; k<pannelM.dataArr.count; k++)
+            {
+                SZContentModel * content = pannelM.dataArr[k];
+                if ([content.type isEqualToString:@"activity.works"])
+                {
+                    [pannelM.dataArr removeObject:content];
+                }
+            }
+            
+            
             [contentsArr addObjectsFromArray:pannelM.dataArr];
         }
         successblock(contentsArr);
@@ -142,7 +155,7 @@
     
     SZGlobalInfo * info = [SZGlobalInfo sharedManager];
     NSString * pannelId = info.thirdApp.config.panId;
-    NSString * deviceId = [UIDevice getIDFA];
+    NSString * deviceId = [[SZData sharedSZData]getDeviceId];
     
     NSMutableDictionary * param=[NSMutableDictionary dictionary];
     [param setValue:[NSNumber numberWithInteger:pagesize] forKey:@"pageSize"];
@@ -154,6 +167,21 @@
     [param setValue:@"loadmore" forKey:@"refreshType"];
     
     [listm GETRequestInView:nil WithUrl:APPEND_SUBURL(BASE_H5_URL, API_URL_PANNEL_LIST_MORE) Params:param Success:^(id responseObject) {
+        
+        
+        //过滤UGC
+        for (int k = 0; k<listm.dataArr.count; k++)
+        {
+            SZContentModel * content = listm.dataArr[k];
+            if ([content.type isEqualToString:@"activity.works"])
+            {
+                [listm.dataArr removeObject:content];
+            }
+        }
+        
+        
+        
+        
         successblock(listm.dataArr);
         } Error:^(id responseObject) {
             errorblock(listm.message);
@@ -170,6 +198,34 @@
         SZVideoDetailVC * vc =[[SZVideoDetailVC alloc]init];
         vc.contentId = data.id;
         vc.detailType = 0;
+        vc.hidesBottomBarWhenPushed=YES;
+        [nav pushViewController:vc animated:YES];
+    }
+    else if([data.type isEqualToString:@"news_common"])
+    {
+        SZWebVC * vc = [[SZWebVC alloc]init];
+        vc.H5URL = data.detailUrl;
+        vc.contentId = data.id;
+        vc.disableComment = data.disableComment;
+        
+        vc.shareTitle = data.shareTitle;
+        vc.shareImg = data.shareImageUrl;
+        vc.shareBrief = data.shareBrief;
+        vc.shareUrl = data.shareUrl;
+        vc.hidesBottomBarWhenPushed=YES;
+        [nav pushViewController:vc animated:YES];
+    }
+    else if([data.type isEqualToString:@"news_video"])
+    {
+        SZWebVC * vc = [[SZWebVC alloc]init];
+        vc.H5URL = data.detailUrl;
+        vc.contentId = data.id;
+        vc.disableComment = data.disableComment;
+        
+        vc.shareTitle = data.shareTitle;
+        vc.shareImg = data.shareImageUrl;
+        vc.shareBrief = data.shareBrief;
+        vc.shareUrl = data.shareUrl;
         vc.hidesBottomBarWhenPushed=YES;
         [nav pushViewController:vc animated:YES];
     }

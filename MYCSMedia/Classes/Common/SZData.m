@@ -17,6 +17,7 @@
 #import "SZReplyModel.h"
 #import "SZReplyListModel.h"
 #import "SZContentListModel.h"
+#import "UIDevice+MJCategory.h"
 
 @implementation SZData
 
@@ -34,8 +35,35 @@
         });
     return manager;
 }
-                  
 
+
+
+#pragma mark - Actions
+//小视频手势点赞
+-(void)DoubleTapZanAction
+{
+
+    //如果当前已经点赞则不请求
+    SZContentStateModel * stateM = [self.contentStateDic valueForKey:self.currentContentId];
+    if(stateM.whetherLike)
+    {
+        return;
+    }
+    
+    [self requestZan];
+}
+
+-(NSString*)getDeviceId
+{
+    if ([[SZManager sharedManager].delegate privacyAgreement])
+    {
+        return [UIDevice getIDFA];
+    }
+    else
+    {
+        return @"00000000";
+    }
+}
 
 #pragma mark - Binding
 -(void)addDataBinding
@@ -43,6 +71,7 @@
     //绑定数据
     [self bindModel:self];
     
+    //监听当前contentId的变化，变化时自动请求相关信息
     __weak typeof (self) weakSelf = self;
     self.observe(@"currentContentId",^(id value){
         
@@ -61,6 +90,7 @@
 
 
 #pragma mark - Request
+
 //请求内容所属合辑
 -(void)requestContentBelongedAlbums
 {
@@ -139,6 +169,8 @@
         }];
 }
 
+
+
 //点赞+1
 -(void)requestZan
 {
@@ -152,6 +184,28 @@
     __weak typeof (self) weakSelf = self;
     [model PostRequestInView:nil WithUrl:APPEND_SUBURL(BASE_URL, API_URL_ZAN) Params:param Success:^(id responseObject) {
             [weakSelf requestZanDone:model];
+        } Error:^(id responseObject) {
+            
+        } Fail:^(NSError *error) {
+            
+        }];
+}
+
+
+//给评论点赞
+-(void)requestCommentZan:(NSString*)commentId replyId:(NSString*)replyId
+{
+    NSString * targetId = replyId.length==0 ?commentId:replyId;
+    
+    SZStatusModel * model = [SZStatusModel model];
+    model.isJSON=YES;
+    NSMutableDictionary * param=[NSMutableDictionary dictionary];
+    [param setValue:targetId forKey:@"targetId"];
+    [param setValue:@"comment" forKey:@"type"];
+    
+    __weak typeof (self) weakSelf = self;
+    [model PostRequestInView:nil WithUrl:APPEND_SUBURL(BASE_URL, API_URL_ZAN) Params:param Success:^(id responseObject) {
+            [weakSelf requestCommentZanDone:commentId replyId:replyId state:model];
         } Error:^(id responseObject) {
             
         } Fail:^(NSError *error) {
@@ -267,7 +321,6 @@
     //更新time
     NSNumber * currrentTime = [NSNumber numberWithInteger:[[NSDate date]timeIntervalSince1970]];
     self.contentStateUpdateTime = currrentTime;
-    
 }
 
 -(void)requestCommentListDone:(SZCommentDataModel*)model
@@ -332,6 +385,73 @@
     NSNumber * currrentTime = [NSNumber numberWithInteger:[[NSDate date]timeIntervalSince1970]];
     self.contentZanTime = currrentTime;
     
+}
+
+-(void)requestCommentZanDone:(NSString*)commentId replyId:(NSString*)replyId state:(SZStatusModel*)statusM
+{
+    //如果是评论点赞
+    SZCommentDataModel * comment = [self.contentCommentDic valueForKey:self.currentContentId];
+    if (replyId.length==0)
+    {
+        for (SZCommentModel * M in comment.dataArr)
+        {
+            if ([M.id isEqualToString:commentId])
+            {
+                
+                if (statusM.data.boolValue)
+                {
+                    M.whetherLike=statusM.data.boolValue;
+                    M.likeCount = M.likeCount+1;
+                }
+                else
+                {
+                    M.whetherLike=statusM.data.boolValue;
+                    M.likeCount = M.likeCount-1;
+                }
+            }
+        }
+    }
+    
+    //如果是对回复点赞
+    else
+    {
+        for (SZCommentModel * M in comment.dataArr)
+        {
+            if ([M.id isEqualToString:commentId])
+            {
+                for (SZReplyModel * replyM in M.dataArr)
+                {
+                    if ([replyM.id isEqualToString:replyId])
+                    {
+                        if (statusM.data.boolValue)
+                        {
+                            replyM.whetherLike=statusM.data.boolValue;
+                            replyM.likeCount = replyM.likeCount+1;
+                        }
+                        else
+                        {
+                            replyM.whetherLike=statusM.data.boolValue;
+                            replyM.likeCount = replyM.likeCount-1;
+                        }
+                        
+                    }
+                }
+                
+            }
+        }
+    }
+    
+    
+    //保存
+    
+    
+    //手动修改点赞状态
+    
+    
+    //更新时间，刷新列表UI
+    //更新time
+    NSNumber * currrentTime = [NSNumber numberWithInteger:[[NSDate date]timeIntervalSince1970]];
+    self.contentCommentsUpdateTime = currrentTime;
 }
 
 -(void)requestVideoRelateContentDone:(SZVideoRelateModel*)model
@@ -408,13 +528,13 @@
     }
     return _contentCommentDic;
 }
--(NSMutableDictionary *)contentDic
+-(NSMutableDictionary *)contentDetailDic
 {
-    if (_contentDic==nil)
+    if (_contentDetailDic==nil)
     {
-        _contentDic = [NSMutableDictionary dictionary];
+        _contentDetailDic = [NSMutableDictionary dictionary];
     }
-    return _contentDic;
+    return _contentDetailDic;
 }
 -(NSMutableDictionary *)contentRelateContentDic
 {
